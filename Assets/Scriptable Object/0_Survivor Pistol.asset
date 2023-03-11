@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
+  m_Name: 0_Survivor Pistol
+  m_EditorClassIdentifier: 
+  itemID: 0
+  itemName: Survivor Pistol
+  itemDescribe: Survivor Pistol
+  itemSprite: {fileID: -534302257, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 0
+  weaponDamage: 4
+  weaponAmmoCurr: 0
+  weaponAmmoCapa: 0
+  weaponRange: 100
+  weaponAccuracy: 20
+  weaponSpeed: 1
+  weaponReload: 0
+  weaponAmmoType: 0
+  weaponMuzzle: {x: 0, y: 0}
