@@ -10,7 +10,6 @@ using UnityEngine;
 public class Weapon : Item
 {
     public int weaponDamage;        // weapon damage
-    public int weaponAmmoCurr;      // weapon current ammo number
     public int weaponAmmoCapa;      // weapon ammo capacity
     public float weaponRange;       // weapon shoot range
     public int weaponAccuracy;      // weapon shoot accuracy, 1 means shoot in line
