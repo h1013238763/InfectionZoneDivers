@@ -39,17 +39,21 @@ public class CombatUnit : MonoBehaviour
 
     public void Fire(double radius){
         if(currAmmo == 0 && fireAble){
-            fireAble = false;
-            reloadTime = currentWeapon.weaponReload;
+            Reload();
         }
 
         if(fireAble){
             fireAble = false;
-            fireColddown = currentWeapon.weaponSpeed;
+            fireColddown = 1 / currentWeapon.weaponSpeed;
             currAmmo --;
             CombatController.combatController.Attack(transform.position, currentWeapon, radius, tag_1, tag_2);
             Debug.Log(currAmmo + "/" + currentWeapon.weaponAmmoCapa);
         }
+    }
+
+    public void Reload(){
+        fireAble = false;
+        reloadTime = currentWeapon.weaponReload;
     }
 
 

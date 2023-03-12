@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Invent", menuName = "Infection Zone Divers/Invent", order = 3)]
-public class Inventory : ScriptableObject
+/// <summary>
+/// GUI inventory controller
+/// add to inventory panel to control add, remove, use item. and set slots ot it.
+/// </summary>
+public class Inventory : MonoBehaviour
 {
-    public List<Item> invent = new List<Item>();
+    public List<SlotItem> invent = new List<SlotItem>();
     [SerializeField]private int inventCapacity;
+    [SerializeField]private DatabaseController itemDict;
 
     /*
     loop through list until item added
@@ -20,15 +24,19 @@ public class Inventory : ScriptableObject
             create new item
             add to new item
     */ 
-    public void AddToInvent(){
-  
+    public void AddToInvent(SlotItem item){
+        
     }
 
-    public void RemovFromInvent(){
+    public void RemovFromInvent(SlotItem item){
 
     }
 
     public void UseItem(){
+
+    }
+
+    public void SetSlotItem(){
 
     }
 }

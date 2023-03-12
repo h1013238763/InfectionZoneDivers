@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
-  m_Name: 1_Survivor Handaxe
+  m_Name: 1
   m_EditorClassIdentifier: 
   itemID: 0
   itemName: Survivor Handaxe
   itemDescribe: Survivor Handaxe
   itemSprite: {fileID: 509185950, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
-  itemNum: 0
   itemCap: 0
   weaponDamage: 5
-  weaponAmmoCurr: 0
   weaponAmmoCapa: 0
   weaponRange: 5
   weaponAccuracy: 0
   weaponSpeed: 1.5
   weaponReload: 0
   weaponAmmoType: 0
+  weaponMuzzle: {x: 0, y: 0}

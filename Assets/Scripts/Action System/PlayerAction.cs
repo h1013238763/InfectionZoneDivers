@@ -10,22 +10,24 @@ public class PlayerAction : MonoBehaviour
     private Rigidbody2D rigidBody;      // rigidbody component
     private PlayerInput playerInput;    // player input component
     private PlayerInputActions playerInputActions;       // player input script import
+    private CombatUnit combatUnit;
+    private DatabaseController itemDict;
 
     // player state setting
     [SerializeField]private float moveSpeed;             // player move speed
 
     // weapon setting
-    public ItemInInvent[] weaponSlot = new ItemInInvent[2];
+    public SlotItem[] weaponSlot = new SlotItem[2];
+    public SlotItem[] quickSlot = new SlotItem[4];
     private int currentWeapon = 0;
 
-    // temp setting
-    public GameObject bulletPrefab;
 
     private void Awake(){
         // initial variables
         rigidBody = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
         playerInputActions = new PlayerInputActions();
+        combatUnit = GetComponent<CombatUnit>();
 
         // initial player Player actions
         playerInputActions.Player.Enable();                         // enable Action Map "Player"
@@ -33,7 +35,7 @@ public class PlayerAction : MonoBehaviour
         playerInputActions.Player.Reload.performed += Reload;       // reload
         playerInputActions.Player.Change.performed += Change;       // change weapon
 
-        GetComponent<CombatUnit>().TagInitial("Enemy", "Neutral");
+        combatUnit.TagInitial("Enemy", "Neutral");
     }
 
     private void FixedUpdate(){
@@ -50,7 +52,7 @@ public class PlayerAction : MonoBehaviour
 
         // fire control
         if(playerInputActions.Player.Fire.ReadValue<float>() > 0.5f){
-            gameObject.GetComponent<CombatUnit>().Fire(angle * Math.PI / 180);
+            combatUnit.Fire(angle * Math.PI / 180);
         }
     }
 
@@ -64,7 +66,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     private void Reload(InputAction.CallbackContext context){
-        Debug.Log("reload");
+        combatUnit.Reload();
     }
 
     // change weapon
@@ -75,14 +77,6 @@ public class PlayerAction : MonoBehaviour
         if(currentWeapon == 1 && weaponSlot[0] != null)
             currentWeapon = 0;
 
-        Weapon temp;
-        if(weaponSlot[currentWeapon] != null)
-            temp = (Weapon)ItemDataController.ItemDict[weaponSlot[currentWeapon].itemID]; 
-        else
-            temp = (Weapon)ItemDataController.ItemDict[0];
-
-        transform.GetChild(0).GetComponent<CombatUnit>().currentWeapon = temp;
-        transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = temp.itemSprite;
     }
 
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
-  m_Name: 0_Survivor Pistol
+  m_Name: 0
   m_EditorClassIdentifier: 
   itemID: 0
   itemName: Survivor Pistol
@@ -18,11 +18,10 @@ MonoBehaviour:
   itemSprite: {fileID: -534302257, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
   itemCap: 0
   weaponDamage: 4
-  weaponAmmoCurr: 0
-  weaponAmmoCapa: 0
+  weaponAmmoCapa: 9
   weaponRange: 100
   weaponAccuracy: 20
-  weaponSpeed: 1
-  weaponReload: 0
+  weaponSpeed: 1.5
+  weaponReload: 5
   weaponAmmoType: 0
   weaponMuzzle: {x: 0, y: 0}
