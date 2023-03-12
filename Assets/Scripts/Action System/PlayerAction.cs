@@ -13,12 +13,14 @@ public class PlayerAction : MonoBehaviour
     private CombatUnit combatUnit;
     private DatabaseController itemDict;
 
+    // GUI Setting
+
     // player state setting
     [SerializeField]private float moveSpeed;             // player move speed
 
     // weapon setting
-    public SlotItem[] weaponSlot = new SlotItem[2];
-    public SlotItem[] quickSlot = new SlotItem[4];
+    public ShortItem[] weaponSlot = new ShortItem[2];
+    public ShortItem[] quickSlot = new ShortItem[4];
     private int currentWeapon = 0;
 
 
@@ -31,9 +33,13 @@ public class PlayerAction : MonoBehaviour
 
         // initial player Player actions
         playerInputActions.Player.Enable();                         // enable Action Map "Player"
+        playerInputActions.Mouse.Enable();                          // enable Action Map "Mouse"
+        playerInputActions.GUI.Enable();
         playerInputActions.Player.Interact.performed += Interact;   // interact
         playerInputActions.Player.Reload.performed += Reload;       // reload
         playerInputActions.Player.Change.performed += Change;       // change weapon
+
+        playerInputActions.GUI.Bag.performed += Bag;
 
         combatUnit.TagInitial("Enemy", "Neutral");
     }
@@ -51,7 +57,7 @@ public class PlayerAction : MonoBehaviour
         rigidBody.velocity = moveSpeed * playerInputActions.Player.Move.ReadValue<Vector2>();
 
         // fire control
-        if(playerInputActions.Player.Fire.ReadValue<float>() > 0.5f){
+        if(playerInputActions.Mouse.Fire.ReadValue<float>() > 0.5f){
             combatUnit.Fire(angle * Math.PI / 180);
         }
     }
@@ -71,12 +77,15 @@ public class PlayerAction : MonoBehaviour
 
     // change weapon
     private void Change(InputAction.CallbackContext context){
-
         if(currentWeapon == 0 && weaponSlot[1] != null)
             currentWeapon = 1;
         if(currentWeapon == 1 && weaponSlot[0] != null)
             currentWeapon = 0;
+    }
 
+    private void Bag(InputAction.CallbackContext context){
+        playerInputActions.Mouse.Disable();
+        GetComponent<Inventory>().OpenInventory();
     }
 
 

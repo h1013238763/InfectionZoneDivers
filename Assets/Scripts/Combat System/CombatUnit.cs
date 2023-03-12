@@ -37,6 +37,10 @@ public class CombatUnit : MonoBehaviour
         }
     }
 
+    public void SetWeapon(Weapon weapon){
+        currentWeapon = weapon;
+    }
+
     public void Fire(double radius){
         if(currAmmo == 0 && fireAble){
             Reload();

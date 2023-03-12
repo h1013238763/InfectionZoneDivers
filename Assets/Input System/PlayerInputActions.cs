@@ -37,24 +37,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Fire"",
-                    ""type"": ""Value"",
-                    ""id"": ""075df263-d34a-4b8e-b6d9-b2415f6d89ee"",
-                    ""expectedControlType"": ""Integer"",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Aim"",
-                    ""type"": ""Value"",
-                    ""id"": ""573c0d10-37a9-425e-8252-36834937069a"",
-                    ""expectedControlType"": ""Integer"",
-                    ""processors"": """",
-                    ""interactions"": ""Press"",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""e02189cd-9984-48c0-ab25-7c4b395f76af"",
@@ -83,28 +65,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""54e26ee1-31be-4f80-9633-d74431cf71f7"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""692232af-2ba4-437d-b1c0-68566e0bb45d"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""540c2998-4622-4c64-9aee-2cd49188a1b9"",
@@ -196,13 +156,79 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Mouse"",
+            ""id"": ""69c67ac0-1d3f-4aac-9387-5837489affb0"",
+            ""actions"": [
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Value"",
+                    ""id"": ""feb4d0f3-5c2c-47b7-a85c-01f8a6e7dc3c"",
+                    ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""cd01447f-d7a9-4f46-8c2a-050ea81aaa0b"",
+                    ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""e4f5bf46-2252-4d96-8648-a1280c4135c7"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88a672f4-9a0b-4bc2-9fac-5e6de40aa29b"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""GUI"",
             ""id"": ""2532fc0f-19dd-4b46-9549-6f06d844aac8"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Bag"",
                     ""type"": ""Button"",
                     ""id"": ""3ee42b4a-423e-4846-bb0c-c2473522f9f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Map"",
+                    ""type"": ""Button"",
+                    ""id"": ""ecd8f195-22ae-4da3-b635-8025e8ba8f98"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""fb0b22f1-f227-4ab8-acef-9657771117eb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -213,10 +239,60 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""971c3326-c618-445c-ad53-e01a7cdf2db3"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Bag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89aa7ea7-5398-43c0-9765-9449493b6440"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Map"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89348234-a96e-4325-bfa2-80c0abf998fc"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Blueprint"",
+            ""id"": ""b9acb4d8-3710-457d-9254-b98080440dd0"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""89e1654d-58b3-41e4-9a3a-4ea1c433532c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3d80480b-fa72-4a7e-8f33-4630a7c71daa"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""New action"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -235,14 +311,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-        m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_Change = m_Player.FindAction("Change", throwIfNotFound: true);
+        // Mouse
+        m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
+        m_Mouse_Fire = m_Mouse.FindAction("Fire", throwIfNotFound: true);
+        m_Mouse_Aim = m_Mouse.FindAction("Aim", throwIfNotFound: true);
         // GUI
         m_GUI = asset.FindActionMap("GUI", throwIfNotFound: true);
-        m_GUI_Newaction = m_GUI.FindAction("New action", throwIfNotFound: true);
+        m_GUI_Bag = m_GUI.FindAction("Bag", throwIfNotFound: true);
+        m_GUI_Map = m_GUI.FindAction("Map", throwIfNotFound: true);
+        m_GUI_Menu = m_GUI.FindAction("Menu", throwIfNotFound: true);
+        // Blueprint
+        m_Blueprint = asset.FindActionMap("Blueprint", throwIfNotFound: true);
+        m_Blueprint_Newaction = m_Blueprint.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -303,8 +386,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Fire;
-    private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_Change;
@@ -313,8 +394,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Fire => m_Wrapper.m_Player_Fire;
-        public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @Change => m_Wrapper.m_Player_Change;
@@ -330,12 +409,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
-                @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
-                @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
@@ -352,12 +425,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Fire.started += instance.OnFire;
-                @Fire.performed += instance.OnFire;
-                @Fire.canceled += instance.OnFire;
-                @Aim.started += instance.OnAim;
-                @Aim.performed += instance.OnAim;
-                @Aim.canceled += instance.OnAim;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
@@ -372,15 +439,60 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     }
     public PlayerActions @Player => new PlayerActions(this);
 
+    // Mouse
+    private readonly InputActionMap m_Mouse;
+    private IMouseActions m_MouseActionsCallbackInterface;
+    private readonly InputAction m_Mouse_Fire;
+    private readonly InputAction m_Mouse_Aim;
+    public struct MouseActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public MouseActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Fire => m_Wrapper.m_Mouse_Fire;
+        public InputAction @Aim => m_Wrapper.m_Mouse_Aim;
+        public InputActionMap Get() { return m_Wrapper.m_Mouse; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MouseActions set) { return set.Get(); }
+        public void SetCallbacks(IMouseActions instance)
+        {
+            if (m_Wrapper.m_MouseActionsCallbackInterface != null)
+            {
+                @Fire.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnFire;
+                @Fire.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnFire;
+                @Fire.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnFire;
+                @Aim.started -= m_Wrapper.m_MouseActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_MouseActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_MouseActionsCallbackInterface.OnAim;
+            }
+            m_Wrapper.m_MouseActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
+            }
+        }
+    }
+    public MouseActions @Mouse => new MouseActions(this);
+
     // GUI
     private readonly InputActionMap m_GUI;
     private IGUIActions m_GUIActionsCallbackInterface;
-    private readonly InputAction m_GUI_Newaction;
+    private readonly InputAction m_GUI_Bag;
+    private readonly InputAction m_GUI_Map;
+    private readonly InputAction m_GUI_Menu;
     public struct GUIActions
     {
         private @PlayerInputActions m_Wrapper;
         public GUIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_GUI_Newaction;
+        public InputAction @Bag => m_Wrapper.m_GUI_Bag;
+        public InputAction @Map => m_Wrapper.m_GUI_Map;
+        public InputAction @Menu => m_Wrapper.m_GUI_Menu;
         public InputActionMap Get() { return m_Wrapper.m_GUI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -390,11 +502,56 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_GUIActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnNewaction;
+                @Bag.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnBag;
+                @Bag.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnBag;
+                @Bag.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnBag;
+                @Map.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnMap;
+                @Map.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnMap;
+                @Map.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnMap;
+                @Menu.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_GUIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Bag.started += instance.OnBag;
+                @Bag.performed += instance.OnBag;
+                @Bag.canceled += instance.OnBag;
+                @Map.started += instance.OnMap;
+                @Map.performed += instance.OnMap;
+                @Map.canceled += instance.OnMap;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
+            }
+        }
+    }
+    public GUIActions @GUI => new GUIActions(this);
+
+    // Blueprint
+    private readonly InputActionMap m_Blueprint;
+    private IBlueprintActions m_BlueprintActionsCallbackInterface;
+    private readonly InputAction m_Blueprint_Newaction;
+    public struct BlueprintActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public BlueprintActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Newaction => m_Wrapper.m_Blueprint_Newaction;
+        public InputActionMap Get() { return m_Wrapper.m_Blueprint; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BlueprintActions set) { return set.Get(); }
+        public void SetCallbacks(IBlueprintActions instance)
+        {
+            if (m_Wrapper.m_BlueprintActionsCallbackInterface != null)
+            {
+                @Newaction.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnNewaction;
+                @Newaction.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnNewaction;
+                @Newaction.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnNewaction;
+            }
+            m_Wrapper.m_BlueprintActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Newaction.started += instance.OnNewaction;
@@ -403,7 +560,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             }
         }
     }
-    public GUIActions @GUI => new GUIActions(this);
+    public BlueprintActions @Blueprint => new BlueprintActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -416,13 +573,22 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnFire(InputAction.CallbackContext context);
-        void OnAim(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnChange(InputAction.CallbackContext context);
     }
+    public interface IMouseActions
+    {
+        void OnFire(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
+    }
     public interface IGUIActions
+    {
+        void OnBag(InputAction.CallbackContext context);
+        void OnMap(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
+    }
+    public interface IBlueprintActions
     {
         void OnNewaction(InputAction.CallbackContext context);
     }

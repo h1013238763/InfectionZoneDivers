@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d7831514648e024d96c8bf4f534fede, type: 3}
   m_Name: '!ItemDict'
   m_EditorClassIdentifier: 
-  ItemDict:
+  itemDict:
   - {fileID: 11400000, guid: fc5db362f4f304e459f94929bc7c6960, type: 2}
   - {fileID: 11400000, guid: a41da21d1f31afc4fbe0cdb2e589b855, type: 2}
+  - {fileID: 11400000, guid: 95d8ef33cebb86b49b7fbf3ca764c0f3, type: 2}

@@ -15,24 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Fire",
-                    "type": "Value",
-                    "id": "075df263-d34a-4b8e-b6d9-b2415f6d89ee",
-                    "expectedControlType": "Integer",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Aim",
-                    "type": "Value",
-                    "id": "573c0d10-37a9-425e-8252-36834937069a",
-                    "expectedControlType": "Integer",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "e02189cd-9984-48c0-ab25-7c4b395f76af",
@@ -61,28 +43,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "54e26ee1-31be-4f80-9633-d74431cf71f7",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Fire",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "692232af-2ba4-437d-b1c0-68566e0bb45d",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "540c2998-4622-4c64-9aee-2cd49188a1b9",
@@ -174,13 +134,79 @@
             ]
         },
         {
+            "name": "Mouse",
+            "id": "69c67ac0-1d3f-4aac-9387-5837489affb0",
+            "actions": [
+                {
+                    "name": "Fire",
+                    "type": "Value",
+                    "id": "feb4d0f3-5c2c-47b7-a85c-01f8a6e7dc3c",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Aim",
+                    "type": "Value",
+                    "id": "cd01447f-d7a9-4f46-8c2a-050ea81aaa0b",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e4f5bf46-2252-4d96-8648-a1280c4135c7",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88a672f4-9a0b-4bc2-9fac-5e6de40aa29b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "GUI",
             "id": "2532fc0f-19dd-4b46-9549-6f06d844aac8",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Bag",
                     "type": "Button",
                     "id": "3ee42b4a-423e-4846-bb0c-c2473522f9f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Map",
+                    "type": "Button",
+                    "id": "ecd8f195-22ae-4da3-b635-8025e8ba8f98",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "fb0b22f1-f227-4ab8-acef-9657771117eb",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -191,10 +217,60 @@
                 {
                     "name": "",
                     "id": "971c3326-c618-445c-ad53-e01a7cdf2db3",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Bag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "89aa7ea7-5398-43c0-9765-9449493b6440",
                     "path": "",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard",
+                    "action": "Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "89348234-a96e-4325-bfa2-80c0abf998fc",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Blueprint",
+            "id": "b9acb4d8-3710-457d-9254-b98080440dd0",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "89e1654d-58b3-41e4-9a3a-4ea1c433532c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3d80480b-fa72-4a7e-8f33-4630a7c71daa",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
                     "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false

@@ -29,7 +29,6 @@ public class CombatController : MonoBehaviour{
         // create raycast
         RaycastHit2D hit = Physics2D.Raycast(from, direct, weapon.weaponRange, LayerMask.GetMask("Hitbox"));
         // hit event
-        //Debug.DrawRay(transform.GetChild(0).position, direct, Color.green);
         if(hit.collider != null){
             if(hit.collider.tag == tag_1 || hit.collider.tag == tag_2){
                 // do damage

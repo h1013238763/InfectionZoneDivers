@@ -4,6 +4,6 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "ItemDict", menuName = "Infection Zone Divers/ItemDict", order = 0)]
 public class DatabaseController : ScriptableObject{ 
-    public List<Item> ItemDict = new List<Item>();
+    public List<Item> itemDict = new List<Item>();
 
 }
