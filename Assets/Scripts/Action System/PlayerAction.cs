@@ -16,7 +16,9 @@ public class PlayerAction : MonoBehaviour
     // GUI Setting
 
     // player state setting
-    [SerializeField]private float moveSpeed;             // player move speed
+    [SerializeField]private int playerActionStage;      // player current action stage
+    [SerializeField]private float moveSpeed;            // player move speed
+    public GameObject buildingAssign;
 
     // weapon setting
     public ShortItem[] weaponSlot = new ShortItem[2];
@@ -40,6 +42,7 @@ public class PlayerAction : MonoBehaviour
         playerInputActions.Player.Change.performed += Change;       // change weapon
 
         playerInputActions.GUI.Bag.performed += Bag;
+        playerInputActions.GUI.Build.performed += Build;
 
         combatUnit.TagInitial("Enemy", "Neutral");
     }
@@ -50,6 +53,7 @@ public class PlayerAction : MonoBehaviour
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         float angle = (float)(Math.Atan2(( mousePos.y - transform.position.y ),( mousePos.x - transform.position.x )) * 180 / Math.PI);
 
+        // set player face direction and weapon rotation
         transform.rotation = (angle < 90 && angle > -90) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
         transform.GetChild(0).rotation = (angle < 90 && angle > -90) ? Quaternion.Euler(0, 0, angle) : Quaternion.Euler(0, 180, -(angle+180));
 
@@ -62,13 +66,36 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    private void ChangeActionStage(int stage){
+        playerActionStage = stage;
+        if(playerActionStage == 0){         // normal walking stage
+            playerInputActions.Player.Enable();
+            playerInputActions.Mouse.Enable();
+            playerInputActions.GUI.Enable();
+            playerInputActions.Blueprint.Disable();
+        }
+        if(playerActionStage == 1){         // gui open stage
+            playerInputActions.Player.Enable();
+            playerInputActions.Mouse.Disable();
+            playerInputActions.GUI.Enable();
+            playerInputActions.Blueprint.Disable();
+        }
+        if(playerActionStage == 2){
+            playerInputActions.Player.Disable();
+            playerInputActions.Mouse.Disable();
+            playerInputActions.GUI.Disable();
+            playerInputActions.Blueprint.Enable();
+        }
+    }
+
     private void Aim(InputAction.CallbackContext context){
         Debug.Log("aim");
     }
 
     // define how player interact works
     private void Interact(InputAction.CallbackContext context){
-        Debug.Log("interact");
+        if(buildingAssign != null)
+            buildingAssign.GetComponent<Building>().Interact();
     }
 
     private void Reload(InputAction.CallbackContext context){
@@ -83,9 +110,19 @@ public class PlayerAction : MonoBehaviour
             currentWeapon = 0;
     }
 
+    // open player bag
     private void Bag(InputAction.CallbackContext context){
-        playerInputActions.Mouse.Disable();
+        // set player action map
+        if( playerActionStage == 0)
+            ChangeActionStage(1);
+        else
+            ChangeActionStage(0);
+        // open or close bag gui
         GetComponent<Inventory>().OpenInventory();
+    }
+
+    private void Build(InputAction.CallbackContext context){
+        ChangeActionStage(2);
     }
 
 

@@ -233,6 +233,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""b9ea62b7-176d-4455-895f-43396ba2f7d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -250,7 +259,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""89aa7ea7-5398-43c0-9765-9449493b6440"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/m"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -261,11 +270,22 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""89348234-a96e-4325-bfa2-80c0abf998fc"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d505bc9c-8150-463c-a3c3-c3331824bdcb"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Build"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -276,9 +296,36 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             ""id"": ""b9acb4d8-3710-457d-9254-b98080440dd0"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""MoveCamera"",
                     ""type"": ""Button"",
                     ""id"": ""89e1654d-58b3-41e4-9a3a-4ea1c433532c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a13afc0-4248-4387-ae51-7b2759eaf9e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cd61ee9-5719-43a6-ab19-344287ddae24"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""41dcd3ad-bce8-472d-9237-2518b0740d40"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -293,7 +340,40 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""New action"",
+                    ""action"": ""MoveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""33cfe850-a36f-4042-bfd0-061941185a7c"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4d96bbd9-e5ef-4ebf-944b-4e0944716390"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1220fe8b-007c-4388-8b83-d12e37bc0695"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -323,9 +403,13 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_GUI_Bag = m_GUI.FindAction("Bag", throwIfNotFound: true);
         m_GUI_Map = m_GUI.FindAction("Map", throwIfNotFound: true);
         m_GUI_Menu = m_GUI.FindAction("Menu", throwIfNotFound: true);
+        m_GUI_Build = m_GUI.FindAction("Build", throwIfNotFound: true);
         // Blueprint
         m_Blueprint = asset.FindActionMap("Blueprint", throwIfNotFound: true);
-        m_Blueprint_Newaction = m_Blueprint.FindAction("New action", throwIfNotFound: true);
+        m_Blueprint_MoveCamera = m_Blueprint.FindAction("MoveCamera", throwIfNotFound: true);
+        m_Blueprint_Use = m_Blueprint.FindAction("Use", throwIfNotFound: true);
+        m_Blueprint_Rotate = m_Blueprint.FindAction("Rotate", throwIfNotFound: true);
+        m_Blueprint_Exit = m_Blueprint.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -486,6 +570,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_GUI_Bag;
     private readonly InputAction m_GUI_Map;
     private readonly InputAction m_GUI_Menu;
+    private readonly InputAction m_GUI_Build;
     public struct GUIActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -493,6 +578,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Bag => m_Wrapper.m_GUI_Bag;
         public InputAction @Map => m_Wrapper.m_GUI_Map;
         public InputAction @Menu => m_Wrapper.m_GUI_Menu;
+        public InputAction @Build => m_Wrapper.m_GUI_Build;
         public InputActionMap Get() { return m_Wrapper.m_GUI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -511,6 +597,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Menu.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
                 @Menu.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
                 @Menu.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
+                @Build.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
             }
             m_Wrapper.m_GUIActionsCallbackInterface = instance;
             if (instance != null)
@@ -524,6 +613,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Menu.started += instance.OnMenu;
                 @Menu.performed += instance.OnMenu;
                 @Menu.canceled += instance.OnMenu;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
             }
         }
     }
@@ -532,12 +624,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     // Blueprint
     private readonly InputActionMap m_Blueprint;
     private IBlueprintActions m_BlueprintActionsCallbackInterface;
-    private readonly InputAction m_Blueprint_Newaction;
+    private readonly InputAction m_Blueprint_MoveCamera;
+    private readonly InputAction m_Blueprint_Use;
+    private readonly InputAction m_Blueprint_Rotate;
+    private readonly InputAction m_Blueprint_Exit;
     public struct BlueprintActions
     {
         private @PlayerInputActions m_Wrapper;
         public BlueprintActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Blueprint_Newaction;
+        public InputAction @MoveCamera => m_Wrapper.m_Blueprint_MoveCamera;
+        public InputAction @Use => m_Wrapper.m_Blueprint_Use;
+        public InputAction @Rotate => m_Wrapper.m_Blueprint_Rotate;
+        public InputAction @Exit => m_Wrapper.m_Blueprint_Exit;
         public InputActionMap Get() { return m_Wrapper.m_Blueprint; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -547,16 +645,34 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_BlueprintActionsCallbackInterface != null)
             {
-                @Newaction.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnNewaction;
+                @MoveCamera.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMoveCamera;
+                @MoveCamera.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMoveCamera;
+                @MoveCamera.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMoveCamera;
+                @Use.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnUse;
+                @Use.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnUse;
+                @Use.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnUse;
+                @Rotate.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnRotate;
+                @Exit.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnExit;
             }
             m_Wrapper.m_BlueprintActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
+                @MoveCamera.started += instance.OnMoveCamera;
+                @MoveCamera.performed += instance.OnMoveCamera;
+                @MoveCamera.canceled += instance.OnMoveCamera;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
             }
         }
     }
@@ -587,9 +703,13 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnBag(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
     }
     public interface IBlueprintActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnMoveCamera(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
 }

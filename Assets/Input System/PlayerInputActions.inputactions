@@ -211,6 +211,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Build",
+                    "type": "Button",
+                    "id": "b9ea62b7-176d-4455-895f-43396ba2f7d1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -228,7 +237,7 @@
                 {
                     "name": "",
                     "id": "89aa7ea7-5398-43c0-9765-9449493b6440",
-                    "path": "",
+                    "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -239,11 +248,22 @@
                 {
                     "name": "",
                     "id": "89348234-a96e-4325-bfa2-80c0abf998fc",
-                    "path": "",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d505bc9c-8150-463c-a3c3-c3331824bdcb",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Build",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -254,9 +274,36 @@
             "id": "b9acb4d8-3710-457d-9254-b98080440dd0",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "MoveCamera",
                     "type": "Button",
                     "id": "89e1654d-58b3-41e4-9a3a-4ea1c433532c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Use",
+                    "type": "Button",
+                    "id": "7a13afc0-4248-4387-ae51-7b2759eaf9e5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Rotate",
+                    "type": "Button",
+                    "id": "2cd61ee9-5719-43a6-ab19-344287ddae24",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "41dcd3ad-bce8-472d-9237-2518b0740d40",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -271,7 +318,40 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "New action",
+                    "action": "MoveCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "33cfe850-a36f-4042-bfd0-061941185a7c",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Use",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d96bbd9-e5ef-4ebf-944b-4e0944716390",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1220fe8b-007c-4388-8b83-d12e37bc0695",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Exit",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
