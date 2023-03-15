@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SlotUI : MonoBehaviour{
+public class ItemSlotUI : MonoBehaviour{
 
     public ShortItem item;
     [SerializeField]private GameObject imageObj;

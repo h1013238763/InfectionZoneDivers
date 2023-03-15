@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: 
   itemID: 0
-  itemName: Survivor Handaxe
+  itemName: Developer Shutgun
   itemDescribe: Survivor Handaxe
   itemSprite: {fileID: 509185950, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
   itemCap: 0
-  weaponDamage: 5
-  weaponAmmoCapa: 0
-  weaponRange: 5
-  weaponAccuracy: 0
-  weaponSpeed: 1.5
-  weaponReload: 0
-  weaponAmmoType: 0
+  weaponDamage: 2
+  weaponBulletNum: 8
+  weaponAmmoCurr: 0
+  weaponAmmoCapa: 2
+  weaponRange: 7
+  weaponAccuracy: 0.8
+  weaponSpeed: 2
+  weaponReload: 0.5
+  weaponAmmoIndex: 5
   weaponMuzzle: {x: 0, y: 0}

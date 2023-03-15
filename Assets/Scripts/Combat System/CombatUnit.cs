@@ -5,17 +5,17 @@ using UnityEngine;
 public class CombatUnit : MonoBehaviour
 {
     public Weapon currentWeapon;
+    public GameObject ui;
     public int health;
     private float fireColddown;
     private float reloadTime;
     private bool fireAble;
     private string tag_1;
     private string tag_2;
-    private int currAmmo;
 
 
     void Awake(){
-        fireAble = true;
+        
     }
 
     void FixedUpdate(){
@@ -24,15 +24,19 @@ public class CombatUnit : MonoBehaviour
         if(fireColddown > -0.1){
             fireColddown -= Time.deltaTime;
             if(fireColddown <= 0 && reloadTime <= 0){
+                fireColddown = -0.1f;
                 fireAble = true;
             }
         }
         /// reload time control
         if(reloadTime > -0.1){
             reloadTime -= Time.deltaTime;
+            ui.transform.localScale = new Vector3(reloadTime/currentWeapon.weaponReload, 0.1f, 0);
             if(fireColddown <= 0 && reloadTime <= 0){
-                currAmmo = currentWeapon.weaponAmmoCapa;
+                reloadTime = -0.1f;
+                currentWeapon.weaponAmmoCurr += GetComponent<Inventory>().UseItem(currentWeapon.weaponAmmoIndex, currentWeapon.weaponAmmoCapa);
                 fireAble = true;
+                ui.SetActive(false);
             }
         }
     }
@@ -42,22 +46,34 @@ public class CombatUnit : MonoBehaviour
     }
 
     public void Fire(double radius){
-        if(currAmmo == 0 && fireAble){
+        if(currentWeapon.weaponAmmoCurr <= 0 && fireAble){
             Reload();
         }
 
-        if(fireAble){
-            fireAble = false;
+        if(fireAble && currentWeapon.weaponAmmoCurr > 0){
+            
+            for(int i = 0; i < currentWeapon.weaponBulletNum; i ++){
+                radius += Random.Range(-(1-currentWeapon.weaponAccuracy), (1-currentWeapon.weaponAccuracy));
+                CombatController.combatController.Attack(transform.position, currentWeapon, radius, tag_1, tag_2);
+            }
+            currentWeapon.weaponAmmoCurr --;
             fireColddown = 1 / currentWeapon.weaponSpeed;
-            currAmmo --;
-            CombatController.combatController.Attack(transform.position, currentWeapon, radius, tag_1, tag_2);
-            Debug.Log(currAmmo + "/" + currentWeapon.weaponAmmoCapa);
+            fireAble = false;
+            Debug.Log(currentWeapon.weaponAmmoCurr + "/" + currentWeapon.weaponAmmoCapa);
         }
     }
 
     public void Reload(){
-        fireAble = false;
-        reloadTime = currentWeapon.weaponReload;
+        
+        if(GetComponent<Inventory>().FindItem(currentWeapon.weaponAmmoIndex)){
+            fireAble = false;
+            ui.SetActive(true);
+            reloadTime = currentWeapon.weaponReload;
+        }
+        else{
+            Debug.Log("No Ammo");
+        }
+        
     }
 
 

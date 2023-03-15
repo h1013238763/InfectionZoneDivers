@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: 0
   m_EditorClassIdentifier: 
   itemID: 0
-  itemName: Survivor Pistol
+  itemName: Developer Machine Gun
   itemDescribe: Survivor Pistol
-  itemSprite: {fileID: -534302257, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
-  itemCap: 0
+  itemSprite: {fileID: -1469616911, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 1
   weaponDamage: 4
-  weaponAmmoCapa: 9
+  weaponBulletNum: 1
+  weaponAmmoCurr: 0
+  weaponAmmoCapa: 165
   weaponRange: 100
-  weaponAccuracy: 20
-  weaponSpeed: 1.5
+  weaponAccuracy: 0.8
+  weaponSpeed: 10
   weaponReload: 5
-  weaponAmmoType: 0
+  weaponAmmoIndex: 5
   weaponMuzzle: {x: 0, y: 0}

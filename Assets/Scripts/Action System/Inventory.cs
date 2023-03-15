@@ -10,29 +10,28 @@ public class Inventory : MonoBehaviour
 {
     public List<ShortItem> invent = new List<ShortItem>();
     [SerializeField]private int inventCapacity;
-    [SerializeField]private DatabaseController database;
+    [SerializeField]private ItemDatabase database;
     [SerializeField]private GameObject inventUI;
 
     public void OpenInventory(){
         inventUI.GetComponent<InventUI>().OpenInventory(inventCapacity);
         inventUI.GetComponent<InventUI>().ResetInvent(invent, inventCapacity);
-        inventUI.GetComponent<InventUI>().PrintInvent();
     }
 
-    public int AddToInvent(int itemIDIn, int itemNumIn){
-        int itemCapacity = database.itemDict[itemIDIn].itemCap;
+    public int AddToInvent(int id, int num){
+        int itemCapacity = database.itemDict[id].itemCap;
         // if there exist this item
         for(int i = 0; i < invent.Count; i ++){
-            if(invent[i].itemID == itemIDIn ){
+            if(invent[i].itemID == id ){
                 if(itemCapacity == invent[i].itemNum){continue;}
-                if((itemCapacity-invent[i].itemNum) < itemNumIn ){
+                if((itemCapacity-invent[i].itemNum) < num ){
                     invent[i].itemNum = itemCapacity;
-                    itemNumIn -= (itemCapacity-invent[i].itemNum);
+                    num -= (itemCapacity-invent[i].itemNum);
                     if(inventUI.activeInHierarchy)
                         inventUI.GetComponent<InventUI>().ResetInvent(invent, inventCapacity);
                 }
                 else{
-                    invent[i].itemNum -= itemNumIn;
+                    invent[i].itemNum -= num;
                     if(inventUI.activeInHierarchy)
                         inventUI.GetComponent<InventUI>().ResetInvent(invent, inventCapacity);
                     return 0;
@@ -40,25 +39,43 @@ public class Inventory : MonoBehaviour
             }   
         }
         if(invent.Count < inventCapacity){
-            invent.Add(new ShortItem(itemIDIn, itemNumIn));
+            invent.Add(new ShortItem(id, num));
             if(inventUI.activeInHierarchy)
                 inventUI.GetComponent<InventUI>().ResetInvent(invent, inventCapacity);
             return 0;
         }
-        return itemNumIn;
+        return num;
     }
 
-    public void RemovFromInvent(){
-
-    }
-
-    public void UseItem(){
-
-    }
-
-    public void Print(){
-        foreach(ShortItem item in invent){
-            Debug.Log(item.itemID.ToString() + " " + item.itemNum.ToString());
+    public bool FindItem(int id){
+        foreach(var item in invent){
+            if(item.itemID == id)
+                return true;
         }
+        return false;
+    }
+
+    public int UseItem(int id, int num){
+        int temp = num;
+        // loop through invent
+        for(int i = 0; i < invent.Count; i++){
+            // if find item
+            if(invent[i].itemID == id){
+                // if require num left < item num
+                if(invent[i].itemNum > temp){
+                    invent[i].itemNum -= temp;
+                    if(inventUI.activeInHierarchy)
+                        inventUI.GetComponent<InventUI>().ResetInvent(invent, inventCapacity);
+                    return num;
+                }
+                else{
+                    temp -= invent[i].itemNum;
+                    invent.RemoveAt(i);
+                }
+            }
+        }
+        if(inventUI.activeInHierarchy)
+            inventUI.GetComponent<InventUI>().ResetInvent(invent, inventCapacity);
+        return num - temp;
     }
 }

@@ -8,6 +8,7 @@ public class CombatController : MonoBehaviour{
     public static CombatController combatController;
     public List<GameObject> bulletPool;
     public List<GameObject> projectilePool;
+    public GameObject bulletSpritePool;
     public GameObject bulletPrefab;
     public int bulletCapacity;
 
@@ -43,23 +44,17 @@ public class CombatController : MonoBehaviour{
         }
     }
 
-    /// <summary>
     /// Add bullet to bulletPool
-    /// </summary>
     private void AddBulletToPool(){
         GameObject temp;
         temp = Instantiate(bulletPrefab);
         temp.SetActive(false);
-        temp.transform.parent = transform;
+        temp.transform.parent = bulletSpritePool.transform;
         bulletPool.Add(temp);
     }
 
-    /// <summary>
     /// Get an inactive object from the bullet pool
-    /// If there are not enough inactive bullets
-    /// create more bullets into the bullet pool
-    /// </summary>
-    /// <returns>inactive bullet object</returns>
+    /// If there are not enough inactive bullets, create more bullets into the bullet pool
     private GameObject GetBullet(){
         foreach( GameObject bullet in bulletPool ){
             if(!bullet.activeInHierarchy)
@@ -70,12 +65,7 @@ public class CombatController : MonoBehaviour{
         return bulletPool[bulletCapacity];
     }
 
-    /// <summary>
     /// It draw the trajectory of the bullet type attack
-    /// </summary>
-    /// <param name="attackPos">attack source position</param>
-    /// <param name="hitPos">hit target position</param>
-    /// <param name="bulletPrefab">bullet for drawing</param>
     private void DrawBullet(Vector2 attackPos, Vector2 hitPos, GameObject bulletPrefab){
 
         LineRenderer line = bulletPrefab.GetComponent<LineRenderer>();

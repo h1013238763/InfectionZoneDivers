@@ -6,7 +6,7 @@ public class Drop : MonoBehaviour{
     public ShortItem item;
 
     void Start(){
-        AssignItem(2, 19);
+        AssignItem(5, 100);
     }
 
     public void AssignItem(int itemID, int itemNum){

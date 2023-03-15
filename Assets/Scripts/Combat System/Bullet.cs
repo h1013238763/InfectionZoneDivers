@@ -6,6 +6,10 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField]private float bulletTime;
 
+    private void Start(){
+        bulletTime = 0.2f;
+    }
+
     private void FixedUpdate(){
         bulletTime -= Time.deltaTime;
         if(bulletTime <= 0)

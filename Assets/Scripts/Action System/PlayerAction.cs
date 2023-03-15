@@ -11,14 +11,15 @@ public class PlayerAction : MonoBehaviour
     private PlayerInput playerInput;    // player input component
     private PlayerInputActions playerInputActions;       // player input script import
     private CombatUnit combatUnit;
-    private DatabaseController itemDict;
+    private ItemDatabase itemDict;
 
     // GUI Setting
+    [SerializeField]private GameObject buttonTipPrefab;
 
     // player state setting
     [SerializeField]private int playerActionStage;      // player current action stage
     [SerializeField]private float moveSpeed;            // player move speed
-    public GameObject buildingAssign;
+    public List<GameObject> buildingAssign = new List<GameObject>();
 
     // weapon setting
     public ShortItem[] weaponSlot = new ShortItem[2];
@@ -66,6 +67,17 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    public void InteractTip(){
+        if( buildingAssign.Count != 0 ){
+            Vector3 buildingSize = buildingAssign[0].GetComponent<Renderer>().bounds.size;
+            buttonTipPrefab.transform.position = buildingAssign[0].transform.position + new Vector3(buildingSize.x/2f, buildingSize.y+0.5f, 0);
+            buttonTipPrefab.SetActive(true);
+        }
+        else{
+            buttonTipPrefab.SetActive(false);
+        }
+    }
+
     private void ChangeActionStage(int stage){
         playerActionStage = stage;
         if(playerActionStage == 0){         // normal walking stage
@@ -94,8 +106,9 @@ public class PlayerAction : MonoBehaviour
 
     // define how player interact works
     private void Interact(InputAction.CallbackContext context){
-        if(buildingAssign != null)
-            buildingAssign.GetComponent<Building>().Interact();
+        if( buildingAssign != null ){
+            buildingAssign[buildingAssign.Count - 1].GetComponent<Building>().Interact();
+        }
     }
 
     private void Reload(InputAction.CallbackContext context){
@@ -124,6 +137,5 @@ public class PlayerAction : MonoBehaviour
     private void Build(InputAction.CallbackContext context){
         ChangeActionStage(2);
     }
-
 
 }
