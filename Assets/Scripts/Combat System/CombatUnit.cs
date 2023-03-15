@@ -51,9 +51,10 @@ public class CombatUnit : MonoBehaviour
         }
 
         if(fireAble && currentWeapon.weaponAmmoCurr > 0){
-            
+            double temp;
             for(int i = 0; i < currentWeapon.weaponBulletNum; i ++){
-                radius += Random.Range(-(1-currentWeapon.weaponAccuracy), (1-currentWeapon.weaponAccuracy));
+                temp = radius;
+                temp += Random.Range(-(1-currentWeapon.weaponAccuracy), (1-currentWeapon.weaponAccuracy));
                 CombatController.combatController.Attack(transform.position, currentWeapon, radius, tag_1, tag_2);
             }
             currentWeapon.weaponAmmoCurr --;
