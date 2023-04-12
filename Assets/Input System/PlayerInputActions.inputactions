@@ -2,7 +2,7 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Player",
+            "name": "General",
             "id": "17d06cf8-54f8-42fb-b8ba-0396236a02cf",
             "actions": [
                 {
@@ -15,12 +15,30 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Run",
+                    "type": "Value",
+                    "id": "d13409a2-4033-4cee-b548-a0b543f571ac",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Focus",
+                    "type": "Value",
+                    "id": "98d47da6-a3ab-4f86-a29d-9580ff5ab49e",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "e02189cd-9984-48c0-ab25-7c4b395f76af",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -40,20 +58,27 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Fire",
+                    "type": "Value",
+                    "id": "53812bd5-79eb-427e-8120-3488d068ed44",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Construct",
+                    "type": "Value",
+                    "id": "e1d3bd9e-04aa-4e9d-9fd6-271b8f961150",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "540c2998-4622-4c64-9aee-2cd49188a1b9",
-                    "path": "<Keyboard>/f",
-                    "interactions": "Press(pressPoint=1.401298E-45)",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "Keyboard Movement",
                     "id": "3d053675-cece-4704-8d12-c77fd46ebacc",
@@ -130,36 +155,10 @@
                     "action": "Change",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Mouse",
-            "id": "69c67ac0-1d3f-4aac-9387-5837489affb0",
-            "actions": [
-                {
-                    "name": "Fire",
-                    "type": "Value",
-                    "id": "feb4d0f3-5c2c-47b7-a85c-01f8a6e7dc3c",
-                    "expectedControlType": "Integer",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": true
                 },
                 {
-                    "name": "Aim",
-                    "type": "Value",
-                    "id": "cd01447f-d7a9-4f46-8c2a-050ea81aaa0b",
-                    "expectedControlType": "Integer",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": true
-                }
-            ],
-            "bindings": [
-                {
                     "name": "",
-                    "id": "e4f5bf46-2252-4d96-8648-a1280c4135c7",
+                    "id": "a063114d-062e-4a56-9d3a-2c7e2b4e3026",
                     "path": "<Mouse>/leftButton",
                     "interactions": "Press",
                     "processors": "",
@@ -170,12 +169,45 @@
                 },
                 {
                     "name": "",
-                    "id": "88a672f4-9a0b-4bc2-9fac-5e6de40aa29b",
+                    "id": "1e93d8ee-700e-473a-a196-262eb8e12471",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "241d735e-b5ba-4819-a917-da4f05c0b410",
                     "path": "<Mouse>/rightButton",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Aim",
+                    "action": "Focus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "540c2998-4622-4c64-9aee-2cd49188a1b9",
+                    "path": "<Keyboard>/f",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b790396f-4367-402c-89b9-e9a87d096b5d",
+                    "path": "<Keyboard>/g",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Construct",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -186,18 +218,9 @@
             "id": "2532fc0f-19dd-4b46-9549-6f06d844aac8",
             "actions": [
                 {
-                    "name": "Bag",
+                    "name": "Invent",
                     "type": "Button",
                     "id": "3ee42b4a-423e-4846-bb0c-c2473522f9f2",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Map",
-                    "type": "Button",
-                    "id": "ecd8f195-22ae-4da3-b635-8025e8ba8f98",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -230,18 +253,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Bag",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "89aa7ea7-5398-43c0-9765-9449493b6440",
-                    "path": "<Keyboard>/m",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Map",
+                    "action": "Invent",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -274,7 +286,7 @@
             "id": "b9acb4d8-3710-457d-9254-b98080440dd0",
             "actions": [
                 {
-                    "name": "MoveCamera",
+                    "name": "Move",
                     "type": "Button",
                     "id": "89e1654d-58b3-41e4-9a3a-4ea1c433532c",
                     "expectedControlType": "Button",
@@ -283,12 +295,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Use",
+                    "name": "Place",
                     "type": "Button",
                     "id": "7a13afc0-4248-4387-ae51-7b2759eaf9e5",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -318,18 +330,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "MoveCamera",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "33cfe850-a36f-4042-bfd0-061941185a7c",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Use",
+                    "action": "Place",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

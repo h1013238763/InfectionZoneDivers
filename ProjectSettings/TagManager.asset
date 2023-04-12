@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Building
   layers:
   - Default
   - TransparentFX
@@ -12,8 +13,8 @@ TagManager:
   - Weapon
   - Water
   - UI
-  - Hitbox
-  - 
+  - Ally
+  - Enemy
   - 
   - 
   - 
@@ -42,8 +43,26 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Base
+    uniqueID: 2727175605
+    locked: 0
+  - name: LayerEffect
+    uniqueID: 3037596437
+    locked: 0
+  - name: LayerMask
+    uniqueID: 1037728173
+    locked: 0
+  - name: Building
+    uniqueID: 2449611775
+    locked: 0
+  - name: Units
+    uniqueID: 3592341559
+    locked: 0
   - name: Weapon
     uniqueID: 2187316413
+    locked: 0
+  - name: SpecialEffect
+    uniqueID: 2750387419
     locked: 0
   - name: UI
     uniqueID: 795042873

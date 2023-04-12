@@ -12,18 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
-  itemID: 0
-  itemName: Developer Shutgun
-  itemDescribe: Survivor Handaxe
-  itemSprite: {fileID: 509185950, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
-  itemCap: 0
-  weaponDamage: 2
-  weaponBulletNum: 8
-  weaponAmmoCurr: 0
-  weaponAmmoCapa: 2
-  weaponRange: 7
-  weaponAccuracy: 0.8
-  weaponSpeed: 2
-  weaponReload: 0.5
-  weaponAmmoIndex: 5
+  itemID: 1
+  itemName: Developer Gun
+  itemDescribe: Super powerful weapon for developer to debug
+  itemSprite: {fileID: -293937380, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 1
+  itemPrice: 1000
+  weaponDamage: 5
+  weaponAmmoCapa: 30
+  weaponRange: 20
+  weaponAccuracy: 0.93
+  weaponSpeed: 10
+  weaponReload: 3
+  weaponAmmoIndex: 4
   weaponMuzzle: {x: 0, y: 0}

@@ -13,12 +13,12 @@ public class InventUI : MonoBehaviour
     public void ResetInvent(List<ShortItem> list, int capacity){
         for(int i = 0; i < list.Count; i ++){
             if(list[i] != null)
-                slots[i].GetComponent<ItemSlotUI>().Reset(list[i], database.itemDict[list[i].itemID].itemSprite);
+                slots[i].GetComponent<InventSlotUI>().Reset(list[i], database.itemDict[list[i].itemID].itemSprite);
             else
-                slots[i].GetComponent<ItemSlotUI>().Hide();
+                slots[i].GetComponent<InventSlotUI>().Hide();
         }
         for(int i = list.Count; i < capacity; i ++)
-            slots[i].GetComponent<ItemSlotUI>().Hide();
+            slots[i].GetComponent<InventSlotUI>().Hide();
     }
 
     public void OpenInventory(int capacity){
@@ -37,7 +37,7 @@ public class InventUI : MonoBehaviour
 
     public void PrintInvent(){
         foreach(GameObject slot in slots)
-            slot.GetComponent<ItemSlotUI>().Print();
+            slot.GetComponent<InventSlotUI>().Print();
     }
 
 }

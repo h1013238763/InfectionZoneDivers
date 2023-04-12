@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df86e060bb94fe4e941d293aa90795b, type: 3}
   m_Name: '!BuildingDict'
   m_EditorClassIdentifier: 
-  buildingDict: []
+  buildingDict:
+  - {fileID: 842399433098539645, guid: 443d6775c63870b4ba7330a7a6c37d8a, type: 3}
+  - {fileID: 3757057457181903633, guid: 80428b0ca8dd3e043a7e36d381a5bd19, type: 3}

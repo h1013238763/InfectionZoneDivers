@@ -47,12 +47,6 @@ public class BlueprintUI : MonoBehaviour
     // set blueprint ui panel and slot to building list current.count
     // set each slot with building sprite by building id
     void RefreshUI(){
-
-        for(int i = 0; i < buildListCurrent.Count; i ++){
-            buildSlots[i].GetComponent<BuildingSlotUI>().Reset(buildListCurrent[i], buildingDatabase.buildingDict[buildListCurrent[i]].GetComponent<Building>().buildingSprite); 
-        }
-        for(int i = buildListCurrent.Count; i < buildSlots.Count; i ++){
-            buildSlots[i].SetActive(false);
-        }
+        
     }
 }

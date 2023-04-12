@@ -4,48 +4,72 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    private bool complete;
-    public string buildingName;
-    public Sprite buildingSprite;
-    public string buildingDescribe;
-    public int buildingID;
-    public float buildTime;
-    public BuildType buildingType;
-    public int[] buildingRequireItem = new int[4];
-    public int[] buildingRequireNum = new int[4];
+    public int buildID;
+    public string buildName;
+    [TextArea]
+    public string buildDescribe;
 
-    public enum BuildType{
-        Structure,
-        Defence,
-        Storage,
-        Manufactory,
-        Power,
-        Special
-    }
+    public bool buildComplete;
+    public int[] buildRequireItem = new int[4];
+    public int[] buildRequireNum = new int[4];
+    public int[] buildFilledNum = new int[4];
+    public float buildTime;
+
+    public int buildMaxHealth;
+    public int buildCurrHealth;
 
     void Start(){
-        complete = false;
+        OnDestory();
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
         if(collision.gameObject.tag == "Player"){
-            collision.gameObject.GetComponent<PlayerAction>().buildingAssign.Add(this.gameObject);
-            collision.gameObject.GetComponent<PlayerAction>().InteractTip();
+            collision.gameObject.GetComponent<PlayerAction>().buildingAssign.Add(gameObject);
+        }
+        if(collision.gameObject.tag == "GameController"){
+            GUIController.controller.SetBuildTipColor(true);
+            BuildController.controller.overlap = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision){
         if(collision.gameObject.tag == "Player"){
-            collision.gameObject.GetComponent<PlayerAction>().buildingAssign.Remove(this.gameObject);
-            collision.gameObject.GetComponent<PlayerAction>().InteractTip();
+            if(buildComplete)
+                OnComplete();
+            collision.gameObject.GetComponent<PlayerAction>().buildingAssign.Remove(gameObject);
+        }
+        if(collision.gameObject.tag == "GameController"){
+            GUIController.controller.SetBuildTipColor(false);
+            BuildController.controller.overlap = false;
         }
     }
 
+    public void OnComplete(){
+        transform.GetComponent<Collider2D>().isTrigger = false;
+        transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+        buildCurrHealth = buildMaxHealth;
+    }
+
+    private void OnDestory(){
+        transform.GetComponent<Collider2D>().isTrigger = true;
+        transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+    }
+
     public void Interact(){
-        if(complete){
-            Debug.Log("interact");
-        }
-        else{
-            Debug.Log("Incomplete");
+        if(!buildComplete)
+            return;
+        Debug.Log("Interact");
+    }
+
+    public void Construct(){
+        Debug.Log("Construct");
+        buildComplete = true;
+    }
+
+    public void OnHit(int damage){
+        buildCurrHealth -= damage;
+        buildComplete = false;
+        if(buildCurrHealth <= 0){
+            OnDestory();
         }
     }
 }

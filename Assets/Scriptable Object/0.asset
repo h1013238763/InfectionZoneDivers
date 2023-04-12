@@ -9,21 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
+  m_Script: {fileID: 11500000, guid: 7efdb4741041c394190c9e9ce93f4dd0, type: 3}
   m_Name: 0
   m_EditorClassIdentifier: 
   itemID: 0
-  itemName: Developer Machine Gun
-  itemDescribe: Survivor Pistol
-  itemSprite: {fileID: -1469616911, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
-  itemCap: 1
-  weaponDamage: 4
-  weaponBulletNum: 1
-  weaponAmmoCurr: 0
-  weaponAmmoCapa: 165
-  weaponRange: 100
-  weaponAccuracy: 0.8
-  weaponSpeed: 10
-  weaponReload: 5
-  weaponAmmoIndex: 5
-  weaponMuzzle: {x: 0, y: 0}
+  itemName: Developer Material
+  itemDescribe: Super powerful material for developer to debug
+  itemSprite: {fileID: 895157689, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 200
+  itemPrice: 1
