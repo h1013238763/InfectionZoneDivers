@@ -33,15 +33,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Interact",
-                    "type": "Button",
-                    "id": "e02189cd-9984-48c0-ab25-7c4b395f76af",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Reload",
                     "type": "Button",
                     "id": "4446ed24-8301-45b3-b31d-6a8fa1256d05",
@@ -191,17 +182,6 @@
                 },
                 {
                     "name": "",
-                    "id": "540c2998-4622-4c64-9aee-2cd49188a1b9",
-                    "path": "<Keyboard>/f",
-                    "interactions": "Press(pressPoint=1.401298E-45)",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b790396f-4367-402c-89b9-e9a87d096b5d",
                     "path": "<Keyboard>/g",
                     "interactions": "Press",
@@ -223,7 +203,7 @@
                     "id": "3ee42b4a-423e-4846-bb0c-c2473522f9f2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -232,7 +212,7 @@
                     "id": "fb0b22f1-f227-4ab8-acef-9657771117eb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -242,6 +222,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "a7311923-5877-4477-a463-3ffcdcad108a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -276,6 +265,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Build",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea0f438a-b315-4b42-ac67-fb72a7e75c5c",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

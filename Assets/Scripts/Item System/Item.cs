@@ -10,7 +10,7 @@ public class Item : ScriptableObject{
     public string itemDescribe;
     public Sprite itemSprite;
     public int itemCap;
-    public int itemPrice;
+    public int[] itemPrice = new int[4];
 }
 
 

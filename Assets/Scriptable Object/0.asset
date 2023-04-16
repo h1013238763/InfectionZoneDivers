@@ -17,4 +17,4 @@ MonoBehaviour:
   itemDescribe: Super powerful material for developer to debug
   itemSprite: {fileID: 895157689, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
   itemCap: 200
-  itemPrice: 1
+  itemPrice: 00000000000000000000000000000000

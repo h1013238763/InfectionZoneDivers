@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {   
-    [SerializeField]private ItemDatabase database;
+    public ItemDatabase database;
     public static ItemController controller;
 
+    public List<GameObject> itemWorldPool;
+    public GameObject dropItem;
     public List<ShortItem> itemStat;
 
-    public int money;
     public int metallic;
     public int plastic;
     public int electronic;
@@ -19,53 +20,93 @@ public class ItemController : MonoBehaviour
     void Start()
     {
         controller = this;
+        DropItemPool();
+        DropItemSet(4, 300, new Vector2(0,0));
+        DropItemSet(1, 1, new Vector2(3, 0));
     }
 
-    public int ItemGet(int id, int num, List<ShortItem> invent, int inventCap){
+    public void DropItemPool(){
+        for(int i = 0; i < 5; i ++){
+            GameObject temp = Instantiate(dropItem, gameObject.transform);
+            itemWorldPool.Add(temp);
+            temp.SetActive(false);
+        }
+    }
+
+    public GameObject DropItemGet(){
+        for(int i = 0; i < itemWorldPool.Count; i ++){
+            if(!itemWorldPool[i].activeSelf)
+                return itemWorldPool[i];
+        }
+        return null;
+    }
+
+    public void DropItemSet(int id, int num, Vector2 pos){
+        GameObject temp = DropItemGet();
+        if(temp == null){
+            temp = Instantiate(dropItem);
+            itemWorldPool.Add(temp);
+        }
+        temp.GetComponent<DropItem>().Initial(id, num, database.itemDict[id].itemSprite);
+        temp.transform.position = new Vector3(pos.x, pos.y, 0);
+        temp.SetActive(true);
+    }
+
+    public int ItemGet(int id, int num, Invent invent, string tag){
+        List<ShortItem> tempList = invent.inventList;
         // get item capacity for quick use
         int itemCapacity = database.itemDict[id].itemCap;
         // loop through inventory
-        for(int i = 0; i < invent.Count; i ++){
+        for(int i = 0; i < tempList.Count; i ++){
+            // if find empty slot
+            if(tempList[i] == null){
+                tempList[i] = new ShortItem(id, num);
+                GUIController.controller.SetGUI(invent, tag);
+                return 0;
+            }
             // if there exist this item
-            if(invent[i].itemID == id ){
+            else if(tempList[i].itemID == id ){
                 // if this slot full
-                if(itemCapacity == invent[i].itemNum){continue;}
+                if(itemCapacity == tempList[i].itemNum){continue;}
                 // if not full
-                if((itemCapacity-invent[i].itemNum) < num ){
-                    invent[i].itemNum = itemCapacity;
-                    num -= (itemCapacity-invent[i].itemNum);
+                if((itemCapacity-tempList[i].itemNum) < num ){
+                    tempList[i].itemNum = itemCapacity;
+                    num -= (itemCapacity-tempList[i].itemNum);
                 }
                 else{
-                    invent[i].itemNum -= num;
+                    tempList[i].itemNum -= num;
+                    GUIController.controller.SetGUI(invent, tag);
                     return 0;
                 }
             }   
         }
-        if(invent.Count < inventCap){
-            invent.Add(new ShortItem(id, num));
-            return 0;
-        }
+        GUIController.controller.SetGUI(invent, tag);
         return num;
     }
-
-    public int ItemUse(int id, int num, List<ShortItem> invent){
-        int temp = num;
+    public int ItemUse(int id, int num, Invent invent, string tag){
+        int tempNum = num;
+        List<ShortItem> tempList = invent.inventList;
         // loop through invent
-        for(int i = 0; i < invent.Count; i++){
+        for(int i = tempList.Count-1; i > -1; i--){
             // if find item
-            if(invent[i].itemID == id){
+            if(tempList[i] == null){
+                continue;
+            }
+            else if(tempList[i].itemID == id){
                 // if require num left < item num
-                if(invent[i].itemNum > temp){
-                    invent[i].itemNum -= temp;
+                if(tempList[i].itemNum > tempNum){
+                    tempList[i].itemNum -= tempNum;
+                    GUIController.controller.SetGUI(invent, tag);
                     return num;
                 }
                 else{
-                    temp -= invent[i].itemNum;
-                    invent.RemoveAt(i);
+                    tempNum -= tempList[i].itemNum;
+                    tempList[i] = null;
                 }
             }
         }
-        return num - temp;
+        GUIController.controller.SetGUI(invent, tag);
+        return num - tempNum;
     }
 
     public Weapon WeaponFind(ShortItem item){
@@ -76,11 +117,15 @@ public class ItemController : MonoBehaviour
         return database.itemDict[item.itemID];
     }
 
-    public int ItemNumber(int id, List<ShortItem> invent){
+    public int ItemNumber(int id, Invent invent){
         int temp = 0;
-        for(int i = 0; i < invent.Count; i ++){
-            if(invent[i].itemID == id){
-                temp += invent[i].itemNum;
+        List<ShortItem> tempList = invent.inventList;
+        for(int i = 0; i < tempList.Count; i ++){
+            if(tempList[i] == null){
+                continue;
+            }
+            if(tempList[i].itemID == id){
+                temp += tempList[i].itemNum;
             }
         }
         return temp;

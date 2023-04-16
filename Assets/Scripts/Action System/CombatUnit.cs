@@ -25,11 +25,11 @@ public class CombatUnit : MonoBehaviour
             reloadTime -= Time.deltaTime;
             if(fireColddown <= 0 && reloadTime <= 0){
                 reloadTime = -0.1f;
-                ammo += ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, gameObject.GetComponent<Invent>().inventList);
+                ammo += ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, gameObject.GetComponent<Invent>(), gameObject.tag);
                 fireAble = true;
                 if(gameObject.tag == "Player"){
                     GUIController.controller.SetAmmoText(ammo, weapon.weaponAmmoCapa);
-                    GUIController.controller.SetAmmoInventText(weapon.weaponAmmoIndex);
+                    GUIController.controller.SetAmmoInventText();
                 }
             }
         }
@@ -59,7 +59,7 @@ public class CombatUnit : MonoBehaviour
 
     public void Reload(){
 
-        if(ItemController.controller.ItemNumber(weapon.weaponAmmoIndex, gameObject.GetComponent<Invent>().inventList) > 0){
+        if(ItemController.controller.ItemNumber(weapon.weaponAmmoIndex, gameObject.GetComponent<Invent>()) > 0){
             GUIController.controller.SetReloadTip(weapon.weaponReload, gameObject, true);
             fireAble = false;
             reloadTime = weapon.weaponReload;

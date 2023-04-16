@@ -8,11 +8,12 @@ public class Building : MonoBehaviour
     public string buildName;
     [TextArea]
     public string buildDescribe;
+    public bool buildInterAble;
+    public string buildType;
 
     public bool buildComplete;
     public int[] buildRequireItem = new int[4];
     public int[] buildRequireNum = new int[4];
-    public int[] buildFilledNum = new int[4];
     public float buildTime;
 
     public int buildMaxHealth;
@@ -52,12 +53,6 @@ public class Building : MonoBehaviour
     private void OnDestory(){
         transform.GetComponent<Collider2D>().isTrigger = true;
         transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-    }
-
-    public void Interact(){
-        if(!buildComplete)
-            return;
-        Debug.Log("Interact");
     }
 
     public void Construct(){

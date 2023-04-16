@@ -9,7 +9,7 @@ public class PlayerAction : MonoBehaviour
     /// Component setting
     private Rigidbody2D rigidBody;      // rigidbody component
     private PlayerInput playerInput;    // player input component
-    private PlayerInputActions playerInputActions;       // player input script import
+    public PlayerInputActions playerInputActions;       // player input script import
 
     /// GUI System Setting
     [SerializeField]private GameObject buttonTipPrefab;
@@ -24,7 +24,7 @@ public class PlayerAction : MonoBehaviour
     /// Combat System Setting
     //  combat slots
     public ShortItem armorSlot;
-    public ShortItem[] weaponSlot = new ShortItem[2];
+    public Weapon[] weaponSlot = new Weapon[2];
     public int[] ammoSlot = new int[2];
     public ShortItem[] quickSlot = new ShortItem[4];
     private int currentWeapon = 0;
@@ -45,16 +45,16 @@ public class PlayerAction : MonoBehaviour
         // General
         playerInputActions.General.Reload.performed += Reload;      // reload
         playerInputActions.General.Change.performed += Change;      // change weapon
-        playerInputActions.General.Interact.performed += Interact; // interact
+         
+        playerInputActions.GUI.Invent.performed += Invent;          // open inventory
+        playerInputActions.GUI.Interact.performed += Interact;      // interact
 
         playerInputActions.Blueprint.Place.performed += Place;
     }
     
     private void Start(){
-        weaponSlot[0] = new ShortItem(1,1);
-        weaponSlot[1] = new ShortItem(1,1);
+        weaponSlot[0] = (Weapon)ItemController.controller.database.itemDict[1];
         currentWeapon = 0;
-
     }
 
     private void FixedUpdate(){
@@ -130,13 +130,23 @@ public class PlayerAction : MonoBehaviour
 
     
     private void Interact(InputAction.CallbackContext context){
-        if(buildingAssign[0] != null){
-            buildingAssign[0].GetComponent<Building>().Interact();
+        if(buildingAssign.Count > 0){
+            if(buildingAssign[0].GetComponent<Building>().buildInterAble)
+                switch (buildingAssign[0].GetComponent<Building>().buildType)
+                {
+                    case "Chest":
+                        buildingAssign[0].GetComponent<Chest>().Interact();
+                        break;
+                    default:
+                        break;
+                }
         }
     }
 
     /// GUI Mode
     
+
+
     /// Blueprint Mode
 
     /// Building Interact
@@ -159,11 +169,18 @@ public class PlayerAction : MonoBehaviour
             currentWeapon = 1;
         if(currentWeapon == 1 && weaponSlot[0] != null)
             currentWeapon = 0;
+        GUIController.controller.currentAmmoID = weaponSlot[currentWeapon].weaponAmmoIndex;
+        GUIController.controller.SetGUI(GetComponent<Invent>(), gameObject.tag);
         //transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = database.itemDict[weaponSlot[currentWeapon].itemID].itemSprite;
     }
 
-    // open player bag
+    
 
+    // open player bag
+    private void Invent(InputAction.CallbackContext context){
+        GUIController.controller.ActiveInventory("Player");
+        GUIController.controller.SetInventory(GetComponent<Invent>(), "Player");
+    }
 
     private void Place(InputAction.CallbackContext context){
         BuildController.controller.PlaceBuilding();

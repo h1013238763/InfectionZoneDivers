@@ -9,6 +9,7 @@ public class InventSlotUI : MonoBehaviour{
     [SerializeField]private GameObject imageObj;
     [SerializeField]private GameObject textObj;
 
+    // reset child objects to current item
     public void Reset(ShortItem item, Sprite sprite){
         this.item = item;
         imageObj.GetComponent<Image>().sprite = sprite;
@@ -17,13 +18,26 @@ public class InventSlotUI : MonoBehaviour{
         textObj.SetActive(true);
     }
 
+    // hide child objects
     public void Hide(){
         imageObj.SetActive(false);
         textObj.SetActive(false);
     }
 
-    public void Print(){
+    // While mouse over, show item details
+    public void MouseEnter(){
+        Debug.Log("Mouse Enter");
         if(item != null)
-            Debug.Log(item.itemID + ":" + item.itemNum);
+            GUIController.controller.ShowItemDetail(item);
+    }
+
+    // while mouse exit, stop showing item details
+    public void MouseExit(){
+        Debug.Log("Mouse Exit");
+        GUIController.controller.HideItemDetail();
+    }
+
+    public void MouseRightClick(){
+        
     }
 }

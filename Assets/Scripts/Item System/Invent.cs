@@ -8,6 +8,8 @@ public class Invent : MonoBehaviour
     public int inventCap;
 
     void Start(){
-        inventList.Add(new ShortItem(4,400));
+        for(int i = 0; i < inventCap; i ++){
+            inventList.Add(null);
+        }
     }
 }
