@@ -11,6 +11,8 @@ public class Item : ScriptableObject{
     public Sprite itemSprite;
     public int itemCap;
     public int[] itemPrice = new int[4];
+
+    public bool consumable;
 }
 
 

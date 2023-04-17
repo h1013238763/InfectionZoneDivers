@@ -48,11 +48,17 @@ public class Building : MonoBehaviour
         transform.GetComponent<Collider2D>().isTrigger = false;
         transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
         buildCurrHealth = buildMaxHealth;
+        for(int i = 0; i < transform.childCount; i ++){
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
     }
 
     private void OnDestory(){
         transform.GetComponent<Collider2D>().isTrigger = true;
         transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
+        for(int i = 0; i < transform.childCount; i ++){
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
     public void Construct(){

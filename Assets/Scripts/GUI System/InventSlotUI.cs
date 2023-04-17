@@ -26,18 +26,16 @@ public class InventSlotUI : MonoBehaviour{
 
     // While mouse over, show item details
     public void MouseEnter(){
-        Debug.Log("Mouse Enter");
         if(item != null)
             GUIController.controller.ShowItemDetail(item);
     }
 
     // while mouse exit, stop showing item details
     public void MouseExit(){
-        Debug.Log("Mouse Exit");
         GUIController.controller.HideItemDetail();
     }
 
     public void MouseRightClick(){
-        
+        ItemController.controller.ItemTransfer(transform.parent.parent, item);
     }
 }

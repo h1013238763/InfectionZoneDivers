@@ -12,15 +12,18 @@ public class GUIController : MonoBehaviour
     [SerializeField]private GameObject buildTip;
     [SerializeField]private GameObject interactTip;
     [SerializeField]private GameObject reloadTip;
+    [SerializeField]private GameObject itemDragTip;
     [Space(10)]
+
     // Inventory
-    [SerializeField]private GameObject playerInvent;
-    [SerializeField]private GameObject publicInvent;
+    public GameObject playerInvent;
+    public GameObject publicInvent;
     [SerializeField]private GameObject inventSlot;
     [SerializeField]private int inventCap;
     [SerializeField]private GameObject itemDetail;
     public Invent currentPublicInvent;
     [Space(10)]
+
     // Combat GUI
     [SerializeField]private GameObject priWeaponIcon;
     [SerializeField]private GameObject secWeaponIcon;
@@ -30,6 +33,7 @@ public class GUIController : MonoBehaviour
     public int currentAmmoID;
     [Space(10)]
 
+    // Blueprint GUI
     public GameObject blueprintPanel;
 
     // Start is called before the first frame update
@@ -43,8 +47,7 @@ public class GUIController : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-
-
+        
         // Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         // SetBuildTipPosition((int)mousePos.x, (int)mousePos.y);
     }

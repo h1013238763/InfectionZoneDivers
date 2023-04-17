@@ -108,6 +108,47 @@ public class ItemController : MonoBehaviour
         GUIController.controller.SetGUI(invent, tag);
         return num - tempNum;
     }
+    public void ItemTransfer(Transform inventPanel, ShortItem item){
+        // if transfer request from player inventory
+        Invent from;
+        Invent to;
+        if(inventPanel.name == "PlayerInventory"){
+            from = GameObject.Find("Player").GetComponent<Invent>();
+            // if two inventory panel op
+            if(GUIController.controller.publicInvent.activeSelf){
+                to = GUIController.controller.currentPublicInvent;
+            }
+            else{
+                // if this item is a weapon
+                if( database.itemDict[item.itemID] is Weapon ){
+                    
+                }
+                // if this item is a consumable
+                else if( database.itemDict[item.itemID].consumable ){
+                    
+                }
+                return;
+            }
+        }
+        else{
+            from = GUIController.controller.currentPublicInvent;
+            to = GameObject.Find("Player").GetComponent<Invent>();
+        }
+
+        int itemIn = ItemUse(item.itemID, item.itemNum, from, from.gameObject.tag);
+        ItemGet(item.itemID, itemIn, to, to.gameObject.tag);
+    }
+    public void ItemEquip(ShortItem item, bool isWeapon){
+        PlayerAction player = GameObject.Find("Player").GetComponent<PlayerAction>();
+        // default equip weapon
+        if(isWeapon){
+           
+        }
+        // default equip item
+        else{
+            
+        }
+    }
 
     public Weapon WeaponFind(ShortItem item){
         return (Weapon)database.itemDict[item.itemID];

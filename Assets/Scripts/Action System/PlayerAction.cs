@@ -26,7 +26,7 @@ public class PlayerAction : MonoBehaviour
     public ShortItem armorSlot;
     public Weapon[] weaponSlot = new Weapon[2];
     public int[] ammoSlot = new int[2];
-    public ShortItem[] quickSlot = new ShortItem[4];
+    public Item[] quickSlot = new Item[4];
     private int currentWeapon = 0;
     // combat variables
     private int health;
@@ -137,6 +137,9 @@ public class PlayerAction : MonoBehaviour
                     case "Chest":
                         buildingAssign[0].GetComponent<Chest>().Interact();
                         break;
+                    case "Turret":
+                        buildingAssign[0].transform.GetChild(0).GetComponent<Turret>().Interact();
+                        break;
                     default:
                         break;
                 }
@@ -170,7 +173,7 @@ public class PlayerAction : MonoBehaviour
         if(currentWeapon == 1 && weaponSlot[0] != null)
             currentWeapon = 0;
         GUIController.controller.currentAmmoID = weaponSlot[currentWeapon].weaponAmmoIndex;
-        GUIController.controller.SetGUI(GetComponent<Invent>(), gameObject.tag);
+        GUIController.controller.SetAmmoInventText();
         //transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = database.itemDict[weaponSlot[currentWeapon].itemID].itemSprite;
     }
 
