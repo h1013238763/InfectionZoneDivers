@@ -6,7 +6,7 @@ public class CombatUnit : MonoBehaviour
 {
     public Weapon weapon;
     public int ammo = 0;
-    private float fireColddown;
+    public float fireColddown;
     private float reloadTime;
     private bool fireAble;
 
@@ -40,7 +40,7 @@ public class CombatUnit : MonoBehaviour
         this.ammo = ammo;
     }
 
-    public void Fire(double radius){
+    public void Fire(double radius, bool isPlayer){
         if(ammo <= 0 && fireAble){
             Reload();
         }
@@ -54,7 +54,11 @@ public class CombatUnit : MonoBehaviour
             if(gameObject.tag == "Player"){
                 GUIController.controller.SetAmmoText(ammo, weapon.weaponAmmoCapa);
             }
-        }
+            // player fire colddown animation
+            if(isPlayer){
+                GUIController.controller.SetFireColdTip(fireColddown, fireColddown);
+            }
+        }        
     }
 
     public void Reload(){

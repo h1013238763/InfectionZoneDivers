@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 3
   itemName: Developer Armor
-  itemDescribe: Super powerful armor for developers to debug
+  itemDescribe: Super powerful potion for developers to debug
   itemSprite: {fileID: 0}
   itemCap: 1
-  itemPrice: 500
+  itemPrice: 
+  consumable: 0
   armorDurability: 100

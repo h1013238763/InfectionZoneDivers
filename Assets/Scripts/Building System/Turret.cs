@@ -43,7 +43,7 @@ public class Turret : MonoBehaviour
         GameObject enemy = enemyList[0];
         float angle = (float)(Atan2(( enemy.transform.position.y - (transform.position.y+1) ),( enemy.transform.position.x - (transform.position.x+0.5) )) * 180 / PI);
         transform.rotation = (angle < 90 && angle > -90) ? Quaternion.Euler(0, 0, angle) : Quaternion.Euler(0, 180, -(angle+180));
-        GetComponent<CombatUnit>().Fire(angle * PI / 180);
+        GetComponent<CombatUnit>().Fire(angle * PI / 180, false);
         idleTarget = transform.rotation;
     }
 

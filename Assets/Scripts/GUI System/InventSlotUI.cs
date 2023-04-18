@@ -15,7 +15,11 @@ public class InventSlotUI : MonoBehaviour{
         imageObj.GetComponent<Image>().sprite = sprite;
         imageObj.SetActive(true);
         textObj.GetComponent<Text>().text = item.itemNum.ToString();
-        textObj.SetActive(true);
+        if(item.itemNum > 1)
+            textObj.SetActive(true);
+        else
+            textObj.SetActive(false);
+        
     }
 
     // hide child objects
@@ -35,7 +39,7 @@ public class InventSlotUI : MonoBehaviour{
         GUIController.controller.HideItemDetail();
     }
 
-    public void MouseRightClick(){
+    public void MouseClick(){
         ItemController.controller.ItemTransfer(transform.parent.parent, item);
     }
 }

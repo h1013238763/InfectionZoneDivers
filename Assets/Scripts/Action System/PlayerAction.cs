@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerAction : MonoBehaviour
 {
+    // this
+    public static PlayerAction player;
+
     /// Component setting
     private Rigidbody2D rigidBody;      // rigidbody component
     private PlayerInput playerInput;    // player input component
@@ -26,12 +29,15 @@ public class PlayerAction : MonoBehaviour
     public ShortItem armorSlot;
     public Weapon[] weaponSlot = new Weapon[2];
     public int[] ammoSlot = new int[2];
-    public Item[] quickSlot = new Item[4];
-    private int currentWeapon = 0;
+    public ShortItem[] quickSlot = new ShortItem[4];
+    public int currentWeapon = 0;
     // combat variables
     private int health;
 
     private void Awake(){
+        // initial static variable
+        player = this;
+
         // initial variables
         rigidBody = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
@@ -82,7 +88,7 @@ public class PlayerAction : MonoBehaviour
         }
         // Fire
         if(playerInputActions.General.Fire.ReadValue<float>() > 0.5f && playerInputActions.General.Run.ReadValue<float>() < 0.5f){
-            GetComponent<CombatUnit>().Fire(angle * Math.PI / 180);
+            GetComponent<CombatUnit>().Fire(angle * Math.PI / 180, true);
         }
         // Construct
         if(playerInputActions.General.Construct.ReadValue<float>() > 0.5f){
@@ -100,10 +106,6 @@ public class PlayerAction : MonoBehaviour
     }
     
     /// Mode Setting
-    private void Fire(double radius){
-        
-    }
-
     private void ChangeActionStage(int stage){
         playerActionStage = stage;
         if(playerActionStage == 0){         // normal walking stage

@@ -12,24 +12,29 @@ public class GUIController : MonoBehaviour
     [SerializeField]private GameObject buildTip;
     [SerializeField]private GameObject interactTip;
     [SerializeField]private GameObject reloadTip;
-    [SerializeField]private GameObject itemDragTip;
     [Space(10)]
 
     // Inventory
     public GameObject playerInvent;
     public GameObject publicInvent;
+    public GameObject quickInvent;
+    [SerializeField]private GameObject[] materialPanel = new GameObject[4];
     [SerializeField]private GameObject inventSlot;
     [SerializeField]private int inventCap;
     [SerializeField]private GameObject itemDetail;
     public Invent currentPublicInvent;
     [Space(10)]
 
+
     // Combat GUI
-    [SerializeField]private GameObject priWeaponIcon;
-    [SerializeField]private GameObject secWeaponIcon;
+    [SerializeField]private GameObject[] WeaponIcon = new GameObject[2];
+    [SerializeField]private GameObject quickSlot;
     [SerializeField]private GameObject ammoIcon;
     [SerializeField]private GameObject ammoText;
     [SerializeField]private GameObject ammoInventText;
+    [SerializeField]private GameObject fireColdCover;
+    private float fireCold;
+    private float fireMax;
     public int currentAmmoID;
     [Space(10)]
 
@@ -47,7 +52,12 @@ public class GUIController : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
-        
+
+        if(fireCold > 0){
+            fireCold -= Time.deltaTime;
+            SetFireColdTip( fireCold / fireMax );
+        }
+
         // Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         // SetBuildTipPosition((int)mousePos.x, (int)mousePos.y);
     }
@@ -55,6 +65,8 @@ public class GUIController : MonoBehaviour
     public void SetGUI(Invent invent, string tag){
         SetInventory(invent, tag);
         SetAmmoInventText();
+        SetAmmoIcon();
+        SetQuickInvent();
     }
 
 
@@ -72,12 +84,16 @@ public class GUIController : MonoBehaviour
     public void EnterInventory(string tag){
         if( tag != "Player")
             publicInvent.SetActive(true);
+        else
+            quickInvent.SetActive(true);
         playerInvent.SetActive(true);
         GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Disable();
     }
     public void ExitInventory(){
         playerInvent.SetActive(false);
         publicInvent.SetActive(false);
+        quickInvent.SetActive(false);
+        HideItemDetail();
         GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Enable();
     }
     public void SetInventory(Invent invent, string tag){
@@ -110,6 +126,39 @@ public class GUIController : MonoBehaviour
             EnterInventory(tag);
     }
 
+    // Quick Inventory Method
+    public void SetQuickInvent(){
+        Sprite temp;
+        // weapon slots
+        for(int i = 0; i < 2; i ++)
+        {
+            if(PlayerAction.player.weaponSlot[(PlayerAction.player.currentWeapon+i)%2] != null){
+                temp = PlayerAction.player.weaponSlot[(PlayerAction.player.currentWeapon+i)%2].itemSprite;
+                quickInvent.transform.GetChild(i).GetComponent<QuickSlotUI>().Reset(temp, i, 1);
+                WeaponIcon[i].transform.GetChild(0).GetComponent<Image>().sprite = temp;
+                WeaponIcon[i].transform.GetChild(0).gameObject.SetActive(true);
+            }else{
+                quickInvent.transform.GetChild(i).GetComponent<QuickSlotUI>().Hide();
+                WeaponIcon[i].transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+        // item slots
+        for(int i = 0; i < 4; i ++){
+            if(PlayerAction.player.quickSlot[i] != null){
+                temp = ItemController.controller.ItemFind(PlayerAction.player.quickSlot[i]).itemSprite;
+                quickInvent.transform.GetChild(i+2).GetComponent<QuickSlotUI>().Reset(temp, i+2, PlayerAction.player.quickSlot[i].itemNum);
+                quickSlot.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = temp;
+                quickSlot.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = PlayerAction.player.quickSlot[i].itemNum.ToString();
+                quickSlot.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+                quickSlot.transform.GetChild(i).GetChild(1).gameObject.SetActive(true);
+            }else{
+                quickInvent.transform.GetChild(i+2).GetComponent<QuickSlotUI>().Hide();
+                quickSlot.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                quickSlot.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
+            }
+        }
+    }
+
     // inventory slot mouse events
     public void ShowItemDetail(ShortItem si){
         Item item = ItemController.controller.database.itemDict[si.itemID];
@@ -138,7 +187,23 @@ public class GUIController : MonoBehaviour
         itemDetail.SetActive(false);
     }
 
-    // In Game World GUI Setting
+    // Combat GUI Setting
+    // ammo setting
+    public void SetAmmoText(int ammo, int capa){
+        ammoText.GetComponent<Text>().text = ammo.ToString() + " / " + capa.ToString();
+    }
+    public void SetAmmoIcon(){
+        ammoIcon.SetActive(true);
+        PlayerAction player = GameObject.Find("Player").GetComponent<PlayerAction>();
+        if(player.weaponSlot[player.currentWeapon] != null)
+            ammoIcon.GetComponent<Image>().sprite = ItemController.controller.database.itemDict[player.weaponSlot[player.currentWeapon].weaponAmmoIndex].itemSprite;
+        else
+            ammoIcon.SetActive(false);
+    }
+    public void SetAmmoInventText(){
+        ammoInventText.GetComponent<Text>().text = ItemController.controller.ItemNumber(currentAmmoID, GameObject.Find("Player").GetComponent<Invent>()).ToString();
+    }
+    // reload tip
     public void SetReloadTip(float time, GameObject from, bool player){
         GameObject temp = Instantiate(reloadTip);
         temp.GetComponent<ReloadTipUI>().timeMax = time;
@@ -149,15 +214,13 @@ public class GUIController : MonoBehaviour
             temp.transform.position = new Vector3(from.transform.position.x+from.GetComponent<Collider>().bounds.size.x/2, from.transform.position.y+1f, 0f);
         temp.SetActive(true);
     }
-
-    /// In Game Canvus Fixed GUI Setting
-    
-    public void SetAmmoText(int ammo, int capa){
-        ammoText.GetComponent<Text>().text = ammo.ToString() + " / " + capa.ToString();
+    // fire colddown tip
+    public void SetFireColdTip(float time, float timeMax){
+        fireCold = time;
+        fireMax = timeMax;
     }
-
-    public void SetAmmoInventText(){
-        ammoInventText.GetComponent<Text>().text = ItemController.controller.ItemNumber(currentAmmoID, GameObject.Find("Player").GetComponent<Invent>()).ToString();
+    public void SetFireColdTip(float length){
+        fireColdCover.transform.localScale = new Vector3(1, length, 0);
     }
 
     /// Building Mode
