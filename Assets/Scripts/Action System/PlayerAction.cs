@@ -13,13 +13,16 @@ public class PlayerAction : MonoBehaviour
     private Rigidbody2D rigidBody;      // rigidbody component
     private PlayerInput playerInput;    // player input component
     public PlayerInputActions playerInputActions;       // player input script import
+    public Invent invent;
+    public CombatUnit combatUnit;   
 
     /// GUI System Setting
     [SerializeField]private GameObject buttonTipPrefab;
 
     // player state setting
     [SerializeField]private int playerActionStage;      // player current action stage
-    private float moveSpeed = 8f;            // player move speed
+    private float moveSpeedDefault = 8f;
+    private float moveSpeedCurrent = 8f;            // player move speed
     
     public List<GameObject> buildingAssign = new List<GameObject>();
     private float buildTime;
@@ -30,9 +33,13 @@ public class PlayerAction : MonoBehaviour
     public Weapon[] weaponSlot = new Weapon[2];
     public int[] ammoSlot = new int[2];
     public ShortItem[] quickSlot = new ShortItem[4];
-    public int currentWeapon = 0;
     // combat variables
-    private int health;
+    public int armorCurr;
+    public int armorMax;
+    // Special Action
+    private float itemTime = -0.1f;
+    private float itemEffect;
+    private int itemSlot;
 
     private void Awake(){
         // initial static variable
@@ -51,6 +58,7 @@ public class PlayerAction : MonoBehaviour
         // General
         playerInputActions.General.Reload.performed += Reload;      // reload
         playerInputActions.General.Change.performed += Change;      // change weapon
+        playerInputActions.General.UseItem.performed += UseItem;
          
         playerInputActions.GUI.Invent.performed += Invent;          // open inventory
         playerInputActions.GUI.Interact.performed += Interact;      // interact
@@ -59,8 +67,12 @@ public class PlayerAction : MonoBehaviour
     }
     
     private void Start(){
-        weaponSlot[0] = (Weapon)ItemController.controller.database.itemDict[1];
-        currentWeapon = 0;
+
+        combatUnit = GetComponent<CombatUnit>();
+        invent = GetComponent<Invent>();
+
+        combatUnit.SetWeapon(weaponSlot[0], ammoSlot[0]);
+        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
     }
 
     private void FixedUpdate(){
@@ -73,23 +85,37 @@ public class PlayerAction : MonoBehaviour
         transform.GetChild(0).rotation = (angle < 90 && angle > -90) ? Quaternion.Euler(0, 0, angle) : Quaternion.Euler(0, 180, -(angle+180));
         transform.rotation = (angle < 90 && angle > -90) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
 
-        // Run
-        if(playerInputActions.General.Run.ReadValue<float>() > 0.5f){
-            rigidBody.velocity = moveSpeed * 1.5f * playerInputActions.General.Move.ReadValue<Vector2>();
-        }   
         // Focus
-        else if(playerInputActions.General.Focus.ReadValue<float>() > 0.5f){
-            rigidBody.velocity = moveSpeed / 3f * playerInputActions.General.Move.ReadValue<Vector2>();
-
+        if(playerInputActions.General.Focus.ReadValue<float>() > 0.5f){
+            moveSpeedCurrent = moveSpeedDefault / 4f;
+            
+        }
+        
+        // Run
+        else if(playerInputActions.General.Run.ReadValue<float>() > 0.5f){
+            itemTime = -0.1f;
+            moveSpeedCurrent = moveSpeedDefault * 1.5f;
+            combatUnit.reloadTime = -0.1f;
+            if(transform.childCount > 1){
+                transform.GetChild(1).gameObject.GetComponent<ReloadTipUI>().SelfDestroy();
+            }
+        }
+        // Use Armorpack
+        else if(itemTime > 0 || combatUnit.reloadTime > 0){
+            moveSpeedCurrent = moveSpeedDefault / 4f;
         }
         // Move   
         else{ 
-            rigidBody.velocity = moveSpeed * playerInputActions.General.Move.ReadValue<Vector2>();
+            moveSpeedCurrent = moveSpeedDefault;
         }
+        rigidBody.velocity = moveSpeedCurrent * playerInputActions.General.Move.ReadValue<Vector2>();
+
         // Fire
         if(playerInputActions.General.Fire.ReadValue<float>() > 0.5f && playerInputActions.General.Run.ReadValue<float>() < 0.5f){
-            GetComponent<CombatUnit>().Fire(angle * Math.PI / 180, true);
+            if(itemTime <= -0.1f)
+                GetComponent<CombatUnit>().Fire(angle * Math.PI / 180, true);
         }
+
         // Construct
         if(playerInputActions.General.Construct.ReadValue<float>() > 0.5f){
             if(buildingAssign[0] != null){
@@ -103,33 +129,28 @@ public class PlayerAction : MonoBehaviour
             }
         }
 
-    }
-    
-    /// Mode Setting
-    private void ChangeActionStage(int stage){
-        playerActionStage = stage;
-        if(playerActionStage == 0){         // normal walking stage
-            playerInputActions.General.Enable();
-            playerInputActions.GUI.Enable();
-            playerInputActions.Blueprint.Disable();
-        }
-        if(playerActionStage == 1){         // gui open stage
-            playerInputActions.General.Disable();
-            playerInputActions.GUI.Enable();
-            playerInputActions.Blueprint.Disable();
-        }
-        if(playerActionStage == 2){
-            playerInputActions.General.Disable();
-            playerInputActions.GUI.Disable();
-            playerInputActions.Blueprint.Enable();
-        }
+        if(itemTime > -0.1f){
+            itemTime -= Time.deltaTime;
+            if(itemTime <= 0){
+                // recover armor
+                armorCurr += (int)(armorMax * 0.01 * itemEffect);
+                if(armorCurr > armorMax)
+                    armorCurr = armorMax;
+                // remove 1 item
+                quickSlot[itemSlot].itemNum --;
+                // set ui
+                GUIController.controller.SetQuickInvent();
+                // reset action variable
+                itemTime = -0.1f;
+            }
+        } 
     }
 
     /// General Mode
     private void Reload(InputAction.CallbackContext context){
-        GetComponent<CombatUnit>().Reload();
+        if(itemTime <= -0.1f && ammoSlot[0] < weaponSlot[0].weaponAmmoCapa)
+            GetComponent<CombatUnit>().Reload();
     }
-
     
     private void Interact(InputAction.CallbackContext context){
         if(buildingAssign.Count > 0){
@@ -146,6 +167,58 @@ public class PlayerAction : MonoBehaviour
                         break;
                 }
         }
+    }
+
+    private void UseItem(InputAction.CallbackContext context){
+        int index = (int)(context.control.ToString()[context.control.ToString().Length-1])-49;
+        if(quickSlot[index] != null){
+            UseItem(index, (Consumable)ItemController.controller.ItemFind(quickSlot[index]));
+        } 
+    }
+    // use item
+    public void UseItem(int index, Consumable item){
+        if(playerInputActions.General.Run.ReadValue<float>() > 0.5f || GetComponent<CombatUnit>().reloadTime > 0){
+            return;
+        }
+        switch(item.consumableType){
+            case "Armorpack":
+                itemTime = item.consumableData[1];
+                itemEffect = item.consumableData[0];
+                itemSlot = index;
+                GUIController.controller.SetReloadTip(itemTime, gameObject, true);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    // change weapon
+    private void Change(InputAction.CallbackContext context){
+
+        // Availability Check
+        if(weaponSlot[1] == null )
+            return;
+
+        // Weapon Swap
+        Weapon tempWeapon = weaponSlot[0];
+        weaponSlot[0] = weaponSlot[1];
+        weaponSlot[1] = tempWeapon;
+        int tempAmmo = ammoSlot[0];
+        ammoSlot[0] = ammoSlot[1];
+        ammoSlot[1] = tempAmmo;
+        combatUnit.SetWeapon(weaponSlot[0], ammoSlot[0]);
+
+        // Interrupt Reloading
+        if(combatUnit.reloadTime > 0){
+            combatUnit.reloadTime = -0.1f;
+        }
+        if(transform.childCount > 1){
+            transform.GetChild(1).gameObject.GetComponent<ReloadTipUI>().SelfDestroy();
+        }
+
+        // Graphic Setting
+        GUIController.controller.SetGUI(invent, "Player");
+        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
     }
 
     /// GUI Mode
@@ -168,16 +241,7 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
-    // change weapon
-    private void Change(InputAction.CallbackContext context){
-        if(currentWeapon == 0 && weaponSlot[1] != null)
-            currentWeapon = 1;
-        if(currentWeapon == 1 && weaponSlot[0] != null)
-            currentWeapon = 0;
-        GUIController.controller.currentAmmoID = weaponSlot[currentWeapon].weaponAmmoIndex;
-        GUIController.controller.SetAmmoInventText();
-        //transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = database.itemDict[weaponSlot[currentWeapon].itemID].itemSprite;
-    }
+    
 
     
 

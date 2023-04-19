@@ -11,18 +11,16 @@ public class ItemController : MonoBehaviour
     public GameObject dropItem;
     public List<ShortItem> itemStat;
 
-    public int metallic;
-    public int plastic;
-    public int electronic;
-    public int chemical;
+    public int[] resource = new int[4];
 
     // Start is called before the first frame update
     void Start()
     {
         controller = this;
         DropItemPool();
-        DropItemSet(4, 300, new Vector2(0,0));
-        DropItemSet(1, 1, new Vector2(3, 0));
+        DropItemSet(4, 300, new Vector3(0, 0, 0));
+        DropItemSet(1, 1, new Vector3(3, 0, 0));
+        DropItemSet(3, 5, new Vector3(5, 0, 0));
     }
 
     /// <summary>
@@ -54,14 +52,14 @@ public class ItemController : MonoBehaviour
     /// <param name="id"> the id of item </param>
     /// <param name="num"> the number of item </param>
     /// <param name="pos"> the position of this item </param>
-    public void DropItemSet(int id, int num, Vector2 pos){
+    public void DropItemSet(int id, int num, Vector3 pos){
         GameObject temp = DropItemGet();
         if(temp == null){
             temp = Instantiate(dropItem);
             itemWorldPool.Add(temp);
         }
         temp.GetComponent<DropItem>().Initial(id, num, database.itemDict[id].itemSprite);
-        temp.transform.position = new Vector3(pos.x, pos.y, 0);
+        temp.transform.position = pos;
         temp.SetActive(true);
     }
 
@@ -81,9 +79,15 @@ public class ItemController : MonoBehaviour
         for(int i = 0; i < tempList.Count; i ++){
             // if find empty slot
             if(tempList[i] == null){
-                tempList[i] = new ShortItem(id, num);
-                GUIController.controller.SetGUI(invent, tag);
-                return 0;
+                if(itemCapacity >= num){
+                    tempList[i] = new ShortItem(id, num);
+                    GUIController.controller.SetGUI(invent, tag);
+                    return 0;
+                }
+                else{
+                    tempList[i] = new ShortItem(id, itemCapacity);
+                    num -= itemCapacity;
+                }
             }
             // if there exist this item
             else if(tempList[i].itemID == id ){
@@ -95,7 +99,7 @@ public class ItemController : MonoBehaviour
                     num -= (itemCapacity-tempList[i].itemNum);
                 }
                 else{
-                    tempList[i].itemNum -= num;
+                    tempList[i].itemNum += num;
                     GUIController.controller.SetGUI(invent, tag);
                     return 0;
                 }
@@ -156,7 +160,7 @@ public class ItemController : MonoBehaviour
             }
             else{
                 // if this item is a weapon
-                if( database.itemDict[item.itemID] is Weapon || database.itemDict[item.itemID].consumable){
+                if( database.itemDict[item.itemID] is Weapon || database.itemDict[item.itemID] is Consumable){
                     ItemEquip(item, database.itemDict[item.itemID] is Weapon);
                 }
                 return;
@@ -181,12 +185,8 @@ public class ItemController : MonoBehaviour
         bool set = false;
         // equip weapon
         if(isWeapon){
-            if(player.weaponSlot[player.currentWeapon] == null ){
-                player.weaponSlot[player.currentWeapon] = (Weapon)database.itemDict[item.itemID];
-                set = true;
-            }
-            else if(player.weaponSlot[(player.currentWeapon+1)%2] == null){
-                player.weaponSlot[(player.currentWeapon+1)%2] = (Weapon)database.itemDict[item.itemID];
+            if(player.weaponSlot[1] == null ){
+                player.weaponSlot[1] = (Weapon)database.itemDict[item.itemID];
                 set = true;
             }
         }
@@ -211,12 +211,33 @@ public class ItemController : MonoBehaviour
     /// <param name="slot"> which slot call this function </param>
     public void ItemUnequip(int slot){
         // weapon
-        if(slot <= 1){
-            Weapon weapon = PlayerAction.player.weaponSlot[(PlayerAction.player.currentWeapon+slot)%2];
-            if(weapon == null) 
+        if(slot == 0){
+            if(PlayerAction.player.weaponSlot[1] == null)
                 return;
-            if(ItemGet(weapon.itemID, 1, PlayerAction.player.gameObject.GetComponent<Invent>(), "Player") == 0)
-                PlayerAction.player.weaponSlot[(PlayerAction.player.currentWeapon+slot)%2] = null;
+            Weapon weapon = PlayerAction.player.weaponSlot[0];
+            if(ItemGet(weapon.itemID, 1, PlayerAction.player.gameObject.GetComponent<Invent>(), "Player") == 0){
+                int ammoNum = ItemGet(weapon.weaponAmmoIndex, PlayerAction.player.ammoSlot[0], PlayerAction.player.gameObject.GetComponent<Invent>(), "Player");
+                if(ammoNum > 0)
+                    DropItemSet(weapon.weaponAmmoIndex, ammoNum, GameObject.Find("Player").transform.position);
+                PlayerAction.player.weaponSlot[0] = PlayerAction.player.weaponSlot[1];
+                PlayerAction.player.ammoSlot[0] = PlayerAction.player.ammoSlot[1];
+                PlayerAction.player.weaponSlot[1] = null;
+                PlayerAction.player.ammoSlot[1] = 0;
+                
+            }
+        }
+        else if(slot == 1){
+            if(PlayerAction.player.weaponSlot[1] == null) 
+                return;
+            Weapon weapon = PlayerAction.player.weaponSlot[1];
+            if(ItemGet(weapon.itemID, 1, PlayerAction.player.gameObject.GetComponent<Invent>(), "Player") == 0){
+                int ammoNum = ItemGet(weapon.weaponAmmoIndex, PlayerAction.player.ammoSlot[1], PlayerAction.player.gameObject.GetComponent<Invent>(), "Player");
+                if(ammoNum > 0)
+                    DropItemSet(weapon.weaponAmmoIndex, ammoNum, GameObject.Find("Player").transform.position);
+                PlayerAction.player.weaponSlot[1] = null;
+                 PlayerAction.player.ammoSlot[1] = 0;
+            }
+                
         }
         // item
         else{
@@ -229,10 +250,24 @@ public class ItemController : MonoBehaviour
         GUIController.controller.SetGUI(GameObject.Find("Player").GetComponent<Invent>(), "Player");
     }
 
-    public Weapon WeaponFind(ShortItem item){
-        return (Weapon)database.itemDict[item.itemID];
+    /// <summary>
+    /// Get or use resources
+    /// </summary>
+    /// <param name="num"> the num of change </param>
+    /// <returns> if there are enough resource to change </returns>
+    public bool ResourceSet(int[] num){
+        for(int i = 0; i < 4; i ++){
+            if(num[i] > resource[i])
+                return false;
+        }
+        for(int i = 0; i < 4; i ++){
+            resource[i] -= num[i];
+        }
+        GUIController.controller.SetResourcePanel();
+        return true;
     }
 
+    // Dictionary Functions
     public Item ItemFind(ShortItem item){
         return database.itemDict[item.itemID];
     }

@@ -5,9 +5,9 @@ using UnityEngine;
 public class CombatUnit : MonoBehaviour
 {
     public Weapon weapon;
-    public int ammo = 0;
+    public int ammo;
     public float fireColddown;
-    private float reloadTime;
+    public float reloadTime;
     private bool fireAble;
 
     void FixedUpdate(){
@@ -25,10 +25,12 @@ public class CombatUnit : MonoBehaviour
             reloadTime -= Time.deltaTime;
             if(fireColddown <= 0 && reloadTime <= 0){
                 reloadTime = -0.1f;
-                ammo += ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, gameObject.GetComponent<Invent>(), gameObject.tag);
+                int tempAmmo = ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, gameObject.GetComponent<Invent>(), gameObject.tag);
+                ammo += tempAmmo;
                 fireAble = true;
                 if(gameObject.tag == "Player"){
-                    GUIController.controller.SetAmmoText(ammo, weapon.weaponAmmoCapa);
+                    PlayerAction.player.ammoSlot[0] += tempAmmo;
+                    GUIController.controller.SetAmmoText();
                     GUIController.controller.SetAmmoInventText();
                 }
             }
@@ -51,18 +53,18 @@ public class CombatUnit : MonoBehaviour
             ammo --;
             fireColddown = 1 / weapon.weaponSpeed;
             fireAble = false;
-            if(gameObject.tag == "Player"){
-                GUIController.controller.SetAmmoText(ammo, weapon.weaponAmmoCapa);
-            }
             // player fire colddown animation
             if(isPlayer){
+                PlayerAction.player.ammoSlot[0] = ammo;
                 GUIController.controller.SetFireColdTip(fireColddown, fireColddown);
+                GUIController.controller.SetAmmoText();
             }
         }        
     }
 
     public void Reload(){
-
+        if(ammo == weapon.weaponAmmoCapa)
+            return;
         if(ItemController.controller.ItemNumber(weapon.weaponAmmoIndex, gameObject.GetComponent<Invent>()) > 0){
             GUIController.controller.SetReloadTip(weapon.weaponReload, gameObject, true);
             fireAble = false;
@@ -70,7 +72,7 @@ public class CombatUnit : MonoBehaviour
         }
         else{
             Debug.Log("No Ammo");
-        } 
+        }
     }
 
     public void OnHit(int damage){

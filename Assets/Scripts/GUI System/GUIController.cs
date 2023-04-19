@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -18,7 +19,7 @@ public class GUIController : MonoBehaviour
     public GameObject playerInvent;
     public GameObject publicInvent;
     public GameObject quickInvent;
-    [SerializeField]private GameObject[] materialPanel = new GameObject[4];
+    [SerializeField]private GameObject resourcePanel;
     [SerializeField]private GameObject inventSlot;
     [SerializeField]private int inventCap;
     [SerializeField]private GameObject itemDetail;
@@ -35,7 +36,6 @@ public class GUIController : MonoBehaviour
     [SerializeField]private GameObject fireColdCover;
     private float fireCold;
     private float fireMax;
-    public int currentAmmoID;
     [Space(10)]
 
     // Blueprint GUI
@@ -46,8 +46,7 @@ public class GUIController : MonoBehaviour
         controller = this;
         InitialInventory();
         
-        currentAmmoID = GameObject.Find("Player").GetComponent<PlayerAction>().weaponSlot[0].weaponAmmoIndex;
-        SetAmmoInventText();
+        SetGUI(PlayerAction.player.invent, "Player");
     }
 
     // Update is called once per frame
@@ -67,10 +66,15 @@ public class GUIController : MonoBehaviour
         SetAmmoInventText();
         SetAmmoIcon();
         SetQuickInvent();
+        SetAmmoText();
     }
 
 
     // Inventory Methods
+
+    /// <summary>
+    /// Initial slots to inventory
+    /// </summary>
     private void InitialInventory(){
         while(playerInvent.transform.GetChild(0).childCount < inventCap){
             Instantiate(inventSlot, playerInvent.transform.GetChild(0));
@@ -81,6 +85,11 @@ public class GUIController : MonoBehaviour
         }
         publicInvent.SetActive(false);
     } 
+
+    /// <summary>
+    /// open inventory
+    /// </summary>
+    /// <param name="tag"> open which inventory</param>
     public void EnterInventory(string tag){
         if( tag != "Player")
             publicInvent.SetActive(true);
@@ -89,6 +98,10 @@ public class GUIController : MonoBehaviour
         playerInvent.SetActive(true);
         GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Disable();
     }
+
+    /// <summary>
+    /// close inventory
+    /// </summary>
     public void ExitInventory(){
         playerInvent.SetActive(false);
         publicInvent.SetActive(false);
@@ -96,6 +109,12 @@ public class GUIController : MonoBehaviour
         HideItemDetail();
         GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Enable();
     }
+
+    /// <summary>
+    /// reset all ui of inventory panel
+    /// </summary>
+    /// <param name="invent"> the invent data </param>
+    /// <param name="tag"> set which inventory </param>
     public void SetInventory(Invent invent, string tag){
         // which invent gui need to be set
         Transform tempInvent;
@@ -119,6 +138,11 @@ public class GUIController : MonoBehaviour
             tempInvent.GetChild(i).gameObject.SetActive(false);
         }
     }
+
+    /// <summary>
+    /// trigger inventory button
+    /// </summary>
+    /// <param name="tag"></param>
     public void ActiveInventory(string tag){
         if(playerInvent.activeSelf)
             ExitInventory();
@@ -126,14 +150,73 @@ public class GUIController : MonoBehaviour
             EnterInventory(tag);
     }
 
-    // Quick Inventory Method
+    /// <summary>
+    /// show and hide datail panel of item
+    /// </summary>
+    /// <param name="si"> show which item </param>
+    public void ShowItemDetail(ShortItem si){
+        Item item = ItemController.controller.database.itemDict[si.itemID];
+
+        itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = item.itemSprite;
+        //itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().SetNativeSize();
+        itemDetail.transform.GetChild(1).GetComponent<Text>().text = item.itemName;
+        itemDetail.transform.GetChild(2).GetComponent<Text>().text = "    " + item.itemDescribe;
+        itemDetail.transform.GetChild(3).GetComponent<Text>().text = " [ " + item.GetType().ToString() + " ]";
+        itemDetail.transform.GetChild(4).gameObject.SetActive(false);
+        itemDetail.transform.GetChild(5).gameObject.SetActive(false);
+
+        if(item is Weapon){
+            Weapon weapon = (Weapon)item;
+            Transform grid = itemDetail.transform.GetChild(4);
+            grid.GetChild(0).GetComponent<Text>().text = weapon.weaponDamage.ToString();
+            grid.GetChild(1).GetComponent<Text>().text = weapon.weaponAmmoCapa.ToString();
+            grid.GetChild(2).GetComponent<Text>().text = weapon.weaponSpeed.ToString();
+            grid.GetChild(3).GetComponent<Text>().text = weapon.weaponAccuracy.ToString();
+            grid.GetChild(4).GetComponent<Text>().text = weapon.weaponRange.ToString();
+            grid.GetChild(5).GetComponent<Text>().text = weapon.weaponReload.ToString();
+            grid.GetChild(6).GetComponent<Text>().text = weapon.weaponAmmoIndex.ToString();
+            grid.gameObject.SetActive(true);
+        }
+        if(item is Consumable){
+            Consumable consume = (Consumable)item;
+            string[] tokens = consume.consumableDescribe.Split('$');
+            string describe = "";
+            for(int i = 0; i < tokens.Length; i ++){
+                if(tokens[i] == "0" || tokens[i] == "1")
+                    tokens[i] = consume.consumableData[Int32.Parse(tokens[i])].ToString();
+                describe += tokens[i];
+            }
+            itemDetail.transform.GetChild(5).GetComponent<Text>().text = "    " + describe;
+            itemDetail.transform.GetChild(5).gameObject.SetActive(true);
+        }    
+        itemDetail.SetActive(true);
+    }
+    public void ShowItemDetail(int index){
+        if(index < 2){
+            Weapon weapon = PlayerAction.player.weaponSlot[index];
+            if( weapon!= null)
+                ShowItemDetail( new ShortItem( weapon.itemID, 1 ) );
+        }else{
+            if(PlayerAction.player.quickSlot[index-2] != null)
+                ShowItemDetail( PlayerAction.player.quickSlot[index-2] );
+        }
+    }
+    public void HideItemDetail(){
+        itemDetail.SetActive(false);
+    }
+
+    // Combat GUI Setting
+
+    /// <summary>
+    /// Set quick and weapon slot ui
+    /// </summary>
     public void SetQuickInvent(){
         Sprite temp;
         // weapon slots
         for(int i = 0; i < 2; i ++)
         {
-            if(PlayerAction.player.weaponSlot[(PlayerAction.player.currentWeapon+i)%2] != null){
-                temp = PlayerAction.player.weaponSlot[(PlayerAction.player.currentWeapon+i)%2].itemSprite;
+            if(PlayerAction.player.weaponSlot[i] != null){
+                temp = PlayerAction.player.weaponSlot[i].itemSprite;
                 quickInvent.transform.GetChild(i).GetComponent<QuickSlotUI>().Reset(temp, i, 1);
                 WeaponIcon[i].transform.GetChild(0).GetComponent<Image>().sprite = temp;
                 WeaponIcon[i].transform.GetChild(0).gameObject.SetActive(true);
@@ -159,51 +242,41 @@ public class GUIController : MonoBehaviour
         }
     }
 
-    // inventory slot mouse events
-    public void ShowItemDetail(ShortItem si){
-        Item item = ItemController.controller.database.itemDict[si.itemID];
-
-        itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = item.itemSprite;
-        //itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().SetNativeSize();
-        itemDetail.transform.GetChild(1).GetComponent<Text>().text = item.itemName;
-        itemDetail.transform.GetChild(2).GetComponent<Text>().text = item.itemDescribe;
-        itemDetail.transform.GetChild(3).gameObject.SetActive(false);
-
-        if(item is Weapon){
-            Weapon weapon = (Weapon)item;
-            Transform grid = itemDetail.transform.GetChild(3);
-            grid.GetChild(0).GetComponent<Text>().text = weapon.weaponDamage.ToString();
-            grid.GetChild(1).GetComponent<Text>().text = weapon.weaponAmmoCapa.ToString();
-            grid.GetChild(2).GetComponent<Text>().text = weapon.weaponSpeed.ToString();
-            grid.GetChild(3).GetComponent<Text>().text = weapon.weaponAccuracy.ToString();
-            grid.GetChild(4).GetComponent<Text>().text = weapon.weaponRange.ToString();
-            grid.GetChild(5).GetComponent<Text>().text = weapon.weaponReload.ToString();
-            grid.GetChild(6).GetComponent<Text>().text = weapon.weaponAmmoIndex.ToString();
-            grid.gameObject.SetActive(true);
-        }        
-        itemDetail.SetActive(true);
-    }
-    public void HideItemDetail(){
-        itemDetail.SetActive(false);
+    /// <summary>
+    /// Set text of current ammo number 
+    /// </summary>
+    /// <param name="ammo"> the number of ammo </param>
+    /// <param name="capa"> the capacity of ammo </param>
+    public void SetAmmoText(){
+        ammoText.GetComponent<Text>().text = PlayerAction.player.ammoSlot[0].ToString() + " / " + PlayerAction.player.weaponSlot[0].weaponAmmoCapa.ToString();
     }
 
-    // Combat GUI Setting
-    // ammo setting
-    public void SetAmmoText(int ammo, int capa){
-        ammoText.GetComponent<Text>().text = ammo.ToString() + " / " + capa.ToString();
-    }
+    /// <summary>
+    /// Set ammo icon to current weapon's ammo icon
+    /// </summary>
     public void SetAmmoIcon(){
         ammoIcon.SetActive(true);
         PlayerAction player = GameObject.Find("Player").GetComponent<PlayerAction>();
-        if(player.weaponSlot[player.currentWeapon] != null)
-            ammoIcon.GetComponent<Image>().sprite = ItemController.controller.database.itemDict[player.weaponSlot[player.currentWeapon].weaponAmmoIndex].itemSprite;
+        if(player.weaponSlot[0] != null)
+            ammoIcon.GetComponent<Image>().sprite = ItemController.controller.database.itemDict[player.weaponSlot[0].weaponAmmoIndex].itemSprite;
         else
             ammoIcon.SetActive(false);
     }
+
+    /// <summary>
+    /// Set text of how many ammo in inventory
+    /// </summary>
     public void SetAmmoInventText(){
+        int currentAmmoID = PlayerAction.player.weaponSlot[0].weaponAmmoIndex;
         ammoInventText.GetComponent<Text>().text = ItemController.controller.ItemNumber(currentAmmoID, GameObject.Find("Player").GetComponent<Invent>()).ToString();
     }
-    // reload tip
+
+    /// <summary>
+    /// Set the reload ui on reloading object
+    /// </summary>
+    /// <param name="time"> how long the object reload </param>
+    /// <param name="from"> which object need to reload </param>
+    /// <param name="player"> is player reload? </param>
     public void SetReloadTip(float time, GameObject from, bool player){
         GameObject temp = Instantiate(reloadTip);
         temp.GetComponent<ReloadTipUI>().timeMax = time;
@@ -214,13 +287,30 @@ public class GUIController : MonoBehaviour
             temp.transform.position = new Vector3(from.transform.position.x+from.GetComponent<Collider>().bounds.size.x/2, from.transform.position.y+1f, 0f);
         temp.SetActive(true);
     }
-    // fire colddown tip
+
+    /// <summary>
+    /// Set the fire colddown tip ui
+    /// </summary>
+    /// <param name="time"></param>
+    /// <param name="timeMax"></param>
     public void SetFireColdTip(float time, float timeMax){
         fireCold = time;
         fireMax = timeMax;
+
     }
     public void SetFireColdTip(float length){
+        if(length <= 0)
+            length = 0;
         fireColdCover.transform.localScale = new Vector3(1, length, 0);
+    }
+
+    /// <summary>
+    /// Set top-right resource panel
+    /// </summary>
+    public void SetResourcePanel(){
+        for(int i = 0; i < 4; i ++){
+            resourcePanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = ItemController.controller.resource[i].ToString();
+        }
     }
 
     /// Building Mode

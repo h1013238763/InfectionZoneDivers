@@ -20,5 +20,9 @@ public class ReloadTipUI : MonoBehaviour
         if(time <= 0)
             Destroy(gameObject);
     }
+
+    public void SelfDestroy(){
+        Destroy(gameObject);
+    }
 }
 

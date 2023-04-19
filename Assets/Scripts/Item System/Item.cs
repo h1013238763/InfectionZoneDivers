@@ -6,13 +6,10 @@ using UnityEngine;
 public class Item : ScriptableObject{
     public int itemID;
     public string itemName;
-    [TextArea]
-    public string itemDescribe;
+    [TextArea]public string itemDescribe;
     public Sprite itemSprite;
     public int itemCap;
     public int[] itemPrice = new int[4];
-
-    public bool consumable;
 }
 
 

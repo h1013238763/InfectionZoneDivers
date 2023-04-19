@@ -26,4 +26,14 @@ public class QuickSlotUI : MonoBehaviour
     public void MouseClick(){
         ItemController.controller.ItemUnequip(index);
     }
+
+    // While mouse over, show item details
+    public void MouseEnter(){
+        GUIController.controller.ShowItemDetail(index);
+    }
+
+    // while mouse exit, stop showing item details
+    public void MouseExit(){
+        GUIController.controller.HideItemDetail();
+    }
 }

@@ -65,12 +65,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Change"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""ef3c5d5f-97aa-4dc3-8055-112299d343ab"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Fire"",
@@ -86,6 +86,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""e1d3bd9e-04aa-4e9d-9fd6-271b8f961150"",
                     ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Value"",
+                    ""id"": ""40e8dd90-4ce4-42b2-8f92-4d5f4cb47e0e"",
+                    ""expectedControlType"": ""Key"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -161,7 +170,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""26dd810f-6ceb-4793-87ce-772c9bac8898"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -210,6 +219,50 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Construct"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76a48a8b-77d1-42f3-82ee-0c77f3d4c634"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ccd3a135-7953-417c-b281-29098fd92b38"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e44df96e-d69e-469f-aaf2-00b75b803eaf"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a02b81d2-e598-43cc-819e-af4e822e5480"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""UseItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -293,7 +346,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ea0f438a-b315-4b42-ac67-fb72a7e75c5c"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -409,6 +462,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_General_Change = m_General.FindAction("Change", throwIfNotFound: true);
         m_General_Fire = m_General.FindAction("Fire", throwIfNotFound: true);
         m_General_Construct = m_General.FindAction("Construct", throwIfNotFound: true);
+        m_General_UseItem = m_General.FindAction("UseItem", throwIfNotFound: true);
         // GUI
         m_GUI = asset.FindActionMap("GUI", throwIfNotFound: true);
         m_GUI_Invent = m_GUI.FindAction("Invent", throwIfNotFound: true);
@@ -487,6 +541,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_General_Change;
     private readonly InputAction m_General_Fire;
     private readonly InputAction m_General_Construct;
+    private readonly InputAction m_General_UseItem;
     public struct GeneralActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -498,6 +553,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Change => m_Wrapper.m_General_Change;
         public InputAction @Fire => m_Wrapper.m_General_Fire;
         public InputAction @Construct => m_Wrapper.m_General_Construct;
+        public InputAction @UseItem => m_Wrapper.m_General_UseItem;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -528,6 +584,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Construct.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConstruct;
                 @Construct.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConstruct;
                 @Construct.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConstruct;
+                @UseItem.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnUseItem;
+                @UseItem.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnUseItem;
+                @UseItem.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnUseItem;
             }
             m_Wrapper.m_GeneralActionsCallbackInterface = instance;
             if (instance != null)
@@ -553,6 +612,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Construct.started += instance.OnConstruct;
                 @Construct.performed += instance.OnConstruct;
                 @Construct.canceled += instance.OnConstruct;
+                @UseItem.started += instance.OnUseItem;
+                @UseItem.performed += instance.OnUseItem;
+                @UseItem.canceled += instance.OnUseItem;
             }
         }
     }
@@ -689,6 +751,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnChange(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnConstruct(InputAction.CallbackContext context);
+        void OnUseItem(InputAction.CallbackContext context);
     }
     public interface IGUIActions
     {

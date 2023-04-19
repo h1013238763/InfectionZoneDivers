@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: 3
   m_EditorClassIdentifier: 
   itemID: 3
-  itemName: Developer Armor
-  itemDescribe: Super powerful potion for developers to debug
-  itemSprite: {fileID: 0}
-  itemCap: 1
+  itemName: Developer Armor Pack
+  itemDescribe: Super powerful Armor Pack for developers to debug
+  itemSprite: {fileID: 485405210, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 10
   itemPrice: 
-  consumable: 0
-  armorDurability: 100
+  consumableDescribe: Takes $0$ seconds to restore $1$% of armor.
+  consumableType: Armorpack
+  consumableData:
+  - 20
+  - 5

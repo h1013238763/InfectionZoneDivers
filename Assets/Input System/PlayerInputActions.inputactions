@@ -43,12 +43,12 @@
                 },
                 {
                     "name": "Change",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "ef3c5d5f-97aa-4dc3-8055-112299d343ab",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Fire",
@@ -64,6 +64,15 @@
                     "type": "Value",
                     "id": "e1d3bd9e-04aa-4e9d-9fd6-271b8f961150",
                     "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "UseItem",
+                    "type": "Value",
+                    "id": "40e8dd90-4ce4-42b2-8f92-4d5f4cb47e0e",
+                    "expectedControlType": "Key",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -139,7 +148,7 @@
                 {
                     "name": "",
                     "id": "26dd810f-6ceb-4793-87ce-772c9bac8898",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/f",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
@@ -188,6 +197,50 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Construct",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76a48a8b-77d1-42f3-82ee-0c77f3d4c634",
+                    "path": "<Keyboard>/1",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ccd3a135-7953-417c-b281-29098fd92b38",
+                    "path": "<Keyboard>/2",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e44df96e-d69e-469f-aaf2-00b75b803eaf",
+                    "path": "<Keyboard>/3",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a02b81d2-e598-43cc-819e-af4e822e5480",
+                    "path": "<Keyboard>/4",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -271,7 +324,7 @@
                 {
                     "name": "",
                     "id": "ea0f438a-b315-4b42-ac67-fb72a7e75c5c",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
