@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraAction : MonoBehaviour
 {
     [SerializeField]private Transform player;
     public int cameraMode = 0;
+    public float cameraSize;
+    public float scope;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,6 +24,7 @@ public class CameraAction : MonoBehaviour
                 OnNormal();
                 break;
             case 1:
+                OnAim();
                 break;
             default:
                 break;
@@ -32,6 +37,11 @@ public class CameraAction : MonoBehaviour
     }
 
     private void OnAim(){
+        // get mouse pos from center point
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        mousePos.x = (scope-1) * (mousePos.x/Screen.width - 0.5f) * cameraSize * 1.8f + player.position.x;
+        mousePos.y = (scope-1) * (mousePos.y/Screen.height - 0.5f) * cameraSize* 1.8f + player.position.y;
 
+        transform.position = new Vector3(mousePos.x, mousePos.y, -10 );
     }
 }

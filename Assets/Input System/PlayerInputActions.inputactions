@@ -148,7 +148,18 @@
                 {
                     "name": "",
                     "id": "26dd810f-6ceb-4793-87ce-772c9bac8898",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/q",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Change",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7780594a-1f57-4b20-8946-4f9d465ab09d",
+                    "path": "<Mouse>/scroll/y",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
@@ -260,12 +271,12 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Menu",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "fb0b22f1-f227-4ab8-acef-9657771117eb",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "",
                     "initialStateCheck": false
                 },
                 {
@@ -303,10 +314,10 @@
                     "name": "",
                     "id": "89348234-a96e-4325-bfa2-80c0abf998fc",
                     "path": "<Keyboard>/escape",
-                    "interactions": "",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Menu",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -324,7 +335,7 @@
                 {
                     "name": "",
                     "id": "ea0f438a-b315-4b42-ac67-fb72a7e75c5c",
-                    "path": "<Keyboard>/e",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",

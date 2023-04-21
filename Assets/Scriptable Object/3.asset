@@ -17,8 +17,8 @@ MonoBehaviour:
   itemDescribe: Super powerful Armor Pack for developers to debug
   itemSprite: {fileID: 485405210, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
   itemCap: 10
-  itemPrice: 
-  consumableDescribe: Takes $0$ seconds to restore $1$% of armor.
+  itemPrice: 00000000000000000000000000000000
+  consumableDescribe: Takes 5 seconds to restore 20% of armor.
   consumableType: Armorpack
   consumableData:
   - 20

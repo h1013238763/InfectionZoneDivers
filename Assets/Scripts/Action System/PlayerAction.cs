@@ -14,7 +14,8 @@ public class PlayerAction : MonoBehaviour
     private PlayerInput playerInput;    // player input component
     public PlayerInputActions playerInputActions;       // player input script import
     public Invent invent;
-    public CombatUnit combatUnit;   
+    public CombatUnit combatUnit;
+    public CameraAction cameraMain; 
 
     /// GUI System Setting
     [SerializeField]private GameObject buttonTipPrefab;
@@ -62,6 +63,7 @@ public class PlayerAction : MonoBehaviour
          
         playerInputActions.GUI.Invent.performed += Invent;          // open inventory
         playerInputActions.GUI.Interact.performed += Interact;      // interact
+        playerInputActions.GUI.Pause.performed += Pause;
 
         playerInputActions.Blueprint.Place.performed += Place;
     }
@@ -70,9 +72,19 @@ public class PlayerAction : MonoBehaviour
 
         combatUnit = GetComponent<CombatUnit>();
         invent = GetComponent<Invent>();
+        cameraMain = GameObject.Find("Main Camera").gameObject.GetComponent<CameraAction>();
 
         combatUnit.SetWeapon(weaponSlot[0], ammoSlot[0]);
         transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
+    }
+
+    private void Update(){
+
+        if(Input.anyKey && Time.timeScale == 0){
+            Debug.Log("continue");
+            GUIController.controller.pausePanel.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
 
     private void FixedUpdate(){
@@ -88,11 +100,13 @@ public class PlayerAction : MonoBehaviour
         // Focus
         if(playerInputActions.General.Focus.ReadValue<float>() > 0.5f){
             moveSpeedCurrent = moveSpeedDefault / 4f;
-            
+            cameraMain.scope = weaponSlot[0].weaponScope;
+            cameraMain.cameraMode = 1;
         }
         
         // Run
         else if(playerInputActions.General.Run.ReadValue<float>() > 0.5f){
+            cameraMain.cameraMode = 0;
             itemTime = -0.1f;
             moveSpeedCurrent = moveSpeedDefault * 1.5f;
             combatUnit.reloadTime = -0.1f;
@@ -102,11 +116,13 @@ public class PlayerAction : MonoBehaviour
         }
         // Use Armorpack
         else if(itemTime > 0 || combatUnit.reloadTime > 0){
+            cameraMain.cameraMode = 0;
             moveSpeedCurrent = moveSpeedDefault / 4f;
         }
         // Move   
         else{ 
             moveSpeedCurrent = moveSpeedDefault;
+            cameraMain.cameraMode = 0;
         }
         rigidBody.velocity = moveSpeedCurrent * playerInputActions.General.Move.ReadValue<Vector2>();
 
@@ -151,31 +167,14 @@ public class PlayerAction : MonoBehaviour
         if(itemTime <= -0.1f && ammoSlot[0] < weaponSlot[0].weaponAmmoCapa)
             GetComponent<CombatUnit>().Reload();
     }
-    
-    private void Interact(InputAction.CallbackContext context){
-        if(buildingAssign.Count > 0){
-            if(buildingAssign[0].GetComponent<Building>().buildInterAble)
-                switch (buildingAssign[0].GetComponent<Building>().buildType)
-                {
-                    case "Chest":
-                        buildingAssign[0].GetComponent<Chest>().Interact();
-                        break;
-                    case "Turret":
-                        buildingAssign[0].transform.GetChild(0).GetComponent<Turret>().Interact();
-                        break;
-                    default:
-                        break;
-                }
-        }
-    }
 
+    // use item
     private void UseItem(InputAction.CallbackContext context){
         int index = (int)(context.control.ToString()[context.control.ToString().Length-1])-49;
         if(quickSlot[index] != null){
             UseItem(index, (Consumable)ItemController.controller.ItemFind(quickSlot[index]));
         } 
     }
-    // use item
     public void UseItem(int index, Consumable item){
         if(playerInputActions.General.Run.ReadValue<float>() > 0.5f || GetComponent<CombatUnit>().reloadTime > 0){
             return;
@@ -221,11 +220,55 @@ public class PlayerAction : MonoBehaviour
         transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
     }
 
-    /// GUI Mode
-    
+    // GUI Mode
+
+    /// <summary>
+    /// Player General.Interact action
+    /// interact with building
+    /// </summary>
+    /// <param name="context"> return message from input system</param>
+    private void Interact(InputAction.CallbackContext context){
+        if(buildingAssign.Count > 0){
+            if(buildingAssign[0].GetComponent<Building>().buildInterAble)
+                switch (buildingAssign[0].GetComponent<Building>().buildType)
+                {
+                    case "Chest":
+                        buildingAssign[0].GetComponent<Build_Chest>().Interact();
+                        break;
+                    case "Turret":
+                        buildingAssign[0].transform.GetChild(0).GetComponent<Build_Turret>().Interact();
+                        break;
+                    case "Bench":
+                        buildingAssign[0].GetComponent<Build_Bench>().Interact();
+                        break;
+                    default:
+                        break;
+                }
+        }
+    }
+
+    private void Invent(InputAction.CallbackContext context){
+        GUIController.controller.ActivePanel("Player", gameObject);
+    }
+
+    private void Pause(InputAction.CallbackContext context){
+        if(GUIController.controller.playerInvent.activeSelf){
+            GUIController.controller.ExitPanels();
+            return;
+        }
+        if(Time.timeScale != 0){
+            Debug.Log("pause");
+            GUIController.controller.pausePanel.SetActive(true);
+            Time.timeScale = 0;
+        }
+    }
 
 
-    /// Blueprint Mode
+    // Blueprint Mode
+
+    private void Place(InputAction.CallbackContext context){
+        BuildController.controller.PlaceBuilding();
+    }
 
     /// Building Interact
 
@@ -240,19 +283,4 @@ public class PlayerAction : MonoBehaviour
             buttonTipPrefab.SetActive(false);
         }
     }
-
-    
-
-    
-
-    // open player bag
-    private void Invent(InputAction.CallbackContext context){
-        GUIController.controller.ActiveInventory("Player");
-        GUIController.controller.SetInventory(GetComponent<Invent>(), "Player");
-    }
-
-    private void Place(InputAction.CallbackContext context){
-        BuildController.controller.PlaceBuilding();
-    }
-
 }

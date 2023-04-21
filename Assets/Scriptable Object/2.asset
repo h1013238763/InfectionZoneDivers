@@ -17,11 +17,11 @@ MonoBehaviour:
   itemDescribe: Super powerful turret for developer to debug
   itemSprite: {fileID: -1469616911, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
   itemCap: 1
-  itemPrice: 0
+  itemPrice: 00000000000000000000000000000000
   weaponDamage: 2
-  weaponAmmoCurr: 0
   weaponAmmoCapa: 165
   weaponRange: 20
+  weaponScope: 1
   weaponAccuracy: 0.87
   weaponSpeed: 7
   weaponReload: 4

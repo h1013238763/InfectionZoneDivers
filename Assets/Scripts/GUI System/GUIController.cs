@@ -9,6 +9,10 @@ public class GUIController : MonoBehaviour
 {
     public static GUIController controller;
 
+    // Overall
+    public GameObject pausePanel;
+    [Space(10)]
+
     // Action Tip
     [SerializeField]private GameObject buildTip;
     [SerializeField]private GameObject interactTip;
@@ -19,13 +23,16 @@ public class GUIController : MonoBehaviour
     public GameObject playerInvent;
     public GameObject publicInvent;
     public GameObject quickInvent;
-    [SerializeField]private GameObject resourcePanel;
     [SerializeField]private GameObject inventSlot;
-    [SerializeField]private int inventCap;
     [SerializeField]private GameObject itemDetail;
     public Invent currentPublicInvent;
     [Space(10)]
 
+    // Crafting
+    [SerializeField]private GameObject resourcePanel;
+    [SerializeField]private GameObject benchPanel;
+    [SerializeField]private GameObject benchSlot;
+    [Space(10)]
 
     // Combat GUI
     [SerializeField]private GameObject[] WeaponIcon = new GameObject[2];
@@ -44,9 +51,9 @@ public class GUIController : MonoBehaviour
     // Start is called before the first frame update
     void Start(){
         controller = this;
-        InitialInventory();
-        
         SetGUI(PlayerAction.player.invent, "Player");
+        SetResourcePanel();
+        InitialPanels();
     }
 
     // Update is called once per frame
@@ -69,22 +76,53 @@ public class GUIController : MonoBehaviour
         SetAmmoText();
     }
 
-
-    // Inventory Methods
+    // panel controller
 
     /// <summary>
-    /// Initial slots to inventory
+    /// active different GUI panels 
     /// </summary>
-    private void InitialInventory(){
-        while(playerInvent.transform.GetChild(0).childCount < inventCap){
-            Instantiate(inventSlot, playerInvent.transform.GetChild(0));
+    /// <param name="tag"> active which panel</param>
+    public void ActivePanel(string tag, GameObject target){
+        if(playerInvent.activeSelf){
+            ExitPanels();
+            return;
+        }else{
+            SetInventory(GameObject.Find("Player").GetComponent<Invent>(), "Player");
+            EnterInventory("Player");
         }
+
+        if(tag == "Chest" || tag == "Player" || tag == "Turret"){
+            SetInventory(target.GetComponent<Invent>(), tag);
+            EnterInventory(tag);
+        }
+        else if(tag == "Bench"){
+            SetBench(target.GetComponent<Build_Bench>());
+            EnterBench();
+        }
+    }
+
+    /// <summary>
+    /// Initial Panels
+    /// </summary>
+    private void InitialPanels(){
         playerInvent.SetActive(false);
-        while(publicInvent.transform.GetChild(0).childCount < inventCap){
-            Instantiate(inventSlot, publicInvent.transform.GetChild(0));
-        }
         publicInvent.SetActive(false);
+        benchPanel.SetActive(false);
     } 
+
+    /// <summary>
+    /// close panels
+    /// </summary>
+    public void ExitPanels(){
+        playerInvent.SetActive(false);
+        publicInvent.SetActive(false);
+        quickInvent.SetActive(false);
+        benchPanel.SetActive(false);
+        HideItemDetail();
+        GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Enable();
+    }
+
+    // Inventory Methods
 
     /// <summary>
     /// open inventory
@@ -97,17 +135,6 @@ public class GUIController : MonoBehaviour
             quickInvent.SetActive(true);
         playerInvent.SetActive(true);
         GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Disable();
-    }
-
-    /// <summary>
-    /// close inventory
-    /// </summary>
-    public void ExitInventory(){
-        playerInvent.SetActive(false);
-        publicInvent.SetActive(false);
-        quickInvent.SetActive(false);
-        HideItemDetail();
-        GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Enable();
     }
 
     /// <summary>
@@ -126,11 +153,11 @@ public class GUIController : MonoBehaviour
         }
         // set slot active
         for(int i = 0; i < invent.inventCap; i ++){
-            InventSlotUI tempSlot = tempInvent.GetChild(i).GetComponent<InventSlotUI>();
+            SlotUI_Invent tempSlot = tempInvent.GetChild(i).GetComponent<SlotUI_Invent>();
             if(invent.inventList[i] == null){
                 tempSlot.Hide();
             }else{
-                tempSlot.Reset(invent.inventList[i], ItemController.controller.database.itemDict[invent.inventList[i].itemID].itemSprite);
+                tempSlot.Reset(invent.inventList[i], ItemController.controller.ItemFind(invent.inventList[i]).itemSprite);
             }
             tempSlot.gameObject.SetActive(true);
         }
@@ -139,23 +166,47 @@ public class GUIController : MonoBehaviour
         }
     }
 
+    // Bench Methods
+
     /// <summary>
-    /// trigger inventory button
+    /// open Bench Panel
     /// </summary>
-    /// <param name="tag"></param>
-    public void ActiveInventory(string tag){
-        if(playerInvent.activeSelf)
-            ExitInventory();
-        else
-            EnterInventory(tag);
+    public void EnterBench(){
+        benchPanel.SetActive(true);
+        GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Disable();
     }
+
+    /// <summary>
+    /// Set slots of bench panel to interacting bench
+    /// </summary>
+    /// <param name="bench"> The bench interacting with</param>
+    public void SetBench(Build_Bench bench){
+        Debug.Log(bench.recipts.Count + " : " + benchPanel.transform.GetChild(0).childCount);
+        // add slots
+        while(benchPanel.transform.childCount < bench.recipts.Count){
+            Instantiate(inventSlot, benchPanel.transform.GetChild(0));
+        }
+
+        // set each slot
+        for(int i = 0; i < bench.recipts.Count; i ++){
+            SlotUI_Bench tempSlot = benchPanel.transform.GetChild(0).GetChild(i).GetComponent<SlotUI_Bench>();
+            tempSlot.Reset(bench.recipts[i], bench.nums[i], bench.recipts[i].itemSprite);
+            tempSlot.gameObject.SetActive(true);
+        }
+        for(int i = bench.recipts.Count; i < benchPanel.transform.GetChild(0).childCount; i++){
+            
+            benchPanel.transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
+        }
+    }
+    
+    // Support Functions
 
     /// <summary>
     /// show and hide datail panel of item
     /// </summary>
     /// <param name="si"> show which item </param>
-    public void ShowItemDetail(ShortItem si){
-        Item item = ItemController.controller.database.itemDict[si.itemID];
+    public void ShowItemDetail(int id){
+        Item item = ItemController.controller.database.itemDict[id];
 
         itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = item.itemSprite;
         //itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().SetNativeSize();
@@ -179,31 +230,16 @@ public class GUIController : MonoBehaviour
         }
         if(item is Consumable){
             Consumable consume = (Consumable)item;
-            string[] tokens = consume.consumableDescribe.Split('$');
-            string describe = "";
-            for(int i = 0; i < tokens.Length; i ++){
-                if(tokens[i] == "0" || tokens[i] == "1")
-                    tokens[i] = consume.consumableData[Int32.Parse(tokens[i])].ToString();
-                describe += tokens[i];
-            }
-            itemDetail.transform.GetChild(5).GetComponent<Text>().text = "    " + describe;
+            itemDetail.transform.GetChild(5).GetComponent<Text>().text = "    " + consume.consumableDescribe;
             itemDetail.transform.GetChild(5).gameObject.SetActive(true);
         }    
         itemDetail.SetActive(true);
     }
-    public void ShowItemDetail(int index){
-        if(index < 2){
-            Weapon weapon = PlayerAction.player.weaponSlot[index];
-            if( weapon!= null)
-                ShowItemDetail( new ShortItem( weapon.itemID, 1 ) );
-        }else{
-            if(PlayerAction.player.quickSlot[index-2] != null)
-                ShowItemDetail( PlayerAction.player.quickSlot[index-2] );
-        }
-    }
     public void HideItemDetail(){
         itemDetail.SetActive(false);
     }
+
+    
 
     // Combat GUI Setting
 
@@ -217,11 +253,11 @@ public class GUIController : MonoBehaviour
         {
             if(PlayerAction.player.weaponSlot[i] != null){
                 temp = PlayerAction.player.weaponSlot[i].itemSprite;
-                quickInvent.transform.GetChild(i).GetComponent<QuickSlotUI>().Reset(temp, i, 1);
+                quickInvent.transform.GetChild(i).GetComponent<SlotUI_Quick>().Reset(temp, i, PlayerAction.player.weaponSlot[i].itemID, 1);
                 WeaponIcon[i].transform.GetChild(0).GetComponent<Image>().sprite = temp;
                 WeaponIcon[i].transform.GetChild(0).gameObject.SetActive(true);
             }else{
-                quickInvent.transform.GetChild(i).GetComponent<QuickSlotUI>().Hide();
+                quickInvent.transform.GetChild(i).GetComponent<SlotUI_Quick>().Hide();
                 WeaponIcon[i].transform.GetChild(0).gameObject.SetActive(false);
             }
         }
@@ -229,13 +265,13 @@ public class GUIController : MonoBehaviour
         for(int i = 0; i < 4; i ++){
             if(PlayerAction.player.quickSlot[i] != null){
                 temp = ItemController.controller.ItemFind(PlayerAction.player.quickSlot[i]).itemSprite;
-                quickInvent.transform.GetChild(i+2).GetComponent<QuickSlotUI>().Reset(temp, i+2, PlayerAction.player.quickSlot[i].itemNum);
+                quickInvent.transform.GetChild(i+2).GetComponent<SlotUI_Quick>().Reset(temp, i+2, PlayerAction.player.quickSlot[i].itemID, PlayerAction.player.quickSlot[i].itemNum);
                 quickSlot.transform.GetChild(i).GetChild(0).GetComponent<Image>().sprite = temp;
                 quickSlot.transform.GetChild(i).GetChild(1).GetComponent<Text>().text = PlayerAction.player.quickSlot[i].itemNum.ToString();
                 quickSlot.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
                 quickSlot.transform.GetChild(i).GetChild(1).gameObject.SetActive(true);
             }else{
-                quickInvent.transform.GetChild(i+2).GetComponent<QuickSlotUI>().Hide();
+                quickInvent.transform.GetChild(i+2).GetComponent<SlotUI_Quick>().Hide();
                 quickSlot.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
                 quickSlot.transform.GetChild(i).GetChild(1).gameObject.SetActive(false);
             }

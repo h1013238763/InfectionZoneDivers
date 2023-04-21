@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 786587027231993320}
-  - component: {fileID: 2128911790478442250}
   - component: {fileID: 6540480674554114682}
+  - component: {fileID: 2128911790478442250}
   - component: {fileID: 865409522269632440}
   - component: {fileID: 190873411778474307}
   m_Layer: 0
@@ -35,28 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2128911790478442250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 842399433098539645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1278153e9675f394c99aabf7813745c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildID: 0
-  buildName: Developer Wall
-  buildDescribe: Super powerful wall for developer to debug
-  buildComplete: 0
-  buildRequireItem: 00000000000000000000000000000000
-  buildRequireNum: 05000000000000000000000000000000
-  buildFilledNum: 00000000000000000000000000000000
-  buildTime: 2
-  buildMaxHealth: 100
-  buildCurrHealth: 0
 --- !u!212 &6540480674554114682
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -109,6 +87,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2128911790478442250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842399433098539645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1278153e9675f394c99aabf7813745c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildID: 0
+  buildName: Developer Wall
+  buildDescribe: Super powerful wall for developer to debug
+  buildInterAble: 0
+  buildType: 
+  buildComplete: 0
+  buildRequireItem: 00000000000000000000000000000000
+  buildRequireNum: 05000000000000000000000000000000
+  buildTime: 2
+  buildMaxHealth: 100
+  buildCurrHealth: 0
 --- !u!61 &865409522269632440
 BoxCollider2D:
   m_ObjectHideFlags: 0

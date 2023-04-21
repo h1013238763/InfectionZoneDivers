@@ -170,7 +170,18 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""26dd810f-6ceb-4793-87ce-772c9bac8898"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Change"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7780594a-1f57-4b20-8946-4f9d465ab09d"",
+                    ""path"": ""<Mouse>/scroll/y"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -282,12 +293,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Menu"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""fb0b22f1-f227-4ab8-acef-9657771117eb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -325,10 +336,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""89348234-a96e-4325-bfa2-80c0abf998fc"",
                     ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Menu"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -346,7 +357,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""ea0f438a-b315-4b42-ac67-fb72a7e75c5c"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -466,7 +477,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         // GUI
         m_GUI = asset.FindActionMap("GUI", throwIfNotFound: true);
         m_GUI_Invent = m_GUI.FindAction("Invent", throwIfNotFound: true);
-        m_GUI_Menu = m_GUI.FindAction("Menu", throwIfNotFound: true);
+        m_GUI_Pause = m_GUI.FindAction("Pause", throwIfNotFound: true);
         m_GUI_Build = m_GUI.FindAction("Build", throwIfNotFound: true);
         m_GUI_Interact = m_GUI.FindAction("Interact", throwIfNotFound: true);
         // Blueprint
@@ -624,7 +635,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_GUI;
     private IGUIActions m_GUIActionsCallbackInterface;
     private readonly InputAction m_GUI_Invent;
-    private readonly InputAction m_GUI_Menu;
+    private readonly InputAction m_GUI_Pause;
     private readonly InputAction m_GUI_Build;
     private readonly InputAction m_GUI_Interact;
     public struct GUIActions
@@ -632,7 +643,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         private @PlayerInputActions m_Wrapper;
         public GUIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Invent => m_Wrapper.m_GUI_Invent;
-        public InputAction @Menu => m_Wrapper.m_GUI_Menu;
+        public InputAction @Pause => m_Wrapper.m_GUI_Pause;
         public InputAction @Build => m_Wrapper.m_GUI_Build;
         public InputAction @Interact => m_Wrapper.m_GUI_Interact;
         public InputActionMap Get() { return m_Wrapper.m_GUI; }
@@ -647,9 +658,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Invent.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnInvent;
                 @Invent.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnInvent;
                 @Invent.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnInvent;
-                @Menu.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
-                @Menu.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
-                @Menu.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnMenu;
+                @Pause.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
                 @Build.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
                 @Build.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
                 @Build.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
@@ -663,9 +674,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Invent.started += instance.OnInvent;
                 @Invent.performed += instance.OnInvent;
                 @Invent.canceled += instance.OnInvent;
-                @Menu.started += instance.OnMenu;
-                @Menu.performed += instance.OnMenu;
-                @Menu.canceled += instance.OnMenu;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
                 @Build.started += instance.OnBuild;
                 @Build.performed += instance.OnBuild;
                 @Build.canceled += instance.OnBuild;
@@ -756,7 +767,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public interface IGUIActions
     {
         void OnInvent(InputAction.CallbackContext context);
-        void OnMenu(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnBuild(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
