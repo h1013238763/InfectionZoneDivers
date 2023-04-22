@@ -241,6 +241,9 @@ public class PlayerAction : MonoBehaviour
                     case "Bench":
                         buildingAssign[0].GetComponent<Build_Bench>().Interact();
                         break;
+                    case "Core":
+                        buildingAssign[0].GetComponent<Build_Core>().Interact();
+                        break;
                     default:
                         break;
                 }

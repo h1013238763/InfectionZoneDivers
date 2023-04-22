@@ -11,6 +11,8 @@ public class GUIController : MonoBehaviour
 
     // Overall
     public GameObject pausePanel;
+    public GameObject timePanel;
+    public GameObject survivorPanel;
     [Space(10)]
 
     // Action Tip
@@ -86,7 +88,11 @@ public class GUIController : MonoBehaviour
         if(playerInvent.activeSelf){
             ExitPanels();
             return;
-        }else{
+        }else if(tag == "Core"){
+            SetSurvivorPanel();
+            EnterSurvivorPanel();
+        }
+        else{
             SetInventory(GameObject.Find("Player").GetComponent<Invent>(), "Player");
             EnterInventory("Player");
         }
@@ -118,6 +124,8 @@ public class GUIController : MonoBehaviour
         publicInvent.SetActive(false);
         quickInvent.SetActive(false);
         benchPanel.SetActive(false);
+        survivorPanel.SetActive(false);
+        WorldController.controller.tempScale = 0;
         HideItemDetail();
         GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Enable();
     }
@@ -239,7 +247,28 @@ public class GUIController : MonoBehaviour
         itemDetail.SetActive(false);
     }
 
-    
+    // Time Panel Setting
+
+    public void SetTimePanel(int day){
+        Debug.Log("Set");
+        timePanel.transform.GetChild(0).GetComponent<Text>().text = "Day " + day.ToString();
+    }
+
+    // Survivor Panel
+
+    public void SetSurvivorPanel(){
+        // set retreat button
+        GameObject retreat = survivorPanel.transform.GetChild(1).GetChild(2).gameObject;
+        int day = WorldController.controller.dayNum;
+        retreat.GetComponent<Button>().interactable = ((day - 7) % 3 == 0 && day > 6);
+    }
+    public void EnterSurvivorPanel(){
+        survivorPanel.SetActive( !survivorPanel.activeSelf );
+        if(survivorPanel.activeSelf)
+            GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Disable();
+        else
+            ExitPanels();
+    }
 
     // Combat GUI Setting
 
