@@ -10,45 +10,50 @@ public class GUIController : MonoBehaviour
     public static GUIController controller;
 
     // Overall
+    public GameObject inGameStatus;
     public GameObject pausePanel;
-    public GameObject timePanel;
     public GameObject survivorPanel;
     [Space(10)]
 
+    // Status
+    public GameObject timePanel;
+    public GameObject resourcePanel;
+    [Space(10)]
+
     // Action Tip
-    [SerializeField]private GameObject buildTip;
-    [SerializeField]private GameObject interactTip;
-    [SerializeField]private GameObject reloadTip;
+    public GameObject buildTip;
+    public GameObject interactTip;
+    public GameObject reloadTip;
     [Space(10)]
 
     // Inventory
     public GameObject playerInvent;
     public GameObject publicInvent;
     public GameObject quickInvent;
-    [SerializeField]private GameObject inventSlot;
-    [SerializeField]private GameObject itemDetail;
+    public GameObject itemDetail;
     public Invent currentPublicInvent;
     [Space(10)]
 
     // Crafting
-    [SerializeField]private GameObject resourcePanel;
-    [SerializeField]private GameObject benchPanel;
-    [SerializeField]private GameObject benchSlot;
+    public GameObject benchPanel;
     [Space(10)]
 
     // Combat GUI
-    [SerializeField]private GameObject[] WeaponIcon = new GameObject[2];
-    [SerializeField]private GameObject quickSlot;
-    [SerializeField]private GameObject ammoIcon;
-    [SerializeField]private GameObject ammoText;
-    [SerializeField]private GameObject ammoInventText;
-    [SerializeField]private GameObject fireColdCover;
+    public GameObject[] WeaponIcon = new GameObject[2];
+    public GameObject quickSlot;
+    public GameObject ammoIcon;
+    public GameObject ammoText;
+    public GameObject ammoInventText;
+    public GameObject fireColdCover;
     private float fireCold;
     private float fireMax;
     [Space(10)]
 
     // Blueprint GUI
     public GameObject blueprintPanel;
+    public GameObject buildSlotGrid;
+    public GameObject buildSlot;
+    public int rotate = 0;
 
     // Start is called before the first frame update
     void Start(){
@@ -66,8 +71,8 @@ public class GUIController : MonoBehaviour
             SetFireColdTip( fireCold / fireMax );
         }
 
-        // Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        // SetBuildTipPosition((int)mousePos.x, (int)mousePos.y);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        SetBuildTipPosition((int)mousePos.x, (int)mousePos.y);
     }
 
     public void SetGUI(Invent invent, string tag){
@@ -105,6 +110,8 @@ public class GUIController : MonoBehaviour
             SetBench(target.GetComponent<Build_Bench>());
             EnterBench();
         }
+
+        GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(1);
     }
 
     /// <summary>
@@ -126,8 +133,9 @@ public class GUIController : MonoBehaviour
         benchPanel.SetActive(false);
         survivorPanel.SetActive(false);
         WorldController.controller.tempScale = 0;
+        ExitBlueprintPanel();
         HideItemDetail();
-        GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Enable();
+        GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(0);
     }
 
     // Inventory Methods
@@ -189,28 +197,24 @@ public class GUIController : MonoBehaviour
     /// </summary>
     /// <param name="bench"> The bench interacting with</param>
     public void SetBench(Build_Bench bench){
-        Debug.Log(bench.recipts.Count + " : " + benchPanel.transform.GetChild(0).childCount);
-        // add slots
-        while(benchPanel.transform.childCount < bench.recipts.Count){
-            Instantiate(inventSlot, benchPanel.transform.GetChild(0));
-        }
-
+        // set grid size
+        benchPanel.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(400, bench.recipts.Count * 125);
         // set each slot
         for(int i = 0; i < bench.recipts.Count; i ++){
-            SlotUI_Bench tempSlot = benchPanel.transform.GetChild(0).GetChild(i).GetComponent<SlotUI_Bench>();
+            SlotUI_Bench tempSlot = benchPanel.transform.GetChild(0).GetChild(0).GetChild(i).GetComponent<SlotUI_Bench>();
             tempSlot.Reset(bench.recipts[i], bench.nums[i], bench.recipts[i].itemSprite);
             tempSlot.gameObject.SetActive(true);
         }
-        for(int i = bench.recipts.Count; i < benchPanel.transform.GetChild(0).childCount; i++){
+        for(int i = bench.recipts.Count; i < benchPanel.transform.GetChild(0).GetChild(0).childCount; i++){
             
-            benchPanel.transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
+            benchPanel.transform.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
         }
     }
     
     // Support Functions
 
     /// <summary>
-    /// show and hide datail panel of item
+    /// show and hide datail panel of item and buildings
     /// </summary>
     /// <param name="si"> show which item </param>
     public void ShowItemDetail(int id){
@@ -241,6 +245,36 @@ public class GUIController : MonoBehaviour
             itemDetail.transform.GetChild(5).GetComponent<Text>().text = "    " + consume.consumableDescribe;
             itemDetail.transform.GetChild(5).gameObject.SetActive(true);
         }    
+        itemDetail.SetActive(true);
+    }
+    public void ShowBuildDetail(int id){
+        GameObject build = BuildController.controller.currBuildList[id];
+        Debug.Log(build);
+        if(build.GetComponent<Building>().buildType == "Turret")
+            itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = build.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
+        else
+            itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = build.GetComponent<SpriteRenderer>().sprite;
+        //itemDetail.transform.GetChild(0).GetChild(0).GetComponent<Image>().SetNativeSize();
+        itemDetail.transform.GetChild(1).GetComponent<Text>().text = build.GetComponent<Building>().buildName;
+        itemDetail.transform.GetChild(2).GetComponent<Text>().text = "    " + build.GetComponent<Building>().buildDescribe;
+        itemDetail.transform.GetChild(3).GetComponent<Text>().text = " [ " + build.GetComponent<Building>().buildType + " ]";
+        itemDetail.transform.GetChild(4).gameObject.SetActive(false);
+        itemDetail.transform.GetChild(5).gameObject.SetActive(false);
+
+        // turret status
+        if(build.GetComponent<Building>().buildType == "Turret"){
+
+            Transform grid = itemDetail.transform.GetChild(4);
+            Weapon weapon = build.transform.GetChild(0).GetComponent<CombatUnit>().weapon;
+            grid.GetChild(0).GetComponent<Text>().text = weapon.weaponDamage.ToString();
+            grid.GetChild(1).GetComponent<Text>().text = weapon.weaponAmmoCapa.ToString();
+            grid.GetChild(2).GetComponent<Text>().text = weapon.weaponSpeed.ToString();
+            grid.GetChild(3).GetComponent<Text>().text = weapon.weaponAccuracy.ToString();
+            grid.GetChild(4).GetComponent<Text>().text = weapon.weaponRange.ToString();
+            grid.GetChild(5).GetComponent<Text>().text = weapon.weaponReload.ToString();
+            grid.GetChild(6).GetComponent<Text>().text = weapon.weaponAmmoIndex.ToString();
+            grid.gameObject.SetActive(true);
+        }
         itemDetail.SetActive(true);
     }
     public void HideItemDetail(){
@@ -374,18 +408,64 @@ public class GUIController : MonoBehaviour
     /// </summary>
     public void SetResourcePanel(){
         for(int i = 0; i < 4; i ++){
-            resourcePanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = ItemController.controller.resource[i].ToString();
+            resourcePanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = WorldController.controller.resource[i].ToString();
         }
     }
 
     /// Building Mode
-    public void EnterBlueprint(){
-        SetBuildTipSprite(null);
-        buildTip.SetActive(true);
+    public void EnterBlueprintPanel(){
+        if(blueprintPanel.activeSelf){
+            ExitBlueprintPanel();
+            return;
+        }
+        // hide other gui
+        inGameStatus.SetActive(false);
+
+        // active blueprintPanel
+        blueprintPanel.SetActive(true);
+
+        // disable player action
+        GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(2);
+        GameObject.Find("Main Camera").GetComponent<CameraAction>().cameraMode = 2;
     }
 
-    public void ExitBlueprint(){
+    public void ExitBlueprintPanel(){
+        // active status gui
+        inGameStatus.SetActive(true);
+
         buildTip.SetActive(false);
+        blueprintPanel.SetActive(false);
+        buildSlotGrid.SetActive(false);
+
+        BuildController.controller.currentBuilding = null;
+
+        GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(0);
+        GameObject.Find("Main Camera").GetComponent<CameraAction>().cameraMode = 0;
+    }
+
+    public void SetBlueprintPanel(){
+        List<GameObject> buildList = BuildController.controller.currBuildList;
+
+        buildSlotGrid.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(400, buildList.Count * 125);
+
+        // set each slot
+        if(buildSlotGrid.transform.GetChild(0).GetChild(0).childCount < buildList.Count){
+            for(int i = buildSlotGrid.transform.GetChild(0).GetChild(0).childCount; i < buildList.Count; i ++){
+                GameObject temp = Instantiate(buildSlot);
+                temp.transform.SetParent(buildSlotGrid.transform.GetChild(0).GetChild(0).transform);
+                temp.SetActive(false);
+            }
+        }
+        for(int i = 0; i < buildList.Count; i ++){
+            SlotUI_Build tempSlot = buildSlotGrid.transform.GetChild(0).GetChild(0).GetChild(i).GetComponent<SlotUI_Build>();
+            tempSlot.Reset(i, buildList[i].GetComponent<SpriteRenderer>().sprite);
+            tempSlot.gameObject.SetActive(true);
+        }
+        for(int i = buildList.Count; i < buildSlotGrid.transform.GetChild(0).GetChild(0).childCount; i++){
+            buildSlotGrid.transform.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
+        }
+
+        buildSlotGrid.SetActive(true);
     }
 
     public void SetBuildTipColor(bool overlap){
@@ -395,12 +475,35 @@ public class GUIController : MonoBehaviour
             buildTip.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1, 0.5f, 0.5f);
     }
     
-    public void SetBuildTipSprite(Sprite sprite){
-        buildTip.GetComponent<SpriteRenderer>().sprite = sprite;
+    public void SetBuildTipSprite(GameObject build){
+        
+        buildTip.GetComponent<SpriteRenderer>().sprite = build.transform.GetComponent<SpriteRenderer>().sprite;
+        buildTip.transform.rotation = Quaternion.Euler(0, 0, 0);
+        buildTip.GetComponent<BoxCollider2D>().size = build.transform.GetComponent<Building>().buildSize - new Vector2(0.2f, 0.2f);
+        buildTip.GetComponent<BoxCollider2D>().offset = build.transform.GetComponent<Building>().buildSize / 2;
+
+        buildTip.SetActive(true);
+    }
+    public void SetBuildTipSprite(int degree){
+        buildTip.transform.rotation = Quaternion.Euler(0, 0, degree);
+    }
+
+    public void SetBuildTipRotation(){
+        rotate += 90;
+        if(rotate >= 360)
+            rotate -= 360;
+        SetBuildTipSprite(rotate);
     }
 
     private void SetBuildTipPosition(int x, int y){
-        if(buildTip.activeSelf)
-            buildTip.transform.position = new Vector2((float)x, (float)y);
+        float xp = 0f;
+        float yp = 0f;
+        if(buildTip.activeSelf){
+            if(rotate >= 90 && rotate < 270)
+                xp = 1f;
+            if(rotate >= 180)
+                yp = 1f;
+        }
+        buildTip.transform.position = new Vector2((float)x + xp, (float)y + yp);
     }
 }

@@ -103,11 +103,11 @@ MonoBehaviour:
   buildID: 1
   buildName: Developer Gate
   buildDescribe: Super powerful gate for developers to debug
+  buildInterAble: 0
+  buildType: Gate
+  buildSize: {x: 1, y: 1}
   buildComplete: 1
-  buildRequireItem: 00000000000000000000000000000000
-  buildRequireNum: 0a000000000000000000000000000000
-  buildFilledNum: 00000000000000000000000000000000
-  buildTime: 5
+  buildRequire: 00000000000000000000000000000000
   buildMaxHealth: 100
   buildCurrHealth: 0
 --- !u!114 &3757057457181903635

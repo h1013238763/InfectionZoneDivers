@@ -37,9 +37,9 @@ public class SlotUI_Bench : MonoBehaviour
     }
 
     public void MouseClick(){
-        if(ItemController.controller.ItemGetAble(item.itemID, num, PlayerAction.player.gameObject.GetComponent<Invent>()) && ItemController.controller.ResourceCheck(item.itemPrice)){
+        if(ItemController.controller.ItemGetAble(item.itemID, num, PlayerAction.player.gameObject.GetComponent<Invent>()) && WorldController.controller.ResourceCheck(item.itemPrice)){
             ItemController.controller.ItemGet(item.itemID, num, PlayerAction.player.gameObject.GetComponent<Invent>(), "Player");
-            ItemController.controller.ResourceUse(item.itemPrice);
+            WorldController.controller.ResourceUse(item.itemPrice);
         }
     }
 }

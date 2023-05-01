@@ -82,15 +82,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Construct"",
-                    ""type"": ""Value"",
-                    ""id"": ""e1d3bd9e-04aa-4e9d-9fd6-271b8f961150"",
-                    ""expectedControlType"": ""Integer"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""UseItem"",
                     ""type"": ""Value"",
                     ""id"": ""40e8dd90-4ce4-42b2-8f92-4d5f4cb47e0e"",
@@ -98,6 +89,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""8c027556-d053-470b-8fbc-9358bf66d360"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -224,17 +224,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b790396f-4367-402c-89b9-e9a87d096b5d"",
-                    ""path"": ""<Keyboard>/g"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Construct"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""76a48a8b-77d1-42f3-82ee-0c77f3d4c634"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": ""Press"",
@@ -276,6 +265,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""UseItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2a6f919-3357-4ef2-b0ab-1762b1185e3c"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -296,15 +296,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""fb0b22f1-f227-4ab8-acef-9657771117eb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Build"",
-                    ""type"": ""Button"",
-                    ""id"": ""b9ea62b7-176d-4455-895f-43396ba2f7d1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -336,21 +327,10 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""89348234-a96e-4325-bfa2-80c0abf998fc"",
                     ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d505bc9c-8150-463c-a3c3-c3331824bdcb"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Build"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -372,15 +352,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
             ""id"": ""b9acb4d8-3710-457d-9254-b98080440dd0"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
-                    ""type"": ""Button"",
-                    ""id"": ""89e1654d-58b3-41e4-9a3a-4ea1c433532c"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Place"",
                     ""type"": ""Button"",
                     ""id"": ""7a13afc0-4248-4387-ae51-7b2759eaf9e5"",
@@ -399,9 +370,27 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Exit"",
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""413a473e-fa65-4075-9518-9c5405e28b58"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(pressPoint=1.401298E-45)"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
-                    ""id"": ""41dcd3ad-bce8-472d-9237-2518b0740d40"",
+                    ""id"": ""dbc566a0-f613-4383-8c44-73a32c2bf93d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Build"",
+                    ""type"": ""Button"",
+                    ""id"": ""711b192a-6c0b-4ccb-bed7-4d5c3031eb0a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -409,17 +398,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""3d80480b-fa72-4a7e-8f33-4630a7c71daa"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""33cfe850-a36f-4042-bfd0-061941185a7c"",
@@ -434,7 +412,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""4d96bbd9-e5ef-4ebf-944b-4e0944716390"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -443,13 +421,79 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""1220fe8b-007c-4388-8b83-d12e37bc0695"",
-                    ""path"": """",
+                    ""name"": ""Keyboard Movement"",
+                    ""id"": ""34a27e98-702f-4c98-b48f-717b106670d3"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Exit"",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""71668984-8cb0-4062-85d4-76075eba1cf9"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""c8b20e7e-bd87-4865-91d3-4b917697a87a"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""31b17108-1a30-41e6-874a-5f8bd031fe3f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e1fd5e5c-49d4-44e5-8e1d-e4951532f32a"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ffc7fcf-9da4-4d73-8e61-1ebd5ec13eae"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aef61da5-0664-4d48-aed8-ecf6053f2ba4"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Build"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -472,20 +516,20 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_General_Reload = m_General.FindAction("Reload", throwIfNotFound: true);
         m_General_Change = m_General.FindAction("Change", throwIfNotFound: true);
         m_General_Fire = m_General.FindAction("Fire", throwIfNotFound: true);
-        m_General_Construct = m_General.FindAction("Construct", throwIfNotFound: true);
         m_General_UseItem = m_General.FindAction("UseItem", throwIfNotFound: true);
+        m_General_Build = m_General.FindAction("Build", throwIfNotFound: true);
         // GUI
         m_GUI = asset.FindActionMap("GUI", throwIfNotFound: true);
         m_GUI_Invent = m_GUI.FindAction("Invent", throwIfNotFound: true);
         m_GUI_Pause = m_GUI.FindAction("Pause", throwIfNotFound: true);
-        m_GUI_Build = m_GUI.FindAction("Build", throwIfNotFound: true);
         m_GUI_Interact = m_GUI.FindAction("Interact", throwIfNotFound: true);
         // Blueprint
         m_Blueprint = asset.FindActionMap("Blueprint", throwIfNotFound: true);
-        m_Blueprint_Move = m_Blueprint.FindAction("Move", throwIfNotFound: true);
         m_Blueprint_Place = m_Blueprint.FindAction("Place", throwIfNotFound: true);
         m_Blueprint_Rotate = m_Blueprint.FindAction("Rotate", throwIfNotFound: true);
-        m_Blueprint_Exit = m_Blueprint.FindAction("Exit", throwIfNotFound: true);
+        m_Blueprint_Move = m_Blueprint.FindAction("Move", throwIfNotFound: true);
+        m_Blueprint_Pause = m_Blueprint.FindAction("Pause", throwIfNotFound: true);
+        m_Blueprint_Build = m_Blueprint.FindAction("Build", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -551,8 +595,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_General_Reload;
     private readonly InputAction m_General_Change;
     private readonly InputAction m_General_Fire;
-    private readonly InputAction m_General_Construct;
     private readonly InputAction m_General_UseItem;
+    private readonly InputAction m_General_Build;
     public struct GeneralActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -563,8 +607,8 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Reload => m_Wrapper.m_General_Reload;
         public InputAction @Change => m_Wrapper.m_General_Change;
         public InputAction @Fire => m_Wrapper.m_General_Fire;
-        public InputAction @Construct => m_Wrapper.m_General_Construct;
         public InputAction @UseItem => m_Wrapper.m_General_UseItem;
+        public InputAction @Build => m_Wrapper.m_General_Build;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -592,12 +636,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Fire.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnFire;
-                @Construct.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConstruct;
-                @Construct.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConstruct;
-                @Construct.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConstruct;
                 @UseItem.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnUseItem;
                 @UseItem.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnUseItem;
                 @UseItem.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnUseItem;
+                @Build.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnBuild;
             }
             m_Wrapper.m_GeneralActionsCallbackInterface = instance;
             if (instance != null)
@@ -620,12 +664,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
-                @Construct.started += instance.OnConstruct;
-                @Construct.performed += instance.OnConstruct;
-                @Construct.canceled += instance.OnConstruct;
                 @UseItem.started += instance.OnUseItem;
                 @UseItem.performed += instance.OnUseItem;
                 @UseItem.canceled += instance.OnUseItem;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
             }
         }
     }
@@ -636,7 +680,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private IGUIActions m_GUIActionsCallbackInterface;
     private readonly InputAction m_GUI_Invent;
     private readonly InputAction m_GUI_Pause;
-    private readonly InputAction m_GUI_Build;
     private readonly InputAction m_GUI_Interact;
     public struct GUIActions
     {
@@ -644,7 +687,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public GUIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Invent => m_Wrapper.m_GUI_Invent;
         public InputAction @Pause => m_Wrapper.m_GUI_Pause;
-        public InputAction @Build => m_Wrapper.m_GUI_Build;
         public InputAction @Interact => m_Wrapper.m_GUI_Interact;
         public InputActionMap Get() { return m_Wrapper.m_GUI; }
         public void Enable() { Get().Enable(); }
@@ -661,9 +703,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
-                @Build.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
-                @Build.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
-                @Build.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnBuild;
                 @Interact.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnInteract;
@@ -677,9 +716,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
-                @Build.started += instance.OnBuild;
-                @Build.performed += instance.OnBuild;
-                @Build.canceled += instance.OnBuild;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
@@ -691,18 +727,20 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     // Blueprint
     private readonly InputActionMap m_Blueprint;
     private IBlueprintActions m_BlueprintActionsCallbackInterface;
-    private readonly InputAction m_Blueprint_Move;
     private readonly InputAction m_Blueprint_Place;
     private readonly InputAction m_Blueprint_Rotate;
-    private readonly InputAction m_Blueprint_Exit;
+    private readonly InputAction m_Blueprint_Move;
+    private readonly InputAction m_Blueprint_Pause;
+    private readonly InputAction m_Blueprint_Build;
     public struct BlueprintActions
     {
         private @PlayerInputActions m_Wrapper;
         public BlueprintActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Blueprint_Move;
         public InputAction @Place => m_Wrapper.m_Blueprint_Place;
         public InputAction @Rotate => m_Wrapper.m_Blueprint_Rotate;
-        public InputAction @Exit => m_Wrapper.m_Blueprint_Exit;
+        public InputAction @Move => m_Wrapper.m_Blueprint_Move;
+        public InputAction @Pause => m_Wrapper.m_Blueprint_Pause;
+        public InputAction @Build => m_Wrapper.m_Blueprint_Build;
         public InputActionMap Get() { return m_Wrapper.m_Blueprint; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -712,34 +750,40 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_BlueprintActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMove;
                 @Place.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnPlace;
                 @Place.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnPlace;
                 @Place.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnPlace;
                 @Rotate.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnRotate;
-                @Exit.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnExit;
-                @Exit.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnExit;
-                @Exit.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnExit;
+                @Move.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnMove;
+                @Pause.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnPause;
+                @Build.started -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_BlueprintActionsCallbackInterface.OnBuild;
             }
             m_Wrapper.m_BlueprintActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
                 @Place.started += instance.OnPlace;
                 @Place.performed += instance.OnPlace;
                 @Place.canceled += instance.OnPlace;
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
-                @Exit.started += instance.OnExit;
-                @Exit.performed += instance.OnExit;
-                @Exit.canceled += instance.OnExit;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
             }
         }
     }
@@ -761,21 +805,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnChange(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
-        void OnConstruct(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
     }
     public interface IGUIActions
     {
         void OnInvent(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
-        void OnBuild(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
     }
     public interface IBlueprintActions
     {
-        void OnMove(InputAction.CallbackContext context);
         void OnPlace(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
-        void OnExit(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnBuild(InputAction.CallbackContext context);
     }
 }

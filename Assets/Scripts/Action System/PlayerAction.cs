@@ -16,6 +16,8 @@ public class PlayerAction : MonoBehaviour
     public Invent invent;
     public CombatUnit combatUnit;
     public CameraAction cameraMain; 
+    public GameObject healthBar;
+
 
     /// GUI System Setting
     [SerializeField]private GameObject buttonTipPrefab;
@@ -60,31 +62,27 @@ public class PlayerAction : MonoBehaviour
         playerInputActions.General.Reload.performed += Reload;      // reload
         playerInputActions.General.Change.performed += Change;      // change weapon
         playerInputActions.General.UseItem.performed += UseItem;
-         
+        playerInputActions.General.Build.performed += Build;
+
+        // GUI
         playerInputActions.GUI.Invent.performed += Invent;          // open inventory
         playerInputActions.GUI.Interact.performed += Interact;      // interact
         playerInputActions.GUI.Pause.performed += Pause;
-
+        
+        // Blueprint
         playerInputActions.Blueprint.Place.performed += Place;
+        playerInputActions.Blueprint.Pause.performed += Pause;
+        playerInputActions.Blueprint.Build.performed += Build;
+        playerInputActions.Blueprint.Rotate.performed += Rotate;
     }
     
     private void Start(){
-
+        // bind components
         combatUnit = GetComponent<CombatUnit>();
         invent = GetComponent<Invent>();
         cameraMain = GameObject.Find("Main Camera").gameObject.GetComponent<CameraAction>();
 
-        combatUnit.SetWeapon(weaponSlot[0], ammoSlot[0]);
-        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
-    }
-
-    private void Update(){
-
-        if(Input.anyKey && Time.timeScale == 0){
-            Debug.Log("continue");
-            GUIController.controller.pausePanel.SetActive(false);
-            Time.timeScale = 1;
-        }
+        Restart();
     }
 
     private void FixedUpdate(){
@@ -97,6 +95,11 @@ public class PlayerAction : MonoBehaviour
         transform.GetChild(0).rotation = (angle < 90 && angle > -90) ? Quaternion.Euler(0, 0, angle) : Quaternion.Euler(0, 180, -(angle+180));
         transform.rotation = (angle < 90 && angle > -90) ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
 
+        // reset camera
+        if(playerInputActions.General.Focus.ReadValue<float>() < 0.5f && cameraMain.cameraMode != 2){
+            cameraMain.cameraMode = 0;
+        }
+
         // Focus
         if(playerInputActions.General.Focus.ReadValue<float>() > 0.5f){
             moveSpeedCurrent = moveSpeedDefault / 4f;
@@ -106,7 +109,6 @@ public class PlayerAction : MonoBehaviour
         
         // Run
         else if(playerInputActions.General.Run.ReadValue<float>() > 0.5f){
-            cameraMain.cameraMode = 0;
             itemTime = -0.1f;
             moveSpeedCurrent = moveSpeedDefault * 1.5f;
             combatUnit.reloadTime = -0.1f;
@@ -116,13 +118,11 @@ public class PlayerAction : MonoBehaviour
         }
         // Use Armorpack
         else if(itemTime > 0 || combatUnit.reloadTime > 0){
-            cameraMain.cameraMode = 0;
             moveSpeedCurrent = moveSpeedDefault / 4f;
         }
         // Move   
         else{ 
             moveSpeedCurrent = moveSpeedDefault;
-            cameraMain.cameraMode = 0;
         }
         rigidBody.velocity = moveSpeedCurrent * playerInputActions.General.Move.ReadValue<Vector2>();
 
@@ -132,26 +132,11 @@ public class PlayerAction : MonoBehaviour
                 GetComponent<CombatUnit>().Fire(angle * Math.PI / 180, true);
         }
 
-        // Construct
-        if(playerInputActions.General.Construct.ReadValue<float>() > 0.5f){
-            if(buildingAssign[0] != null){
-                Building temp = buildingAssign[0].GetComponent<Building>();
-                if(!temp.buildComplete && true){
-                    buildTime += Time.deltaTime;
-                    if(temp.buildTime <= buildTime){
-                        temp.Construct();
-                    }
-                }
-            }
-        }
-
         if(itemTime > -0.1f){
             itemTime -= Time.deltaTime;
             if(itemTime <= 0){
                 // recover armor
-                armorCurr += (int)(armorMax * 0.01 * itemEffect);
-                if(armorCurr > armorMax)
-                    armorCurr = armorMax;
+                ArmorChange((int)(armorMax * 0.01 * itemEffect));
                 // remove 1 item
                 quickSlot[itemSlot].itemNum --;
                 // set ui
@@ -160,6 +145,35 @@ public class PlayerAction : MonoBehaviour
                 itemTime = -0.1f;
             }
         } 
+    }
+
+    public void Restart(){
+        // Reset all states as game start
+        combatUnit.SetWeapon(weaponSlot[0], ammoSlot[0]);
+        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
+        ArmorChange(0);
+    }
+
+    public void SetActionStage(int stage){
+        switch(stage){
+            case 0: // general
+                playerInputActions.General.Enable();
+                playerInputActions.GUI.Enable();
+                playerInputActions.Blueprint.Disable();
+                break;
+            case 1: // in gui
+                playerInputActions.General.Disable();
+                playerInputActions.GUI.Enable();
+                playerInputActions.Blueprint.Disable();
+                break;
+            case 2: // in blueprint
+                playerInputActions.General.Disable();
+                playerInputActions.GUI.Disable();
+                playerInputActions.Blueprint.Enable();
+                break;
+            default:
+                break;
+        }
     }
 
     /// General Mode
@@ -195,16 +209,20 @@ public class PlayerAction : MonoBehaviour
     private void Change(InputAction.CallbackContext context){
 
         // Availability Check
-        if(weaponSlot[1] == null )
-            return;
+        if(weaponSlot[1] != null ){
+            // Weapon Swap
+            Weapon tempWeapon = weaponSlot[0];
+            weaponSlot[0] = weaponSlot[1];
+            weaponSlot[1] = tempWeapon;
+            int tempAmmo = ammoSlot[0];
+            ammoSlot[0] = ammoSlot[1];
+            ammoSlot[1] = tempAmmo;
+        }
+        
+        SetWeapon();
+    }
 
-        // Weapon Swap
-        Weapon tempWeapon = weaponSlot[0];
-        weaponSlot[0] = weaponSlot[1];
-        weaponSlot[1] = tempWeapon;
-        int tempAmmo = ammoSlot[0];
-        ammoSlot[0] = ammoSlot[1];
-        ammoSlot[1] = tempAmmo;
+    public void SetWeapon(){
         combatUnit.SetWeapon(weaponSlot[0], ammoSlot[0]);
 
         // Interrupt Reloading
@@ -216,6 +234,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         // Graphic Setting
+        transform.GetChild(0).GetChild(0).position = weaponSlot[0].weaponMuzzle;
         GUIController.controller.SetGUI(invent, "Player");
         transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
     }
@@ -241,6 +260,9 @@ public class PlayerAction : MonoBehaviour
                     case "Bench":
                         buildingAssign[0].GetComponent<Build_Bench>().Interact();
                         break;
+                    case "Gather":
+                        buildingAssign[0].GetComponent<Build_Gather>().Interact();
+                        break;
                     case "Core":
                         buildingAssign[0].GetComponent<Build_Core>().Interact();
                         break;
@@ -255,17 +277,29 @@ public class PlayerAction : MonoBehaviour
     }
 
     private void Pause(InputAction.CallbackContext context){
-        if(GUIController.controller.playerInvent.activeSelf){
+        if( GUIController.controller.playerInvent.activeSelf ||
+            GUIController.controller.blueprintPanel.activeSelf ||
+            GUIController.controller.survivorPanel.activeSelf){
+
             GUIController.controller.ExitPanels();
             return;
         }
+
         if(Time.timeScale != 0){
             Debug.Log("pause");
             GUIController.controller.pausePanel.SetActive(true);
             Time.timeScale = 0;
+            return;
         }
+
+        Debug.Log("continue");
+        GUIController.controller.pausePanel.SetActive(false);
+        Time.timeScale = 1;
     }
 
+    private void Build(InputAction.CallbackContext context){
+        GUIController.controller.EnterBlueprintPanel();
+    }
 
     // Blueprint Mode
 
@@ -273,7 +307,13 @@ public class PlayerAction : MonoBehaviour
         BuildController.controller.PlaceBuilding();
     }
 
-    /// Building Interact
+    private void Rotate(InputAction.CallbackContext context){
+        GUIController.controller.SetBuildTipRotation();
+    }
+
+    // Building Interact
+
+    
 
     //  Print Interact Tip
     private void InteractTip(){
@@ -285,5 +325,14 @@ public class PlayerAction : MonoBehaviour
         else{
             buttonTipPrefab.SetActive(false);
         }
+    }
+
+    public void ArmorChange(int num){
+        armorCurr += num;
+        if(armorCurr > armorMax)
+            armorCurr = armorMax;
+        if(armorCurr < 0)
+            armorCurr = 0;
+        healthBar.transform.localScale = new Vector2(1f * armorCurr / armorMax, 1f);
     }
 }

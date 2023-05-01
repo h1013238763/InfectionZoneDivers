@@ -103,11 +103,10 @@ MonoBehaviour:
   buildName: Developer Wall
   buildDescribe: Super powerful wall for developer to debug
   buildInterAble: 0
-  buildType: 
+  buildType: Wall
+  buildSize: {x: 1, y: 1}
   buildComplete: 0
-  buildRequireItem: 00000000000000000000000000000000
-  buildRequireNum: 05000000000000000000000000000000
-  buildTime: 2
+  buildRequire: 64000000000000000000000000000000
   buildMaxHealth: 100
   buildCurrHealth: 0
 --- !u!61 &865409522269632440

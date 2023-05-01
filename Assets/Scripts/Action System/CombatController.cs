@@ -68,10 +68,6 @@ public class CombatController : MonoBehaviour{
         }
     }
 
-    public void Reload(){
-
-    }    
-
     /// It draw the trajectory of the bullet type attack
     private void DrawBullet(Vector2 attackPos, Vector2 hitPos, GameObject bulletPrefab){
 
@@ -80,9 +76,5 @@ public class CombatController : MonoBehaviour{
             
         line.SetPosition(0, attackPos);
         line.SetPosition(1, hitPos);
-    }
-
-    private void DrawProjectile(){
-
     }
 }

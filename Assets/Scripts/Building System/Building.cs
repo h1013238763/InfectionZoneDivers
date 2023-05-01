@@ -10,14 +10,12 @@ public class Building : MonoBehaviour
     public string buildDescribe;
     public bool buildInterAble;
     public string buildType;
+    public Vector2 buildSize;
 
     public bool buildComplete;
-    public int[] buildRequireItem = new int[4];
-    public int[] buildRequireNum = new int[4];
-    public float buildTime;
+    public int[] buildRequire = new int[4];
 
     public int buildMaxHealth;
-    public int buildCurrHealth;
 
     void Start(){
         OnDestory();
@@ -47,7 +45,6 @@ public class Building : MonoBehaviour
     public void OnComplete(){
         transform.GetComponent<Collider2D>().isTrigger = false;
         transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
-        buildCurrHealth = buildMaxHealth;
         for(int i = 0; i < transform.childCount; i ++){
             transform.GetChild(i).gameObject.SetActive(true);
         }
@@ -64,13 +61,5 @@ public class Building : MonoBehaviour
     public void Construct(){
         Debug.Log("Construct");
         buildComplete = true;
-    }
-
-    public void OnHit(int damage){
-        buildCurrHealth -= damage;
-        buildComplete = false;
-        if(buildCurrHealth <= 0){
-            OnDestory();
-        }
     }
 }

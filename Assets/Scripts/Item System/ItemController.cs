@@ -11,8 +11,6 @@ public class ItemController : MonoBehaviour
     public GameObject dropItem;
     public List<ShortItem> itemStat;
 
-    public int[] resource = new int[4];
-
     // Start is called before the first frame update
     void Start()
     {
@@ -195,7 +193,10 @@ public class ItemController : MonoBehaviour
         // if transfer request from player inventory
         Invent from;
         Invent to;
-        if(inventPanel.name == "PlayerInventory"){
+
+        Debug.Log(inventPanel.name);
+
+        if(inventPanel.name == "Player Inventory"){
             from = GameObject.Find("Player").GetComponent<Invent>();
             // if two inventory panel op
             if(GUIController.controller.publicInvent.activeSelf){
@@ -213,7 +214,7 @@ public class ItemController : MonoBehaviour
             from = GUIController.controller.currentPublicInvent;
             to = GameObject.Find("Player").GetComponent<Invent>();
         }
-
+    
         int itemIn = ItemUse(item.itemID, item.itemNum, from, from.gameObject.tag);
         ItemGet(item.itemID, itemIn, to, to.gameObject.tag);
     }
@@ -270,6 +271,9 @@ public class ItemController : MonoBehaviour
                 PlayerAction.player.ammoSlot[0] = PlayerAction.player.ammoSlot[1];
                 PlayerAction.player.weaponSlot[1] = null;
                 PlayerAction.player.ammoSlot[1] = 0;
+                
+                GameObject.Find("Player").transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = PlayerAction.player.weaponSlot[0].itemSprite;
+                GameObject.Find("Player").GetComponent<CombatUnit>().SetWeapon(PlayerAction.player.weaponSlot[0], PlayerAction.player.ammoSlot[0]);
             }
             else{
                 ItemUse(weapon.itemID, 1, PlayerAction.player.gameObject.GetComponent<Invent>(), "Player");
@@ -305,34 +309,6 @@ public class ItemController : MonoBehaviour
         }
         GUIController.controller.SetGUI(GameObject.Find("Player").GetComponent<Invent>(), "Player");
     }
-
-    public bool ResourceCheck(int[] num){
-        for(int i = 0; i < 4; i ++){
-            if(num[i] > resource[i]){
-                Debug.Log("Insufficient Resource");
-                return false;
-            }     
-        }
-        return true;
-    }
-
-    public void ResourceGet(int[] num){
-        for(int i = 0; i < 4; i ++)
-            resource[i] += num[i];
-        GUIController.controller.SetResourcePanel();
-    }
-
-    /// <summary>
-    /// Use resources
-    /// </summary>
-    /// <param name="num"> the num of change </param>
-    /// <returns> if there are enough resource to change </returns>
-    public void ResourceUse(int[] num){
-        for(int i = 0; i < 4; i ++)
-            resource[i] -= num[i];
-        GUIController.controller.SetResourcePanel();
-    }
-    
 
     // Dictionary Functions
     public Item ItemFind(ShortItem item){

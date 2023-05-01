@@ -60,15 +60,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Construct",
-                    "type": "Value",
-                    "id": "e1d3bd9e-04aa-4e9d-9fd6-271b8f961150",
-                    "expectedControlType": "Integer",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "UseItem",
                     "type": "Value",
                     "id": "40e8dd90-4ce4-42b2-8f92-4d5f4cb47e0e",
@@ -76,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Build",
+                    "type": "Button",
+                    "id": "8c027556-d053-470b-8fbc-9358bf66d360",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -202,17 +202,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b790396f-4367-402c-89b9-e9a87d096b5d",
-                    "path": "<Keyboard>/g",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Construct",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "76a48a8b-77d1-42f3-82ee-0c77f3d4c634",
                     "path": "<Keyboard>/1",
                     "interactions": "Press",
@@ -254,6 +243,17 @@
                     "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2a6f919-3357-4ef2-b0ab-1762b1185e3c",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Build",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -274,15 +274,6 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "fb0b22f1-f227-4ab8-acef-9657771117eb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Build",
-                    "type": "Button",
-                    "id": "b9ea62b7-176d-4455-895f-43396ba2f7d1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -314,21 +305,10 @@
                     "name": "",
                     "id": "89348234-a96e-4325-bfa2-80c0abf998fc",
                     "path": "<Keyboard>/escape",
-                    "interactions": "Press(behavior=1)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d505bc9c-8150-463c-a3c3-c3331824bdcb",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Build",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -350,15 +330,6 @@
             "id": "b9acb4d8-3710-457d-9254-b98080440dd0",
             "actions": [
                 {
-                    "name": "Move",
-                    "type": "Button",
-                    "id": "89e1654d-58b3-41e4-9a3a-4ea1c433532c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Place",
                     "type": "Button",
                     "id": "7a13afc0-4248-4387-ae51-7b2759eaf9e5",
@@ -377,9 +348,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Exit",
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "413a473e-fa65-4075-9518-9c5405e28b58",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Pause",
                     "type": "Button",
-                    "id": "41dcd3ad-bce8-472d-9237-2518b0740d40",
+                    "id": "dbc566a0-f613-4383-8c44-73a32c2bf93d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Build",
+                    "type": "Button",
+                    "id": "711b192a-6c0b-4ccb-bed7-4d5c3031eb0a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -387,17 +376,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "3d80480b-fa72-4a7e-8f33-4630a7c71daa",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "33cfe850-a36f-4042-bfd0-061941185a7c",
@@ -412,7 +390,7 @@
                 {
                     "name": "",
                     "id": "4d96bbd9-e5ef-4ebf-944b-4e0944716390",
-                    "path": "",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -421,13 +399,79 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",
-                    "id": "1220fe8b-007c-4388-8b83-d12e37bc0695",
-                    "path": "",
+                    "name": "Keyboard Movement",
+                    "id": "34a27e98-702f-4c98-b48f-717b106670d3",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Exit",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "71668984-8cb0-4062-85d4-76075eba1cf9",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "c8b20e7e-bd87-4865-91d3-4b917697a87a",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "31b17108-1a30-41e6-874a-5f8bd031fe3f",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "e1fd5e5c-49d4-44e5-8e1d-e4951532f32a",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "6ffc7fcf-9da4-4d73-8e61-1ebd5ec13eae",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "aef61da5-0664-4d48-aed8-ecf6053f2ba4",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Build",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

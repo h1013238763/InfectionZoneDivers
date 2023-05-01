@@ -153,10 +153,9 @@ MonoBehaviour:
   buildDescribe: A simple small chest that has 5 slots
   buildInterAble: 1
   buildType: Chest
+  buildSize: {x: 1, y: 1}
   buildComplete: 1
-  buildRequireItem: 00000000000000000000000000000000
-  buildRequireNum: 00000000000000000000000000000000
-  buildTime: 0
+  buildRequire: 00000000000000000000000000000000
   buildMaxHealth: 0
   buildCurrHealth: 0
 --- !u!114 &2782943219634834932

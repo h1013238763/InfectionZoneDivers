@@ -10,6 +10,8 @@ public class CombatUnit : MonoBehaviour
     public float reloadTime;
     private bool fireAble;
 
+    public GameObject muzzle;
+
     void FixedUpdate(){
 
         /// fire colddown control
@@ -48,8 +50,10 @@ public class CombatUnit : MonoBehaviour
         }
 
         if(fireAble && ammo > 0){
-            CombatController.controller.Attack(transform.position, weapon, radius, gameObject.tag);
-
+            
+            muzzle.transform.GetComponent<MuzzleFire>().Fire();
+            CombatController.controller.Attack(muzzle.transform.position, weapon, radius, gameObject.tag);
+            
             ammo --;
             fireColddown = 1 / weapon.weaponSpeed;
             fireAble = false;

@@ -26,6 +26,9 @@ public class CameraAction : MonoBehaviour
             case 1:
                 OnAim();
                 break;
+            case 2:
+                OnBuild();
+                break;
             default:
                 break;
         }
@@ -43,5 +46,10 @@ public class CameraAction : MonoBehaviour
         mousePos.y = (scope-1) * (mousePos.y/Screen.height - 0.5f) * cameraSize* 1.8f + player.position.y;
 
         transform.position = new Vector3(mousePos.x, mousePos.y, -10 );
+    }
+
+    private void OnBuild(){
+        Vector2 move = 0.025f * GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.Blueprint.Move.ReadValue<Vector2>();
+        transform.position += new Vector3(move.x, move.y, 0);
     }
 }
