@@ -44,28 +44,17 @@ public class CombatController : MonoBehaviour{
         return bulletPool[bulletCapacity];
     }
 
-    public void Attack(Vector2 from, Weapon weapon, double radius, string tag){
+    public void Attack(Vector2 from, Weapon weapon, double radius){
         // set fire direction
         radius += Random.Range(-(1-weapon.weaponAccuracy), (1-weapon.weaponAccuracy));
-        Vector2 direct = new Vector2((float)(weapon.weaponRange*Cos(radius))+from.x, (float)(weapon.weaponRange*Sin(radius))+from.y);
+        Vector2 direct = new Vector2((float)(Cos(radius)), (float)(Sin(radius)));
         
+        GameObject bullet = GetBullet();
+        bullet.SetActive(true);
+        bullet.transform.GetComponent<Bullet>().Fire(from, direct, radius, weapon.weaponDamage, weapon.weaponRange);
         // create raycast
-        RaycastHit2D hit = Physics2D.Raycast(from, direct, weapon.weaponRange, LayerMask.GetMask("tag"));
+        
 
-        DrawBullet(from, direct, GetBullet());
-        // hit event
-        if(hit.collider != null){
-            if(hit.collider.tag == tag){
-                // do damage
-                hit.collider.gameObject.GetComponent<CombatUnit>().OnHit(weapon.weaponDamage);
-                hit.collider.gameObject.GetComponent<Rigidbody2D>().AddForce( -hit.normal * 20);
-            }
-            Vector2 hitPos = hit.point;
-            DrawBullet(from, hitPos, GetBullet());
-        }
-        else{
-            DrawBullet(from, direct, GetBullet());
-        }
     }
 
     /// It draw the trajectory of the bullet type attack

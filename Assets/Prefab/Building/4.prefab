@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4563257826311340657}
   - component: {fileID: 2782943219634834932}
   - component: {fileID: 6865266728713253593}
+  - component: {fileID: 8574809878755184352}
   m_Layer: 6
   m_Name: 4
   m_TagString: Building
@@ -157,7 +158,6 @@ MonoBehaviour:
   buildComplete: 1
   buildRequire: 00000000000000000000000000000000
   buildMaxHealth: 0
-  buildCurrHealth: 0
 --- !u!114 &2782943219634834932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,3 +183,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventCap: 0
+--- !u!114 &8574809878755184352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7370748992565236913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d82161532e41994c955ea9eb1efe247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  currentHealth: 0
+  hitTimecurr: 0
+  hitTimeMax: 0

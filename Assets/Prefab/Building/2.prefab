@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3016576447069248067}
   - component: {fileID: 3016576447069248064}
   - component: {fileID: 3016576447069248068}
+  - component: {fileID: 6225015744350217625}
   m_Layer: 0
   m_Name: 2
   m_TagString: Untagged
@@ -98,7 +99,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.5, y: 0.5}
@@ -157,7 +158,6 @@ MonoBehaviour:
   buildComplete: 1
   buildRequire: 00000000000000000000000000000000
   buildMaxHealth: 100
-  buildCurrHealth: 100
 --- !u!114 &3016576447069248068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,3 +170,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8632798261c1d6b408dc19900ab14b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6225015744350217625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3016576447069248094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d82161532e41994c955ea9eb1efe247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  currentHealth: 0
+  hitTimecurr: 0
+  hitTimeMax: 0

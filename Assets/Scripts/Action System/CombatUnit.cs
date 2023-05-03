@@ -27,7 +27,7 @@ public class CombatUnit : MonoBehaviour
             reloadTime -= Time.deltaTime;
             if(fireColddown <= 0 && reloadTime <= 0){
                 reloadTime = -0.1f;
-                int tempAmmo = ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, gameObject.GetComponent<Invent>(), gameObject.tag);
+                int tempAmmo = ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, gameObject.GetComponent<Invent>(), "Enemy");
                 ammo += tempAmmo;
                 fireAble = true;
                 if(gameObject.tag == "Player"){
@@ -52,7 +52,7 @@ public class CombatUnit : MonoBehaviour
         if(fireAble && ammo > 0){
             
             muzzle.transform.GetComponent<MuzzleFire>().Fire();
-            CombatController.controller.Attack(muzzle.transform.position, weapon, radius, gameObject.tag);
+            CombatController.controller.Attack(muzzle.transform.position, weapon, radius);
             
             ammo --;
             fireColddown = 1 / weapon.weaponSpeed;

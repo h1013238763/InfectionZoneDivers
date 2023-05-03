@@ -59,6 +59,9 @@ TagManager:
   - name: Units
     uniqueID: 3592341559
     locked: 0
+  - name: Enemy
+    uniqueID: 764373985
+    locked: 0
   - name: Weapon
     uniqueID: 2187316413
     locked: 0

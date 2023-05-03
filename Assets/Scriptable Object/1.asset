@@ -18,12 +18,12 @@ MonoBehaviour:
   itemSprite: {fileID: -534302257, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
   itemCap: 1
   itemPrice: 00000000000000000000000000000000
-  weaponDamage: 4
+  weaponDamage: 40
   weaponAmmoCapa: 12
   weaponRange: 15
-  weaponScope: 1
+  weaponScope: 3
   weaponAccuracy: 0.92
   weaponSpeed: 1.2
-  weaponReload: 3
+  weaponReload: 0.5
   weaponAmmoIndex: 4
   weaponMuzzle: {x: 0, y: 0}

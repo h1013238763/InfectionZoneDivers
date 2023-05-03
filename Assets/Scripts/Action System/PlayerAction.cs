@@ -24,7 +24,7 @@ public class PlayerAction : MonoBehaviour
 
     // player state setting
     [SerializeField]private int playerActionStage;      // player current action stage
-    private float moveSpeedDefault = 8f;
+    public float moveSpeedDefault = 8f;
     private float moveSpeedCurrent = 8f;            // player move speed
     
     public List<GameObject> buildingAssign = new List<GameObject>();
