@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public int id;
     public float moveSpeed = 10f;
+    public float currSpeed;
     public float attackSpeed = 0.5f;
     public int damage = 33;
 
@@ -17,19 +19,29 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rigidBody;
     private Vector2 dir;
 
+    public Animator animator;
+
     // Start is called before the first frame update
     void Start()
     {
+        animator = gameObject.GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         rigidBody = transform.GetComponent<Rigidbody2D>();
+        currSpeed = moveSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
         timeSinceAttack += Time.deltaTime;
+
+        if(currSpeed < moveSpeed){
+            currSpeed += 0.1f;
+        }
+
         if(!attacking)
-        {
+        {   
+            animator.SetFloat("Speed", 1f);
             if(transform.position.x - player.transform.position.x > 0.2){
                 dir.x = -1;
             }
@@ -49,10 +61,11 @@ public class Enemy : MonoBehaviour
             else{
                 dir.y = 0;
             }
-            rigidBody.velocity = moveSpeed * dir;
+            rigidBody.velocity = currSpeed * dir;
         }
         else
         {
+            animator.SetFloat("Speed", 0);
             if(!target.activeSelf)
             {
                 attacking = false;

@@ -34,7 +34,10 @@ public class Upgrade : MonoBehaviour
     }
 
     public void Active(){
-        
+        for(int i = 0; i < 4; i ++){
+            resource[i] = 0;
+        }
+
         transform.GetChild(2).GetComponent<Text>().text = "0";
 
         for(int i = 0; i < 4; i ++){

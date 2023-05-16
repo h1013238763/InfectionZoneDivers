@@ -11,22 +11,22 @@ public class Build_Gather : MonoBehaviour
     public int resourceNum;
 
     void Start(){
-        
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
     public void Interact(){
         if(!WorldController.controller.resourceBuild.Contains(gameObject))
             WorldController.controller.resourceBuild.Add(gameObject);
         if(survivorActive){
-            WorldController.controller.survivorNum += survivorRequire;
+            WorldController.controller.UseSurvivor(survivorRequire);
             survivorActive = false;
-            transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(1f, 0, 0, 1f );
+            transform.GetChild(0).gameObject.SetActive(false);
             return;
         }
         if(WorldController.controller.survivorNum >= survivorRequire){
-            WorldController.controller.survivorNum -= survivorRequire;
+            WorldController.controller.UseSurvivor(-survivorRequire);
             survivorActive = true;
-            transform.GetChild(0).GetComponent<SpriteRenderer>().color = new Color(0, 1f, 0, 1f );
+            transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 }

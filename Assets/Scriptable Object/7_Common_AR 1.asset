@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
+  m_Name: 7_Common_AR 1
+  m_EditorClassIdentifier: 
+  itemID: 7
+  itemName: Common AR
+  itemDescribe: Yes, it's the gun you're thinking of. Cheap, reliable, and powerful.
+  itemSprite: {fileID: 640649806, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 1
+  itemPrice: c2010000c800000019000000af000000
+  weaponDamage: 40
+  weaponAmmoCapa: 35
+  weaponRange: 30
+  weaponScope: 1.75
+  weaponAccuracy: 0.88
+  weaponSpeed: 3
+  weaponReload: 2.2
+  weaponAmmoIndex: 13
+  weaponMuzzle: {x: 11.23, y: 0.04}

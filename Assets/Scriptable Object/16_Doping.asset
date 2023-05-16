@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9386c33af2fd8e74791fa9cc016c1ba9, type: 3}
+  m_Name: 16_Doping
+  m_EditorClassIdentifier: 
+  itemID: 16
+  itemName: Doping
+  itemDescribe: A mysterious drug that will make you faster than runner. But I really
+    don't recommend you to use it long-term.
+  itemSprite: {fileID: 474405030, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 10
+  itemPrice: 320000000000000064000000fa000000
+  consumableDescribe: Increases diver speed by 50% for 10 seconds.
+  consumeType: Doping
+  consumableTime: 1

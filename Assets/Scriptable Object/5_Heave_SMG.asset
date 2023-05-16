@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
+  m_Name: 5_Heave_SMG
+  m_EditorClassIdentifier: 
+  itemID: 5
+  itemName: Heavel SMG
+  itemDescribe: All I can say is that this is a auto-rifle that uses pistol cartridges.
+  itemSprite: {fileID: -905081755, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 1
+  itemPrice: 45010000fa0000006400000064000000
+  weaponDamage: 20
+  weaponAmmoCapa: 27
+  weaponRange: 25
+  weaponScope: 1.5
+  weaponAccuracy: 0.93
+  weaponSpeed: 5
+  weaponReload: 2.2
+  weaponAmmoIndex: 12
+  weaponMuzzle: {x: 0.12, y: 0.15}

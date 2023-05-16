@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521f13ee3857a4c48945aeae58b56578, type: 3}
+  m_Name: 1_Revolver
+  m_EditorClassIdentifier: 
+  itemID: 1
+  itemName: Revolver
+  itemDescribe: A powerful pistol.
+  itemSprite: {fileID: 1446912873, guid: dd5eb5bd3f0b8ce44a52ce32254a58c5, type: 3}
+  itemCap: 1
+  itemPrice: 960000007d000000000000003c000000
+  weaponDamage: 50
+  weaponAmmoCapa: 6
+  weaponRange: 18
+  weaponScope: 1
+  weaponAccuracy: 89
+  weaponSpeed: 1
+  weaponReload: 1.3
+  weaponAmmoIndex: 12
+  weaponMuzzle: {x: 0.63, y: 0.26}

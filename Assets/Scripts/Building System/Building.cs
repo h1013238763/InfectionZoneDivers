@@ -12,54 +12,77 @@ public class Building : MonoBehaviour
     public string buildType;
     public Vector2 buildSize;
 
-    public bool buildComplete;
     public int[] buildRequire = new int[4];
 
     public int buildMaxHealth;
 
     void Start(){
-        OnDestory();
+        GetComponent<Health>().health = buildMaxHealth;
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
         if(collision.gameObject.tag == "Player"){
-            collision.gameObject.GetComponent<PlayerAction>().buildingAssign.Add(gameObject);
+            collision.gameObject.GetComponent<PlayerAction>().AddToBuildList(gameObject);
         }
         if(collision.gameObject.tag == "GameController"){
-            GUIController.controller.SetBuildTipColor(true);
-            BuildController.controller.overlap = true;
+            if(buildType == "Core"){
+                return;
+            }
+            else if(BuildController.controller.deleteMode){
+                GetComponent<SpriteRenderer>().color = new Color(1f, 0, 0, 1f);
+                BuildController.controller.deleteBuild = gameObject;
+            }
+            else{
+                BuildController.controller.AddOverlapList(gameObject);
+            } 
         }
     }
     private void OnTriggerExit2D(Collider2D collision){
         if(collision.gameObject.tag == "Player"){
-            if(buildComplete)
-                OnComplete();
-            collision.gameObject.GetComponent<PlayerAction>().buildingAssign.Remove(gameObject);
+            collision.gameObject.GetComponent<PlayerAction>().RemoveFromBuildList(gameObject);
         }
         if(collision.gameObject.tag == "GameController"){
-            GUIController.controller.SetBuildTipColor(false);
-            BuildController.controller.overlap = false;
+            if(buildType == "Core"){
+                return;
+            }
+            else if(BuildController.controller.deleteMode){
+                GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+                BuildController.controller.deleteBuild = null;
+            }
+            else{
+                BuildController.controller.RemoveOverlapList(gameObject);
+            }
         }
     }
 
-    public void OnComplete(){
-        transform.GetComponent<Collider2D>().isTrigger = false;
-        transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
-        for(int i = 0; i < transform.childCount; i ++){
-            transform.GetChild(i).gameObject.SetActive(true);
+    public void OnDestroy(){
+        if(GetComponent<Invent>() != null){
+            foreach(ShortItem item in GetComponent<Invent>().inventList){
+                if(item != null){
+                    GUIController.controller.SetTextTip("Storage buildings containing items cannot be demolished");
+                    return;
+                }
+            }
+            
         }
+
+        WorldController.controller.ResourceGet(buildRequire);
+
+        if(buildType == "Gather"){
+            if(GetComponent<Build_Gather>().survivorActive)
+                WorldController.controller.UseSurvivor(GetComponent<Build_Gather>().survivorRequire);
+        }else if(buildType == "Turret"){
+            Build_Turret turret = GetComponent<Build_Turret>();
+            if(turret.survivorActive){
+                WorldController.controller.UseSurvivor(turret.survivorRequire);
+            }
+        }
+        BuildController.controller.buildInWorld.Remove(gameObject);
+        Destroy(gameObject);
     }
 
-    private void OnDestory(){
-        transform.GetComponent<Collider2D>().isTrigger = true;
-        transform.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.5f);
-        for(int i = 0; i < transform.childCount; i ++){
-            transform.GetChild(i).gameObject.SetActive(false);
-        }
-    }
-
-    public void Construct(){
-        Debug.Log("Construct");
-        buildComplete = true;
+    public void ForceDestroy(){
+        BuildController.controller.buildInWorld.Remove(gameObject);
+        Destroy(gameObject);
     }
 }

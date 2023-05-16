@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efdb4741041c394190c9e9ce93f4dd0, type: 3}
+  m_Name: 14_12.7x107mm_Ammo
+  m_EditorClassIdentifier: 
+  itemID: 14
+  itemName: 12.7x107mm Ammo
+  itemDescribe: The most powerful bullets that are powerful enough to tear zombies
+    apart.
+  itemSprite: {fileID: -228110185, guid: 8c1d2d72e8f25a843a35b3a53eec603c, type: 3}
+  itemCap: 100
+  itemPrice: fa000000c800000019000000fa000000

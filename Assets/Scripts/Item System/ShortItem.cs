@@ -14,5 +14,9 @@ public class ShortItem{
         this.itemID = item.itemID;
         this.itemNum = 0;
     }
+
+    public override string ToString(){
+        return "ID: " + itemID + ", num: " + itemNum;
+    }
 }
 

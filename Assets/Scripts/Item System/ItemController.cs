@@ -9,16 +9,12 @@ public class ItemController : MonoBehaviour
 
     public List<GameObject> itemWorldPool;
     public GameObject dropItem;
-    public List<ShortItem> itemStat;
 
     // Start is called before the first frame update
     void Start()
     {
         controller = this;
         DropItemPool();
-        DropItemSet(4, 300,new Vector3(110, 97, 0));
-        DropItemSet(1, 1, new Vector3(110, 100, 0));
-        DropItemSet(3, 5, new Vector3(110, 103, 0));
     }
 
     /// <summary>
@@ -130,7 +126,9 @@ public class ItemController : MonoBehaviour
             if(num <= 0)
                 return true;
         }
-        Debug.Log("Insufficient Space");
+        if(!GUIController.controller.textTip.activeSelf){
+            GUIController.controller.SetTextTip("Inventory full");     
+        }
         return false;
     }
 
@@ -144,6 +142,7 @@ public class ItemController : MonoBehaviour
     /// <returns> how many items are removed </returns>
     public int ItemUse(int id, int num, Invent invent, string tag){
         int tempNum = num;
+
         List<ShortItem> tempList = invent.inventList;
         // loop through invent
         for(int i = tempList.Count-1; i > -1; i--){
@@ -327,5 +326,14 @@ public class ItemController : MonoBehaviour
             }
         }
         return temp;
+    }
+
+    public void Reset(){
+
+        foreach(Transform child in transform){
+            GameObject.Destroy(child.gameObject);
+        }
+        itemWorldPool.Clear();
+        DropItemPool();
     }
 }

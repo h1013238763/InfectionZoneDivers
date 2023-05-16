@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
     public int currentHealth;
 
     public float hitTimecurr;
-    public float hitTimeMax = 0.5f;
+    public float hitTimeMax = 0.8f;
 
     private void Start()
     {
@@ -20,7 +20,9 @@ public class Health : MonoBehaviour
     private void FixedUpdate(){
         
         if(hitTimecurr >= hitTimeMax){
-            transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+            if(WorldController.controller.stage == 1){
+                transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+            }    
         }
         else{
             hitTimecurr += Time.deltaTime;
@@ -33,6 +35,14 @@ public class Health : MonoBehaviour
 
         hitTimecurr = 0;
         transform.GetComponent<SpriteRenderer>().color = new Color(1f, 0, 0, 1f);
+
+        if(gameObject.tag == "Player"){
+            GameObject.Find("Player").GetComponent<PlayerAction>().ArmorChange(-damage);
+        }
+
+        if(gameObject.tag == "Enemy"){
+            gameObject.GetComponent<Enemy>().currSpeed = 0f;
+        }
 
         if(currentHealth <= 0)
         {
@@ -49,6 +59,7 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
+        transform.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
         if(gameObject.tag == "Player")
         {
             WorldController.controller.GameEnd(1);
@@ -56,6 +67,18 @@ public class Health : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+        }
+
+        if(gameObject.tag == "Enemy"){
+
+            float rand = Random.Range(0,20);
+            Debug.Log(rand);
+            if(rand < EnemyController.controller.dropChance ){
+                ItemController.controller.DropItemSet(19, 1, transform.position);
+            }
+            
+            int id = GetComponent<Enemy>().id;
+            EnemyController.controller.EnemyDies(id);
         }
     }
 }

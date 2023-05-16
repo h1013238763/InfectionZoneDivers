@@ -12,4 +12,10 @@ public class Invent : MonoBehaviour
             inventList.Add(null);
         }
     }
+
+    public void Reset(){
+        for(int i = 0; i < inventCap; i++){
+            inventList[i] = null;
+        }
+    }
 }

@@ -16,10 +16,16 @@ public class ShelterController : MonoBehaviour
     public GameObject shelterGUI;
     public GameObject loadingGUI;
 
+    // Complete upgrade list
     public List<Upgrade> upgrades = new List<Upgrade>();
+    
     public Upgrade currUpgrade;
 
+    public GameObject mainPanel;
+    public GameObject tutorialPanel;
+
     private const string SAVEDATA_NAME = "save.data";
+
     void Start(){
 
         controller = this;
@@ -27,24 +33,27 @@ public class ShelterController : MonoBehaviour
     }
 
     public void ActiveUpgrade(){
+        if(currUpgrade == null){
+            return;
+        }
         if(survivor < currUpgrade.survivor){
-            Debug.Log(" Shelter Lack of Survivors");
+            GUIController.controller.SetTextTip(" Shelter Lack of Survivors");
             return;
         }
         for(int i = 0; i < 4; i ++){
             if(resource[i] < currUpgrade.resource[i]){
-                Debug.Log("Shelter Lack of Resource");
+                GUIController.controller.SetTextTip("Shelter Lack of Resource");
                 return;
             }
         }
         foreach(Upgrade i in currUpgrade.upgradePre ){
             if(!upgrades.Contains(i)){
-                Debug.Log("Requires Prereqyusute Research");
+                GUIController.controller.SetTextTip("Requires Prerequisite Research");
                 return;
             }
         }
         if(upgrades.Contains(currUpgrade)){
-            Debug.Log("Research Has Been Done");
+            GUIController.controller.SetTextTip("Research Has Been Done");
             return;
         }
         for(int i = 0; i < 4; i ++){
@@ -52,17 +61,28 @@ public class ShelterController : MonoBehaviour
         }
         currUpgrade.Active();
         upgrades.Add(currUpgrade);
+        currUpgrade = null;
     }
 
     public void GameStart(){
 
         shelterGUI.SetActive(false);
 
-        foreach(Upgrade i in upgrades){
-            i.Effect();
+        ResetGame();
+
+        for(int i = 0; i < upgrades.Count; i ++){
+            upgrades[i].Effect();
         }
 
+        PlayerAction.player.Restart();
+
         loadingGUI.SetActive(false);
+    }
+
+    public void ActiveShelterGUI(){
+        SetResourcePanel();
+        shelterGUI.SetActive(true);
+        loadingGUI.SetActive(true);
     }
 
     public void SetResourcePanel(){
@@ -84,7 +104,21 @@ public class ShelterController : MonoBehaviour
         
     }
 
-    public void CreateMap(){
-        
+    public void ResetGame(){
+        GUIController.controller.Reset();
+        PlayerAction.player.Reset();
+        EnemyController.controller.Reset();
+        BuildController.controller.Reset();
+        WorldController.controller.Reset();
+        ItemController.controller.Reset();
+        CombatController.controller.Reset();
+    }
+
+    public void QuitToMainMenu(){
+        mainPanel.SetActive(true);
+    }
+
+    public void QuitGame(){
+        Application.Quit();
     }
 }

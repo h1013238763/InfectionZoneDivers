@@ -13,6 +13,7 @@ public class GUIController : MonoBehaviour
     public GameObject inGameStatus;
     public GameObject pausePanel;
     public GameObject survivorPanel;
+    public GameObject textTip;
     [Space(10)]
 
     // Status
@@ -24,6 +25,8 @@ public class GUIController : MonoBehaviour
     public GameObject buildTip;
     public GameObject interactTip;
     public GameObject reloadTip;
+    public GameObject activeTurret;
+    public GameObject currentTurret;
     [Space(10)]
 
     // Inventory
@@ -102,9 +105,21 @@ public class GUIController : MonoBehaviour
             EnterInventory("Player");
         }
 
-        if(tag == "Chest" || tag == "Player" || tag == "Turret"){
+        if(tag == "Chest" || tag == "Player"){
             SetInventory(target.GetComponent<Invent>(), tag);
             EnterInventory(tag);
+        }
+        else if(tag == "Turret"){
+            SetInventory(target.GetComponent<Invent>(), tag);
+            EnterInventory(tag);
+
+            if(currentTurret.GetComponent<Build_Turret>().survivorActive){
+                activeTurret.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Deactivate";
+            }else{
+                activeTurret.transform.GetChild(0).gameObject.GetComponent<Text>().text = "Activate";
+            }
+            
+            activeTurret.SetActive(true);
         }
         else if(tag == "Bench"){
             SetBench(target.GetComponent<Build_Bench>());
@@ -129,10 +144,11 @@ public class GUIController : MonoBehaviour
     public void ExitPanels(){
         playerInvent.SetActive(false);
         publicInvent.SetActive(false);
+        activeTurret.SetActive(false);
         quickInvent.SetActive(false);
         benchPanel.SetActive(false);
         survivorPanel.SetActive(false);
-        WorldController.controller.tempScale = 0;
+        WorldController.controller.tempDifficulty = 0;
         ExitBlueprintPanel();
         HideItemDetail();
         GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(0);
@@ -189,7 +205,7 @@ public class GUIController : MonoBehaviour
     /// </summary>
     public void EnterBench(){
         benchPanel.SetActive(true);
-        GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Disable();
+        GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(1);
     }
 
     /// <summary>
@@ -198,14 +214,14 @@ public class GUIController : MonoBehaviour
     /// <param name="bench"> The bench interacting with</param>
     public void SetBench(Build_Bench bench){
         // set grid size
-        benchPanel.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(400, bench.recipts.Count * 125);
+        benchPanel.transform.GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(400, bench.recipes.Count * 125);
         // set each slot
-        for(int i = 0; i < bench.recipts.Count; i ++){
+        for(int i = 0; i < bench.recipes.Count; i ++){
             SlotUI_Bench tempSlot = benchPanel.transform.GetChild(0).GetChild(0).GetChild(i).GetComponent<SlotUI_Bench>();
-            tempSlot.Reset(bench.recipts[i], bench.nums[i], bench.recipts[i].itemSprite);
+            tempSlot.Reset(bench.recipes[i], bench.nums[i], bench.recipes[i].itemSprite);
             tempSlot.gameObject.SetActive(true);
         }
-        for(int i = bench.recipts.Count; i < benchPanel.transform.GetChild(0).GetChild(0).childCount; i++){
+        for(int i = bench.recipes.Count; i < benchPanel.transform.GetChild(0).GetChild(0).childCount; i++){
             
             benchPanel.transform.GetChild(0).GetChild(0).GetChild(i).gameObject.SetActive(false);
         }
@@ -227,6 +243,7 @@ public class GUIController : MonoBehaviour
         itemDetail.transform.GetChild(3).GetComponent<Text>().text = " [ " + item.GetType().ToString() + " ]";
         itemDetail.transform.GetChild(4).gameObject.SetActive(false);
         itemDetail.transform.GetChild(5).gameObject.SetActive(false);
+        itemDetail.transform.GetChild(6).gameObject.SetActive(false);
 
         if(item is Weapon){
             Weapon weapon = (Weapon)item;
@@ -237,8 +254,9 @@ public class GUIController : MonoBehaviour
             grid.GetChild(3).GetComponent<Text>().text = weapon.weaponAccuracy.ToString();
             grid.GetChild(4).GetComponent<Text>().text = weapon.weaponRange.ToString();
             grid.GetChild(5).GetComponent<Text>().text = weapon.weaponReload.ToString();
-            grid.GetChild(6).GetComponent<Text>().text = weapon.weaponAmmoIndex.ToString();
+            grid.GetChild(6).GetComponent<Text>().text = ItemController.controller.database.itemDict[weapon.weaponAmmoIndex].itemName;
             grid.gameObject.SetActive(true);
+            itemDetail.transform.GetChild(6).gameObject.SetActive(true);
         }
         if(item is Consumable){
             Consumable consume = (Consumable)item;
@@ -260,20 +278,21 @@ public class GUIController : MonoBehaviour
         itemDetail.transform.GetChild(3).GetComponent<Text>().text = " [ " + build.GetComponent<Building>().buildType + " ]";
         itemDetail.transform.GetChild(4).gameObject.SetActive(false);
         itemDetail.transform.GetChild(5).gameObject.SetActive(false);
-
+        itemDetail.transform.GetChild(6).gameObject.SetActive(false);
         // turret status
         if(build.GetComponent<Building>().buildType == "Turret"){
 
             Transform grid = itemDetail.transform.GetChild(4);
-            Weapon weapon = build.transform.GetChild(0).GetComponent<CombatUnit>().weapon;
+            Weapon weapon = build.GetComponent<Build_Turret>().weapon;
             grid.GetChild(0).GetComponent<Text>().text = weapon.weaponDamage.ToString();
             grid.GetChild(1).GetComponent<Text>().text = weapon.weaponAmmoCapa.ToString();
             grid.GetChild(2).GetComponent<Text>().text = weapon.weaponSpeed.ToString();
             grid.GetChild(3).GetComponent<Text>().text = weapon.weaponAccuracy.ToString();
             grid.GetChild(4).GetComponent<Text>().text = weapon.weaponRange.ToString();
             grid.GetChild(5).GetComponent<Text>().text = weapon.weaponReload.ToString();
-            grid.GetChild(6).GetComponent<Text>().text = weapon.weaponAmmoIndex.ToString();
+            grid.GetChild(6).GetComponent<Text>().text = ItemController.controller.database.itemDict[weapon.weaponAmmoIndex].itemName;
             grid.gameObject.SetActive(true);
+            itemDetail.transform.GetChild(6).gameObject.SetActive(true);
         }
         itemDetail.SetActive(true);
     }
@@ -298,10 +317,13 @@ public class GUIController : MonoBehaviour
     }
     public void EnterSurvivorPanel(){
         survivorPanel.SetActive( !survivorPanel.activeSelf );
-        if(survivorPanel.activeSelf)
-            GameObject.Find("Player").GetComponent<PlayerAction>().playerInputActions.General.Disable();
-        else
+
+        if(survivorPanel.activeSelf){
+            GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(1);
+        }      
+        else{
             ExitPanels();
+        }      
     }
 
     // Combat GUI Setting
@@ -407,8 +429,9 @@ public class GUIController : MonoBehaviour
     /// Set top-right resource panel
     /// </summary>
     public void SetResourcePanel(){
+        Transform resourceGrid = resourcePanel.transform.GetChild(1);
         for(int i = 0; i < 4; i ++){
-            resourcePanel.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = WorldController.controller.resource[i].ToString();
+            resourceGrid.GetChild(i).GetChild(0).gameObject.GetComponent<Text>().text = WorldController.controller.resource[i].ToString();
         }
     }
 
@@ -438,7 +461,8 @@ public class GUIController : MonoBehaviour
         buildSlotGrid.SetActive(false);
 
         BuildController.controller.currentBuilding = null;
-
+        BuildController.controller.deleteMode = false;
+        
         GameObject.Find("Player").GetComponent<PlayerAction>().SetActionStage(0);
         GameObject.Find("Main Camera").GetComponent<CameraAction>().cameraMode = 0;
     }
@@ -489,9 +513,14 @@ public class GUIController : MonoBehaviour
     }
 
     public void SetBuildTipRotation(){
+        Building tempBuild = BuildController.controller.currentBuilding.GetComponent<Building>();
         rotate += 90;
         if(rotate >= 360)
             rotate -= 360;
+
+        if(tempBuild.buildType == "Gate" || tempBuild.buildType == "Wall" || tempBuild.buildType == "Turret" || tempBuild.buildType == "Gather")
+            rotate = 0;
+
         SetBuildTipSprite(rotate);
     }
 
@@ -505,5 +534,22 @@ public class GUIController : MonoBehaviour
                 yp = 1f;
         }
         buildTip.transform.position = new Vector2((float)x + xp, (float)y + yp);
+    }
+
+    public void SetTextTip(string text){
+        textTip.GetComponent<Text>().text = text;
+        textTip.SetActive(false);
+        textTip.SetActive(true);
+        textTip.GetComponent<TextTipUI>().currTime = 0f;
+    }
+
+    public void SetTurret(){
+        currentTurret.GetComponent<Build_Turret>().Active();
+    }
+
+    public void Reset(){
+        SetGUI(PlayerAction.player.invent, "Player");
+        SetResourcePanel();
+        ExitPanels();
     }
 }

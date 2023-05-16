@@ -9,6 +9,9 @@ public class CombatUnit : MonoBehaviour
     public float fireColddown;
     public float reloadTime;
     private bool fireAble;
+    public bool flip;
+
+    public Invent invent;
 
     public GameObject muzzle;
 
@@ -27,7 +30,7 @@ public class CombatUnit : MonoBehaviour
             reloadTime -= Time.deltaTime;
             if(fireColddown <= 0 && reloadTime <= 0){
                 reloadTime = -0.1f;
-                int tempAmmo = ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, gameObject.GetComponent<Invent>(), "Enemy");
+                int tempAmmo = ItemController.controller.ItemUse( weapon.weaponAmmoIndex, weapon.weaponAmmoCapa-ammo, invent, "Enemy");
                 ammo += tempAmmo;
                 fireAble = true;
                 if(gameObject.tag == "Player"){
@@ -37,6 +40,8 @@ public class CombatUnit : MonoBehaviour
                 }
             }
         }
+
+        
     }
 
     public void SetWeapon(Weapon weapon, int ammo){
@@ -45,6 +50,9 @@ public class CombatUnit : MonoBehaviour
     }
 
     public void Fire(double radius, bool isPlayer){
+        
+        muzzle.transform.localPosition = (flip) ? new Vector2( weapon.weaponMuzzle.x, -weapon.weaponMuzzle.y) : weapon.weaponMuzzle;
+
         if(ammo <= 0 && fireAble){
             Reload();
         }
@@ -69,13 +77,15 @@ public class CombatUnit : MonoBehaviour
     public void Reload(){
         if(ammo == weapon.weaponAmmoCapa)
             return;
-        if(ItemController.controller.ItemNumber(weapon.weaponAmmoIndex, gameObject.GetComponent<Invent>()) > 0){
+        if(ItemController.controller.ItemNumber(weapon.weaponAmmoIndex, invent) > 0){
             GUIController.controller.SetReloadTip(weapon.weaponReload, gameObject, true);
             fireAble = false;
             reloadTime = weapon.weaponReload;
         }
         else{
-            Debug.Log("No Ammo");
+            if(gameObject.tag == "Player" && !GUIController.controller.textTip.activeSelf){
+                GUIController.controller.SetTextTip("Out of Ammo");     
+            }
         }
     }
 
