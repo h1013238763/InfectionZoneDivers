@@ -172,6 +172,7 @@ public class PlayerAction : MonoBehaviour
         // Reset all states as game start
         combatUnit.SetWeapon(weaponSlot[0], ammoSlot[0]);
         transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = weaponSlot[0].itemSprite;
+        GetComponent<Health>().Reset();
         ArmorChange(500);
         SetActionStage(0);
     }

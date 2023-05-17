@@ -30,6 +30,7 @@ public class ShelterController : MonoBehaviour
 
         controller = this;
 
+        ActiveShelterGUI();
     }
 
     public void ActiveUpgrade(){
@@ -46,21 +47,30 @@ public class ShelterController : MonoBehaviour
                 return;
             }
         }
-        foreach(Upgrade i in currUpgrade.upgradePre ){
-            if(!upgrades.Contains(i)){
+        foreach(Upgrade pre in currUpgrade.upgradePre ){
+            bool has = false;
+            for(int i = 0; i < upgrades.Count; i ++){
+                if(pre.upgradeID == upgrades[i].upgradeID){
+                    has = true;
+                }
+            }
+            if(!has){
                 GUIController.controller.SetTextTip("Requires Prerequisite Research");
                 return;
             }
         }
-        if(upgrades.Contains(currUpgrade)){
-            GUIController.controller.SetTextTip("Research Has Been Done");
-            return;
+        foreach(Upgrade up in upgrades){
+            if(up.upgradeID == currUpgrade.upgradeID){
+                GUIController.controller.SetTextTip("Research Has Been Done");
+                return;
+            }
         }
         for(int i = 0; i < 4; i ++){
             resource[i] -= currUpgrade.resource[i];
         }
         currUpgrade.Active();
         upgrades.Add(currUpgrade);
+        SetResourcePanel();
         currUpgrade = null;
     }
 

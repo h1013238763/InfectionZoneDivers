@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
-    public int health = 100;
+    public int health;
 
     public int currentHealth;
 
@@ -80,5 +80,9 @@ public class Health : MonoBehaviour
             int id = GetComponent<Enemy>().id;
             EnemyController.controller.EnemyDies(id);
         }
+    }
+
+    public void Reset(){
+        currentHealth = health;
     }
 }
