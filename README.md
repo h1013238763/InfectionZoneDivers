@@ -1,4 +1,4 @@
 # InfectionZoneDivers
 Group Member:
-Xiaoyue Zhang
-Sean Gallagher
+Xiaoyue Zhang, 
+Sean Gallagher, 
