@@ -25,6 +25,7 @@ public class WorldController : MonoBehaviour
 
     public List<GameObject> resourceBuild;
     public int[] resource = new int[4];
+    public int[] resourceCount = new int[4];
     [Space(10)]
 
     public TilemapRenderer map;
@@ -54,9 +55,11 @@ public class WorldController : MonoBehaviour
     }
 
     public void ResourceGet(int[] num){
-        for(int i = 0; i < 4; i ++)
+        for(int i = 0; i < 4; i ++){
             resource[i] += num[i];
-        GUIController.controller.SetResourcePanel();
+            resourceCount[i] += num[i];
+        }  
+        GUIController.controller.SetResourcePanel();     
     }
 
     /// <summary>
@@ -72,6 +75,7 @@ public class WorldController : MonoBehaviour
     
     public void ResourceClear(){
         resource = new int[]{0, 0, 0, 0};
+        resourceCount = new int[]{0, 0, 0, 0};
     }
 
     public void HideSurvivorPanel(){
@@ -141,14 +145,14 @@ public class WorldController : MonoBehaviour
         // 0 = retreat
         if(endState == 0){
             for(int i = 0; i < 4; i ++){
-                ShelterController.controller.resource[i] += resource[i];
+                ShelterController.controller.resource[i] += resourceCount[i];
             }
             ShelterController.controller.survivor += survivorCount;
         }
         // 1 = died or fail or core be destroyed
         else{
             for(int i = 0; i < 4; i ++){
-                ShelterController.controller.resource[i] += (int)(resource[i] / 2f);
+                ShelterController.controller.resource[i] += (int)(resourceCount[i] / 2f);
             }
             ShelterController.controller.survivor += (int)(survivorCount / 7f);
         }
@@ -157,6 +161,8 @@ public class WorldController : MonoBehaviour
         for(int i = 0; i < 3; i ++){
             zombieUpgrade[i].kills += zombieKills[i];
         }
+        ShelterController.controller.ResetGame();
+
         PlayerAction.player.SetActionStage(3);
 
         ShelterController.controller.ActiveShelterGUI();

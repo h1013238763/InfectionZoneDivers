@@ -111,7 +111,7 @@ public class PlayerAction : MonoBehaviour
 
         // Focus
         if(playerInputActions.General.Focus.ReadValue<float>() > 0.5f){
-            moveSpeedCurrent = moveSpeedDefault / 4f;
+            moveSpeedCurrent = moveSpeedDefault / 1.5f;
             cameraMain.scope = weaponSlot[0].weaponScope;
             cameraMain.cameraMode = 1;
         }
@@ -127,7 +127,7 @@ public class PlayerAction : MonoBehaviour
         }
         // Use Armorpack
         else if(itemTime > 0 || combatUnit.reloadTime > 0){
-            moveSpeedCurrent = moveSpeedDefault / 4f;
+            moveSpeedCurrent = moveSpeedDefault / 1.5f;
         }
         // Move   
         else{ 

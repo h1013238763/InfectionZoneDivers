@@ -140,10 +140,11 @@ public class BuildController : MonoBehaviour
     }
 
     public void Reset(){
-        foreach(GameObject build in buildInWorld){
-            build.GetComponent<Building>().ForceDestroy();
+        for(int i = 0; i < buildInWorld.Count; i ++){
+            if(buildInWorld[i] != null){
+                buildInWorld[i].GetComponent<Building>().ForceDestroy();
+            }
         }
-
         overlap = false;
     }
 }
